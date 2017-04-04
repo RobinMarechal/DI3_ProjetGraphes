@@ -146,6 +146,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Arc.cpp" />
+    <ClCompile Include="Cexception.cpp" />
+    <ClCompile Include="Graphe.cpp" />
+    <ClCompile Include="helpers.cpp" />
+    <ClCompile Include="ListeArcs.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Parseur.cpp" />
+    <ClCompile Include="Sommet.cpp" />
+    <ClCompile Include="TableauAssociatif.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Arc.h" />
+    <ClInclude Include="Cexception.h" />
+    <ClInclude Include="constantes.h" />
+    <ClInclude Include="Graphe.h" />
+    <ClInclude Include="helpers.h" />
+    <ClInclude Include="ListeArcs.h" />
+    <ClInclude Include="Parseur.h" />
+    <ClInclude Include="Sommet.h" />
+    <ClInclude Include="TableauAssociatif.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
