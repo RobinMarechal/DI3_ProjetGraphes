@@ -1,8 +1,6 @@
 #ifndef CPARSEUR_H
 #define CPARSEUR_H
 
-#include "Matrice.h"
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
