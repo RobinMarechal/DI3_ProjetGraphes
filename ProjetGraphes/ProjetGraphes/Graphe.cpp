@@ -111,7 +111,7 @@ CSommet * CGraphe::GRAajouterSommet(unsigned int uiNumero)
 	{
 		try 
 		{
-			pSOMsommet = new CSommet(uiNumero);
+			pSOMsommet = new CSommet(this, uiNumero);
 			GRAajouterSommet(pSOMsommet);
 		}
 		catch (Cexception EXCe)
@@ -125,7 +125,7 @@ CSommet * CGraphe::GRAajouterSommet(unsigned int uiNumero)
 
 void CGraphe::GRAajouterSommet(CSommet * pSOMobjet)
 {
-	unsigned int uiNumero = pSOMobjet->getNumero();
+	unsigned int uiNumero = pSOMobjet->SOMgetNumero();
 	if (GRAgetSommet(uiNumero) == NULL)
 	{
 		char * pcMsg;
@@ -144,8 +144,8 @@ CSommet * CGraphe::GRAgetSommet(unsigned int uiNumero) const
 
 int CGraphe::GRAgetPosSommet(const CSommet * pSOMobjet) const
 {
-	int iNumero = pSOMobjet->getNumero();
-	if (pSOMGRAsommets[iNumero]->getGraphe() == this)
+	int iNumero = pSOMobjet->SOMgetNumero();
+	if (pSOMGRAsommets[iNumero]->SOMgetGraphe() == this)
 	{
 		return iNumero - 1;
 	}
@@ -155,7 +155,7 @@ int CGraphe::GRAgetPosSommet(const CSommet * pSOMobjet) const
 
 void CGraphe::GRAsupprimerSommet(const CSommet * pSOMobjet)
 {
-	unsigned int uiNumero = pSOMobjet->getNumero();
+	unsigned int uiNumero = pSOMobjet->SOMgetNumero();
 	int iPos = GRAgetPosSommet(pSOMobjet);
 
 	if (iPos < 0)

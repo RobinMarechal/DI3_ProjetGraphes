@@ -29,6 +29,7 @@ public:
 	bool operator!=(CSommet & SOMobjet) const;
 
 	unsigned int SOMgetNumero() const;
+	CGraphe * SOMgetGraphe() const;
 
 	void SOMajouterSuccesseur(CSommet *  pSOMsuccesseur);
 	void SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur);
