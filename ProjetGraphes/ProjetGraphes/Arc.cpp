@@ -10,10 +10,6 @@ void CArc::ARCdetruire()
 {
 }
 
-CArc::CArc()
-{
-}
-
 CArc::CArc(CGraphe * pGRAgraphe, unsigned int uiNumero)
 {
 }

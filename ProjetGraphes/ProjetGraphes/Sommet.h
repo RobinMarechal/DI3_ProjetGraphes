@@ -21,7 +21,6 @@ class CSommet
 	void SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur);
 
 public:
-	CSommet();
 	CSommet(CGraphe * pGRAgraphe, unsigned int uiNumero);
 	~CSommet();
 

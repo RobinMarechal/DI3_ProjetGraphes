@@ -15,7 +15,6 @@ class CArc
 	void ARCdetruire();
 
 public:
-	CArc();
 	CArc(CGraphe * pGRAgraphe, unsigned int uiNumero);
 	~CArc();
 

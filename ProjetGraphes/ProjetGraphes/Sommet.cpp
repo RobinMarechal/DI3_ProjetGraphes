@@ -12,12 +12,14 @@ void CSommet::SOMdetruire()
 	delete pLISSOMpredecesseurs;
 }
 
+/*
 CSommet::CSommet()
 {
 	SOMinit();
 	pLISSOMpredecesseurs = new CListeArcs();
 	pLISSOMsuccesseurs = new CListeArcs();
 }
+*/
 
 CSommet::CSommet(CGraphe * pGRAgraphe, unsigned int uiNumero)
 {
