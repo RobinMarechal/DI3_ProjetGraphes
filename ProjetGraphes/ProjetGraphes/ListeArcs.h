@@ -4,11 +4,14 @@
 #include "Arc.h"
 #include "Sommet.h"
 
+class CSommet;
+class CArc;
+
 class CListeArcs
 {
 	unsigned int uiLISdim;
-	CArc ** pARCLISliste;
-	CSommet * pSOMLISsommet;
+	CArc ** ppARCLISliste; // tableau dynamique de pointeurs sur un objet CArc
+	CSommet * pSOMLISsommet; // pointeur sur un CSommet
 
 	void LISinit();
 	void LISdetruire();
@@ -22,6 +25,8 @@ public:
 
 	unsigned int LISgetDim() const;
 	CSommet * LISgetSommet() const;
+
+	bool LISpossede(unsigned int uiNumero) const;
 };
 
 #endif

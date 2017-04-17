@@ -19,10 +19,6 @@ CArc::~CArc()
 {
 }
 
-CArc::operator CSommet()
-{
-}
-
 unsigned int CArc::ARCgetNumero() const
 {
 	return 0;

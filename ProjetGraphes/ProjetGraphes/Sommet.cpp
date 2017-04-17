@@ -66,7 +66,7 @@ CGraphe * CSommet::SOMgetGraphe() const
 void CSommet::SOMajouterSuccesseur(CSommet * pSOMsuccesseur)
 {
 	// Si le sommet a ajouter n'est pas null est qu'ils sont dans le meme graphe...
-	if (pSOMsuccesseur != nullptr && pSOMsuccesseur->pGRASOMgraphe == pGRASOMgraphe)
+	if (pSOMsuccesseur != nullptr && pSOMsuccesseur != this && pSOMsuccesseur->pGRASOMgraphe == pGRASOMgraphe)
 	{
 		// Ajout a la liste des successeurs
 		pLISSOMsuccesseurs->LISajouter(pSOMsuccesseur->uiSOMnumero);
@@ -79,7 +79,7 @@ void CSommet::SOMajouterSuccesseur(CSommet * pSOMsuccesseur)
 void CSommet::SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur)
 {
 	// Si le sommet a ajouter n'est pas null est qu'ils sont dans le meme graphe...
-	if (pSOMsuccesseur != nullptr && pSOMsuccesseur->pGRASOMgraphe == pGRASOMgraphe)
+	if (pSOMsuccesseur != nullptr && pSOMsuccesseur != this && pSOMsuccesseur->pGRASOMgraphe == pGRASOMgraphe)
 	{
 		// Suppression de la liste des successeurs
 		pLISSOMsuccesseurs->LISsupprimer(pSOMsuccesseur->uiSOMnumero);

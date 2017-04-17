@@ -54,4 +54,16 @@ Entraîne : rien.
 ******************************************/
 char * supprimerEspaces(char pcStr[]);
 
+
+/*****************************************
+Arret du programme avec message d'erreur
+******************************************
+Entrée : une chaîne de caractères.
+Entrée : booléen indiquant si le programme doit s'arrêter ou non
+Nécessite : rien.
+Sortie : rien.
+Entraîne : L'affichage d'un message dans la console et arrêt du programme.
+******************************************/
+void erreur(char * pcMsg, bool bStop = true);
+
 #endif;

@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include "Cexception.h"
-#include "Sommet.h";
+#include "Sommet.h"
 #include "helpers.h"
 #include "constantes.h"
 
@@ -128,7 +128,7 @@ void CGraphe::GRAajouterSommet(CSommet * pSOMobjet)
 	unsigned int uiNumero = pSOMobjet->SOMgetNumero();
 	if (GRAgetSommet(uiNumero) == NULL)
 	{
-		char * pcMsg;
+		char pcMsg[1024] = { 0 };
 		sprintf_s(pcMsg, 1024, "Impossible de créer le sommet, le graphe possède déjà un sommet avec le numero %d.", uiNumero);
 		throw Cexception(EXC_SOMMET_UNIQUE ,pcMsg);
 	}
@@ -160,7 +160,7 @@ void CGraphe::GRAsupprimerSommet(const CSommet * pSOMobjet)
 
 	if (iPos < 0)
 	{
-		char * pcMsg;
+		char pcMsg[1024] = { 0 };
 		sprintf_s(pcMsg, 1024, "Impossible de supprimer le sommet numéro %d, il n'est pas dans le graphe.", uiNumero);
 		throw Cexception(EXC_SOMMET_HORS_GRAPHE, pcMsg);
 	}

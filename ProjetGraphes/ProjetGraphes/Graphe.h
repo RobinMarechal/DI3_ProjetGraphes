@@ -6,6 +6,9 @@
 #include "Sommet.h"
 #include "helpers.h"
 #include "constantes.h"
+#include "Sommet.h"
+
+class CSommet;
 
 class CGraphe
 {

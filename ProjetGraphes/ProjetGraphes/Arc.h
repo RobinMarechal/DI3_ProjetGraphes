@@ -3,6 +3,10 @@
 
 #include "Graphe.h"
 #include "ListeArcs.h"
+#include "Sommet.h"
+
+class CGraphe;
+class CListeArcs;
 
 class CArc
 {
@@ -10,15 +14,13 @@ class CArc
 
 	CGraphe * pGRAARCgraphe;	
 	CListeArcs * pLISARClisteArcs;
-
+	 
 	void ARCinit();
 	void ARCdetruire();
 
 public:
 	CArc(CGraphe * pGRAgraphe, unsigned int uiNumero);
 	~CArc();
-
-	operator CSommet();
 
 	unsigned int ARCgetNumero() const;
 	CGraphe * ARCgetGraphe() const;

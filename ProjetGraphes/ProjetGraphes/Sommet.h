@@ -4,6 +4,9 @@
 #include "Graphe.h"
 #include "ListeArcs.h"
 
+class CGraphe;
+class CListeArcs;
+
 class CSommet
 {
 	unsigned int uiSOMnumero;
