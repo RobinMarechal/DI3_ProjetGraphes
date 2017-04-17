@@ -33,9 +33,15 @@ public:
 
 	unsigned int SOMgetNumero() const;
 	CGraphe * SOMgetGraphe() const;
+	CListeArcs * SOMgetListeSuccesseurs() const;
+	CListeArcs * SOMgetListePredecesseurs() const;
 
 	void SOMajouterSuccesseur(CSommet *  pSOMsuccesseur);
 	void SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur);
 };
+
+std::ostream & operator<<(std::ostream & oFlux, CSommet & SOMsommet);
+std::ostream & operator<<(std::ostream & oFlux, CSommet * SOMsommet);
+
 
 #endif

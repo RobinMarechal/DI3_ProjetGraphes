@@ -5,26 +5,25 @@
 #include "ListeArcs.h"
 #include "Sommet.h"
 
-class CGraphe;
 class CListeArcs;
+class CSommet;
 
 class CArc
 {
-	unsigned int uiARCnumero;
-
-	CGraphe * pGRAARCgraphe;	
+	CSommet * pSOMARCsommet;
 	CListeArcs * pLISARClisteArcs;
 	 
 	void ARCinit();
 	void ARCdetruire();
 
 public:
-	CArc(CGraphe * pGRAgraphe, unsigned int uiNumero);
+	CArc(CListeArcs * pLISliste, CSommet * pSOMsommet);
 	~CArc();
 
-	unsigned int ARCgetNumero() const;
-	CGraphe * ARCgetGraphe() const;
-	CListeArcs * ARCgetListeArcs();
+	CSommet * ARCgetSommet() const;
+	CListeArcs * ARCgetListeArcs() const;
 };
+
+std::ostream & operator<<(std::ostream & oFlux, CArc & ARCarc);
 
 #endif

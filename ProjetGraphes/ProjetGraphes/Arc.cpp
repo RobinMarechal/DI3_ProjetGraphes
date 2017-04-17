@@ -10,26 +10,29 @@ void CArc::ARCdetruire()
 {
 }
 
-CArc::CArc(CGraphe * pGRAgraphe, unsigned int uiNumero)
+CArc::CArc(CListeArcs * pLISliste, CSommet * pSOMsommet)
 {
+	pLISARClisteArcs = pLISliste;
+	pSOMARCsommet = pSOMsommet;
 }
-
 
 CArc::~CArc()
 {
 }
 
-unsigned int CArc::ARCgetNumero() const
+CSommet * CArc::ARCgetSommet() const
 {
-	return 0;
+	return pSOMARCsommet;
 }
 
-CGraphe * CArc::ARCgetGraphe() const
+CListeArcs * CArc::ARCgetListeArcs() const
 {
-	return nullptr;
+	return pLISARClisteArcs;
 }
 
-CListeArcs * CArc::ARCgetListeArcs()
+std::ostream & operator<<(std::ostream & oFlux, CArc & ARCarc)
 {
-	return nullptr;
+	oFlux << ARCarc.ARCgetSommet()->SOMgetNumero();
+
+	return oFlux;
 }

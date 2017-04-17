@@ -15,15 +15,14 @@ class CGraphe
 private:
 
 	unsigned int uiGRAnbSommets;
-	unsigned int uiGRAtailleTableau;
-	CSommet ** pSOMGRAsommets;
+	CSommet ** ppSOMGRAsommets;
 
 	void GRAinit();
 	void GRAdetruire();
 	void GRAreallouerTabSommets();
 
 public:
-	CGraphe();
+	CGraphe(unsigned int uiNb);
 	CGraphe(CGraphe & GRAobjet);
 	~CGraphe();
 
@@ -41,5 +40,8 @@ public:
 	
 	void GRAafficher() const;
 };
+
+std::ostream & operator<<(std::ostream & oFlux, CGraphe & GRAgraphe);
+std::ostream & operator<<(std::ostream & oFlux, CGraphe * GRAgraphe);
 
 #endif

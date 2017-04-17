@@ -20,13 +20,17 @@ public:
 	CListeArcs();
 	~CListeArcs();
 
-	void LISajouter(unsigned int uiNumero);
-	void LISsupprimer(unsigned int uiNumero);
+	void LISajouter(CSommet * pSOMsommet);
+	void LISsupprimer(CSommet * pSOMsommet);
 
 	unsigned int LISgetDim() const;
 	CSommet * LISgetSommet() const;
+	CArc * LISgetArc(unsigned int uiPos) const;
 
-	bool LISpossede(unsigned int uiNumero) const;
+	int LISgetIndice(CSommet * pSOMsommet) const;
+	bool LISpossede(CSommet * pSOMsommet) const;
 };
+
+std::ostream & operator<<(std::ostream & oFlux, CListeArcs & LISliste);
 
 #endif

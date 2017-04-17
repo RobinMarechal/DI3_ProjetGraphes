@@ -43,6 +43,11 @@ void CGraphe::GRAinit()
 {
 	unsigned int uiBoucle;
 	ppSOMGRAsommets = (CSommet **)calloc(uiGRAnbSommets, sizeof(CSommet *));
+
+	for (uiBoucle = 0; uiBoucle < uiGRAnbSommets; uiBoucle++)
+	{
+		ppSOMGRAsommets[uiBoucle] = nullptr;
+	}
 }
 
 void CGraphe::GRAdetruire()

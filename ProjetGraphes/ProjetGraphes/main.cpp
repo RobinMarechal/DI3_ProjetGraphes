@@ -8,7 +8,9 @@ using namespace std;
 
 void robin()
 {
-	CGraphe g;
+	CGraphe g(2);
+
+	cout << g << endl;
 }
 
 int main(int argc, char * argv[])
