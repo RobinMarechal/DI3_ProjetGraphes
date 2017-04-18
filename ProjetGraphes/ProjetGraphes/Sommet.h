@@ -38,6 +38,8 @@ public:
 
 	void SOMajouterSuccesseur(CSommet *  pSOMsuccesseur);
 	void SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur);
+
+	void SOMdebug() const;
 };
 
 std::ostream & operator<<(std::ostream & oFlux, CSommet & SOMsommet);

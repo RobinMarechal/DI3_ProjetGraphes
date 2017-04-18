@@ -105,6 +105,10 @@ bool CListeArcs::LISpossede(CSommet * pSOMsommet) const
 	return LISgetIndice(pSOMsommet) != -1;
 }
 
+void CListeArcs::LISdebug() const
+{
+}
+
 std::ostream & operator<<(std::ostream & oFlux, CListeArcs & LISliste)
 {
 	unsigned int uiBoucle;

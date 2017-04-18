@@ -30,6 +30,10 @@ CListeArcs * CArc::ARCgetListeArcs() const
 	return pLISARClisteArcs;
 }
 
+void CArc::ARCdebug() const
+{
+}
+
 std::ostream & operator<<(std::ostream & oFlux, CArc & ARCarc)
 {
 	oFlux << ARCarc.ARCgetSommet()->SOMgetNumero();

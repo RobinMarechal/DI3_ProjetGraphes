@@ -29,6 +29,8 @@ public:
 
 	int LISgetIndice(CSommet * pSOMsommet) const;
 	bool LISpossede(CSommet * pSOMsommet) const;
+
+	void LISdebug() const;
 };
 
 std::ostream & operator<<(std::ostream & oFlux, CListeArcs & LISliste);

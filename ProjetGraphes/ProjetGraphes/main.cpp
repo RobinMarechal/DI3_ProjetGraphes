@@ -8,9 +8,14 @@ using namespace std;
 
 void robin()
 {
-	CGraphe g(2);
+	CGraphe g;
 
-	cout << g << endl;
+	g.GRAajouterSommet(1);
+	g.GRAajouterSommet(2);
+	g.GRAajouterSommet(3);
+	g.GRAsupprimerSommet(g.GRAgetSommet(2));
+
+	g.GRAdebug();
 }
 
 int main(int argc, char * argv[])

@@ -8,19 +8,16 @@
 
 using namespace std;
 
-CGraphe::CGraphe(unsigned int uiNb)
+CGraphe::CGraphe()
 {
-	uiGRAnbSommets = uiNb;
     GRAinit();
 }
 
 CGraphe::CGraphe(CGraphe & GRAobjet)
 {
     unsigned int uiBoucle;
-
     uiGRAnbSommets = GRAobjet.uiGRAnbSommets;
-    GRAinit();
-	ppSOMGRAsommets = (CSommet **) malloc(sizeof(CSommet*) * uiGRAnbSommets);
+	ppSOMGRAsommets = (CSommet **)malloc(sizeof(CSommet *) * uiGRAnbSommets);
     
     if(ppSOMGRAsommets == NULL)
     {
@@ -41,8 +38,8 @@ CGraphe::~CGraphe()
 
 void CGraphe::GRAinit()
 {
-	unsigned int uiBoucle;
-	ppSOMGRAsommets = (CSommet **)calloc(uiGRAnbSommets, sizeof(CSommet *));
+	ppSOMGRAsommets = nullptr;
+	uiGRAnbSommets = 0;
 }
 
 void CGraphe::GRAdetruire()
@@ -55,6 +52,7 @@ void CGraphe::GRAdetruire()
 	}
 
 	free(ppSOMGRAsommets);
+	ppSOMGRAsommets = nullptr;
 }
 
 void CGraphe::GRAreallouerTabSommets()
@@ -103,52 +101,58 @@ bool CGraphe::operator!=(const CGraphe & GRAobjet) const
 	return false;
 }
 
+// precondition : uiNumero > 0
 CSommet * CGraphe::GRAajouterSommet(unsigned int uiNumero)
 {
 	CSommet * pSOMsommet = nullptr;
 
-	// S'il n'y a pas déjà un sommet avec ce numéro
-	if (GRAgetSommet(uiNumero) != nullptr)
+	try 
 	{
-		try 
-		{
-			pSOMsommet = new CSommet(this, uiNumero);
-			GRAajouterSommet(pSOMsommet);
-		}
-		catch (Cexception EXCe)
-		{
-			cout << EXCe.EXCgetMessage() << endl;
-		}
+		pSOMsommet = new CSommet(this, uiNumero);
+		GRAajouterSommet(pSOMsommet);
+	}
+	catch (Cexception EXCe)
+	{
+		delete pSOMsommet;
+		pSOMsommet = nullptr;
 	}
 
-	return nullptr;
+	return pSOMsommet;
 }
 
+// precondition : uiNumero > 0
 void CGraphe::GRAajouterSommet(CSommet * pSOMobjet)
 {
 	unsigned int uiNumero = pSOMobjet->SOMgetNumero();
-	if (GRAgetSommet(uiNumero) == NULL)
+	if (GRAgetSommet(uiNumero) != nullptr)
 	{
 		char pcMsg[1024] = { 0 };
 		sprintf_s(pcMsg, 1024, "Impossible de créer le sommet, le graphe possède déjà un sommet avec le numero %d.", uiNumero);
 		throw Cexception(EXC_SOMMET_UNIQUE ,pcMsg);
 	}
 
-	ppSOMGRAsommets[uiNumero] = pSOMobjet;
+	uiGRAnbSommets++;
+	GRAreallouerTabSommets();
+	ppSOMGRAsommets[uiNumero - 1] = pSOMobjet;
 }
 
 CSommet * CGraphe::GRAgetSommet(unsigned int uiNumero) const
 {
-	// A l'indice n se trouve le sommet numéro n + 1
+	// A l'indice n se trouve le sommet numéro n + 1 :
+	if (uiGRAnbSommets < uiNumero)
+	{
+		return nullptr;
+	}
+
 	return ppSOMGRAsommets[uiNumero - 1];
 }
 
 int CGraphe::GRAgetPosSommet(const CSommet * pSOMobjet) const
 {
-	int iNumero = pSOMobjet->SOMgetNumero();
-	if (ppSOMGRAsommets[iNumero]->SOMgetGraphe() == this)
+	// On vérifie que le sommet est bien dans ce graphe là
+	if (pSOMobjet->SOMgetGraphe() == this)
 	{
-		return iNumero - 1;
+		return pSOMobjet->SOMgetNumero() - 1;
 	}
 
 	return -1;
@@ -167,16 +171,35 @@ void CGraphe::GRAsupprimerSommet(const CSommet * pSOMobjet)
 	}
 
 	delete ppSOMGRAsommets[iPos];
-	ppSOMGRAsommets[iPos] = NULL;
+	ppSOMGRAsommets[iPos] = nullptr;
 }
 
 
 void CGraphe::GRAafficher() const
 {
-	// Euh.......
+	cout << this << endl;
 }
 
-std::ostream & operator<<(std::ostream & oFlux, CGraphe & GRAgraphe)
+// affiche les informations concernant le graphe permettant le debugage
+void CGraphe::GRAdebug() const
+{
+	unsigned int uiBoucle;
+	cout << "Debug graphe :" << endl;
+	cout << "Sommets (" << uiGRAnbSommets << ") :" << endl;
+	
+	for (uiBoucle = 0; uiBoucle < uiGRAnbSommets; uiBoucle++)
+	{
+		cout << "\t" << uiBoucle << ".  =>  "; 
+		if(ppSOMGRAsommets[uiBoucle] != nullptr)
+		{
+			cout << "CSommet {id = " << ppSOMGRAsommets[uiBoucle]->SOMgetNumero() << "}";
+		}
+
+		cout << endl;
+	}
+}
+
+std::ostream & operator<<(std::ostream & oFlux, const CGraphe & GRAgraphe)
 {
 	unsigned int uiBoucle;
 
@@ -187,6 +210,7 @@ std::ostream & operator<<(std::ostream & oFlux, CGraphe & GRAgraphe)
 	for (uiBoucle = 0; uiBoucle < GRAgraphe.GRAgetNbSommets(); uiBoucle++)
 	{
 		CSommet * pSOMsommet = GRAgraphe.GRAgetSommet(uiBoucle);
+		cout << (pSOMsommet == nullptr ? "null" : "non null") << endl;
 		if (pSOMsommet != nullptr)
 		{
 			oFlux << *pSOMsommet << std::endl;
@@ -198,7 +222,7 @@ std::ostream & operator<<(std::ostream & oFlux, CGraphe & GRAgraphe)
 	return oFlux;
 }
 
-std::ostream & operator<<(std::ostream & oFlux, CGraphe * GRAgraphe)
+std::ostream & operator<<(std::ostream & oFlux, const CGraphe * GRAgraphe)
 {
 	oFlux << *GRAgraphe;
 	return oFlux;

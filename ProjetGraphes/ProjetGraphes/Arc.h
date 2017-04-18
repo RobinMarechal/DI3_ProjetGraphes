@@ -22,6 +22,8 @@ public:
 
 	CSommet * ARCgetSommet() const;
 	CListeArcs * ARCgetListeArcs() const;
+
+	void ARCdebug() const;
 };
 
 std::ostream & operator<<(std::ostream & oFlux, CArc & ARCarc);

@@ -22,7 +22,7 @@ private:
 	void GRAreallouerTabSommets();
 
 public:
-	CGraphe(unsigned int uiNb);
+	CGraphe();
 	CGraphe(CGraphe & GRAobjet);
 	~CGraphe();
 
@@ -39,9 +39,10 @@ public:
 	void GRAsupprimerSommet(const CSommet * pSOMobjet);
 	
 	void GRAafficher() const;
+	void GRAdebug() const;
 };
 
-std::ostream & operator<<(std::ostream & oFlux, CGraphe & GRAgraphe);
-std::ostream & operator<<(std::ostream & oFlux, CGraphe * GRAgraphe);
+std::ostream & operator<<(std::ostream & oFlux, const CGraphe & GRAgraphe);
+std::ostream & operator<<(std::ostream & oFlux, const CGraphe * GRAgraphe);
 
 #endif

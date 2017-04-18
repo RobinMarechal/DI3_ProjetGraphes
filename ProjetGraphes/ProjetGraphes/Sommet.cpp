@@ -3,7 +3,6 @@
 void CSommet::SOMinit()
 {
 	pGRASOMgraphe = nullptr;
-	uiSOMnumero = -1;
 	pLISSOMpredecesseurs = new CListeArcs();
 	pLISSOMsuccesseurs = new CListeArcs();
 }
@@ -97,6 +96,10 @@ void CSommet::SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur)
 		// Suppression de this de la liste des predecesseurs de pSOMsuccesseur
 		pSOMsuccesseur->SOMsupprimerPredecesseur(this);
 	}
+}
+
+void CSommet::SOMdebug() const
+{
 }
 
 // private
