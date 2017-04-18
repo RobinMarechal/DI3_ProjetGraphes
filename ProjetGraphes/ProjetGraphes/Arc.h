@@ -18,10 +18,11 @@ class CArc
 
 public:
 	CArc(CListeArcs * pLISliste, CSommet * pSOMsommet);
+	CArc(CArc & ARCobjet);
 	~CArc();
 
 	CSommet * ARCgetSommet() const;
-	CListeArcs * ARCgetListeArcs() const;
+	CListeArcs ARCgetListeArcs() const;
 
 	void ARCdebug() const;
 };

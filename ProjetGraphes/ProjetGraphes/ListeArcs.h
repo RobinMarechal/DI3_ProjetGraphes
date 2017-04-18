@@ -17,7 +17,8 @@ class CListeArcs
 	void LISdetruire();
 
 public:
-	CListeArcs();
+	CListeArcs(CSommet * pSOMsommet);
+	CListeArcs(CListeArcs & LISobjet);
 	~CListeArcs();
 
 	void LISajouter(CSommet * pSOMsommet);

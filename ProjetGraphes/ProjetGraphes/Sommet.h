@@ -25,6 +25,7 @@ class CSommet
 
 public:
 	CSommet(CGraphe * pGRAgraphe, unsigned int uiNumero);
+	CSommet(CSommet & SOMobjet);
 	~CSommet();
 
 	void operator>>(CSommet * SOMsuccesseur);
@@ -33,8 +34,8 @@ public:
 
 	unsigned int SOMgetNumero() const;
 	CGraphe * SOMgetGraphe() const;
-	CListeArcs * SOMgetListeSuccesseurs() const;
-	CListeArcs * SOMgetListePredecesseurs() const;
+	CListeArcs SOMgetListeSuccesseurs() const;
+	CListeArcs SOMgetListePredecesseurs() const;
 
 	void SOMajouterSuccesseur(CSommet *  pSOMsuccesseur);
 	void SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur);

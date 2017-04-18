@@ -19,9 +19,31 @@ void CListeArcs::LISdetruire()
 	free(ppARCLISliste);
 }
 
-CListeArcs::CListeArcs()
+CListeArcs::CListeArcs(CSommet * pSOMsommet)
 {
 	LISinit();
+	pSOMLISsommet = pSOMsommet;
+}
+
+CListeArcs::CListeArcs(CListeArcs & LISobjet)
+{
+	/*
+	unsigned int uiBoucle;
+	pSOMLISsommet = LISobjet.pSOMLISsommet;
+	uiLISdim = LISobjet.uiLISdim;
+
+	ppARCLISliste = (CArc **)malloc(sizeof(CArc *) * uiLISdim);
+
+	if (ppARCLISliste == nullptr)
+	{
+		erreur("Malloc a echoué dans CListeArcs::CListeArcs(ClisteArcs&).");
+	}
+
+	for (uiBoucle = 0; uiBoucle < uiLISdim; uiBoucle++)
+	{
+		ppARCLISliste[uiBoucle] = new CArc(*LISobjet.ppARCLISliste[uiBoucle]);
+	}
+	*/
 }
 
 

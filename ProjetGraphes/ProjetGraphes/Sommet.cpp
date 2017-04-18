@@ -3,8 +3,8 @@
 void CSommet::SOMinit()
 {
 	pGRASOMgraphe = nullptr;
-	pLISSOMpredecesseurs = new CListeArcs();
-	pLISSOMsuccesseurs = new CListeArcs();
+	pLISSOMpredecesseurs = new CListeArcs(this);
+	pLISSOMsuccesseurs = new CListeArcs(this);
 }
 
 void CSommet::SOMdetruire()
@@ -27,6 +27,15 @@ CSommet::CSommet(CGraphe * pGRAgraphe, unsigned int uiNumero)
 	SOMinit();
 	pGRASOMgraphe = pGRAgraphe;
 	uiSOMnumero = uiNumero;
+}
+
+CSommet::CSommet(CSommet & SOMobjet)
+{
+	/*
+	pGRASOMgraphe = SOMobjet.SOMgetGraphe();
+	pLISSOMpredecesseurs = new CListeArcs(*SOMobjet.pLISSOMpredecesseurs);
+	pLISSOMsuccesseurs = new CListeArcs(*SOMobjet.pLISSOMsuccesseurs);
+	*/
 }
 
 
@@ -62,14 +71,14 @@ CGraphe * CSommet::SOMgetGraphe() const
 	return pGRASOMgraphe;
 }
 
-CListeArcs * CSommet::SOMgetListeSuccesseurs() const
+CListeArcs CSommet::SOMgetListeSuccesseurs() const
 {
-	return pLISSOMsuccesseurs;
+	return *pLISSOMsuccesseurs;
 }
 
-CListeArcs * CSommet::SOMgetListePredecesseurs() const
+CListeArcs CSommet::SOMgetListePredecesseurs() const
 {
-	return pLISSOMpredecesseurs;
+	return *pLISSOMpredecesseurs;
 }
 
 void CSommet::SOMajouterSuccesseur(CSommet * pSOMsuccesseur)
