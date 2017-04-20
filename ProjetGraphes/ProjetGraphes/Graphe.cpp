@@ -139,7 +139,7 @@ void CGraphe::GRAajouterSommet(CSommet * pSOMobjet)
 CSommet * CGraphe::GRAgetSommet(unsigned int uiNumero) const
 {
 	// A l'indice n se trouve le sommet numéro n + 1 :
-	if (uiGRAnbSommets < uiNumero)
+	if (uiGRAnbSommets < uiNumero) // ou > a uiGRAnbSommets
 	{
 		return nullptr;
 	}
@@ -207,10 +207,9 @@ std::ostream & operator<<(std::ostream & oFlux, const CGraphe & GRAgraphe)
 	oFlux << "Graphe :" << std::endl;
 	oFlux << "Sommets : " << GRAgraphe.GRAgetNbSommets() << std::endl;
 
-	for (uiBoucle = 0; uiBoucle < GRAgraphe.GRAgetNbSommets(); uiBoucle++)
+	for (uiBoucle = 1; uiBoucle <= GRAgraphe.GRAgetNbSommets(); uiBoucle++)
 	{
 		CSommet * pSOMsommet = GRAgraphe.GRAgetSommet(uiBoucle);
-		cout << (pSOMsommet == nullptr ? "null" : "non null") << endl;
 		if (pSOMsommet != nullptr)
 		{
 			oFlux << *pSOMsommet << std::endl;
