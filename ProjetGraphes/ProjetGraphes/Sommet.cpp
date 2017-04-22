@@ -1,24 +1,25 @@
 #include "Sommet.h"
 
+
 void CSommet::SOMinit()
 {
 	pGRASOMgraphe = nullptr;
-	pLISSOMpredecesseurs = new CListeArcs(this);
-	pLISSOMsuccesseurs = new CListeArcs(this);
+	pLSPSOMpredecesseurs = nullptr;
+	pLSSSOMsuccesseurs = nullptr;
 }
 
 void CSommet::SOMdetruire()
 {
-	delete pLISSOMsuccesseurs;
-	delete pLISSOMpredecesseurs;
+	delete pLSSSOMsuccesseurs;
+	delete pLSPSOMpredecesseurs;
 }
 
 /*
 CSommet::CSommet()
 {
 	SOMinit();
-	pLISSOMpredecesseurs = new CListeArcs();
-	pLISSOMsuccesseurs = new CListeArcs();
+	pLSPSOMpredecesseurs = new CListeArcs();
+	pLSSSOMsuccesseurs = new CListeArcs();
 }
 */
 
@@ -33,8 +34,8 @@ CSommet::CSommet(CSommet & SOMobjet)
 {
 	/*
 	pGRASOMgraphe = SOMobjet.SOMgetGraphe();
-	pLISSOMpredecesseurs = new CListeArcs(*SOMobjet.pLISSOMpredecesseurs);
-	pLISSOMsuccesseurs = new CListeArcs(*SOMobjet.pLISSOMsuccesseurs);
+	pLSPSOMpredecesseurs = new CListeArcs(*SOMobjet.pLSPSOMpredecesseurs);
+	pLSSSOMsuccesseurs = new CListeArcs(*SOMobjet.pLSSSOMsuccesseurs);
 	*/
 }
 
@@ -52,8 +53,8 @@ void CSommet::operator >> (CSommet * SOMsuccesseur)
 bool CSommet::operator==(CSommet & SOMobjet) const
 {
 	return uiSOMnumero == SOMobjet.uiSOMnumero
-		&& pLISSOMsuccesseurs == SOMobjet.pLISSOMsuccesseurs
-		&& pLISSOMpredecesseurs == SOMobjet.pLISSOMpredecesseurs;
+		&& pLSSSOMsuccesseurs == SOMobjet.pLSSSOMsuccesseurs
+		&& pLSPSOMpredecesseurs == SOMobjet.pLSPSOMpredecesseurs;
 }
 
 bool CSommet::operator!=(CSommet & SOMobjet) const
@@ -71,23 +72,13 @@ CGraphe * CSommet::SOMgetGraphe() const
 	return pGRASOMgraphe;
 }
 
-CListeArcs CSommet::SOMgetListeSuccesseurs() const
-{
-	return *pLISSOMsuccesseurs;
-}
-
-CListeArcs CSommet::SOMgetListePredecesseurs() const
-{
-	return *pLISSOMpredecesseurs;
-}
-
 void CSommet::SOMajouterSuccesseur(CSommet * pSOMsuccesseur)
 {
 	// Si le sommet a ajouter n'est pas null est qu'ils sont dans le meme graphe...
 	if (pSOMsuccesseur != nullptr && pSOMsuccesseur != this && pSOMsuccesseur->pGRASOMgraphe == pGRASOMgraphe)
 	{
 		// Ajout a la liste des successeurs
-		pLISSOMsuccesseurs->LISajouter(pSOMsuccesseur);
+		//pLSSSOMsuccesseurs->LISajouter(pSOMsuccesseur); // ----> Realloc + insertion
 
 		// Ajout de this a la liste des predecesseurs de pSOMsuccesseur
 		pSOMsuccesseur->SOMajouterPredecesseur(this);
@@ -100,7 +91,7 @@ void CSommet::SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur)
 	if (pSOMsuccesseur != nullptr && pSOMsuccesseur != this && pSOMsuccesseur->pGRASOMgraphe == pGRASOMgraphe)
 	{
 		// Suppression de la liste des successeurs
-		pLISSOMsuccesseurs->LISsupprimer(pSOMsuccesseur);
+		//pLSSSOMsuccesseurs->LISsupprimer(pSOMsuccesseur); // -----> décalage + realloc
 
 		// Suppression de this de la liste des predecesseurs de pSOMsuccesseur
 		pSOMsuccesseur->SOMsupprimerPredecesseur(this);
@@ -115,17 +106,16 @@ void CSommet::SOMdebug() const
 
 void CSommet::SOMajouterPredecesseur(CSommet * pSOMpredecesseur)
 {
-	pLISSOMpredecesseurs->LISajouter(pSOMpredecesseur);
+	//pLSPSOMpredecesseurs->LISajouter(pSOMpredecesseur); // ----> Ajouter à pLSPSOMpredecesseurs
 }
 
 void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 {
-	pLISSOMpredecesseurs->LISsupprimer(pSOMpredecesseur);
+	//pLSPSOMpredecesseurs->LISsupprimer(pSOMpredecesseur); // ----> Ajouter à pLSSSOMsuccesseur
 }
 
 std::ostream & operator<<(std::ostream & oFlux, CSommet & SOMsommet)
 {
-	oFlux << SOMsommet.SOMgetListeSuccesseurs();
 	return oFlux;
 }
 

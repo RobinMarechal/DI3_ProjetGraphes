@@ -2,19 +2,28 @@
 #define CSOMMET_H
 
 #include "Graphe.h"
-#include "ListeArcs.h"
+#include "Arc.h"
+#include "Lien.h"
 
 class CGraphe;
-class CListeArcs;
 
 class CSommet
 {
+	// structure interne
+	class CLienSommetSuccesseur;
+	class CLienSommetPredecesseur;
+
+// Déclaration des classes internes
+#include "LienSommetSuccesseur.h"
+#include "LienSommetPredecesseur.h"
+
 	unsigned int uiSOMnumero;
 
 	// Relations
 	CGraphe * pGRASOMgraphe;
-	CListeArcs * pLISSOMsuccesseurs;
-	CListeArcs * pLISSOMpredecesseurs;
+	CLienSommetSuccesseur * pLSSSOMsuccesseurs;
+	CLienSommetPredecesseur * pLSPSOMpredecesseurs;
+	
 
 	// initialisation & destruction
 	void SOMinit();
@@ -34,8 +43,6 @@ public:
 
 	unsigned int SOMgetNumero() const;
 	CGraphe * SOMgetGraphe() const;
-	CListeArcs SOMgetListeSuccesseurs() const;
-	CListeArcs SOMgetListePredecesseurs() const;
 
 	void SOMajouterSuccesseur(CSommet *  pSOMsuccesseur);
 	void SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur);
@@ -45,6 +52,5 @@ public:
 
 std::ostream & operator<<(std::ostream & oFlux, CSommet & SOMsommet);
 std::ostream & operator<<(std::ostream & oFlux, CSommet * SOMsommet);
-
 
 #endif
