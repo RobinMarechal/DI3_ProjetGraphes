@@ -110,7 +110,7 @@ void CParseur::PARanalyseSyntaxique(char * pcFichier)
 		}
 
 		// Si il n'y a pas de crochet, ou qu'il y a un ouvrant et un fermant, c'est bon
-		if((bCrochetFermant && bCrochetOuvrant) || (!bCrochetOuvrant && !bCrochetFermant))
+		if ((bCrochetFermant && bCrochetOuvrant) || (!bCrochetOuvrant && !bCrochetFermant))
 		{
 			bBalise = false;
 			bValeur = false;
@@ -146,14 +146,14 @@ Extraire la partie gauche d'une ligne du fichier
 ******************************************
 Entrée : la ligne du fichier à analyser
 Nécessite : la ligne contient un (et un seul) '='.
-Sortie : la partie gauche de la ligne.
-Entraîne : rien.
+Sortie : la partie gauche de la ligne allouée sur le tas.
+Entraîne : Allocation d'une chaine de caractère (via new).
 ******************************************/
 char * CParseur::PARextraireBalise(char * pcLigne)
 {
 	char pcTmp[1024] = { 0 };
 	char * pcEgal = NULL;
-	
+
 	strcpy_s(pcTmp, 1024, pcLigne);
 	pcEgal = strchr(pcTmp, '=');
 
@@ -175,8 +175,8 @@ Extraire la partie droite d'une ligne du fichier
 ******************************************
 Entrée : la ligne du fichier à analyser
 Nécessite : la ligne contient un (et un seul) '='.
-Sortie : la partie droite de la ligne.
-Entraîne : rien.
+Sortie : la partie droite de la ligne allouée sur le tas.
+Entraîne : Allocation d'une chaine de caractère (via new).
 ******************************************/
 char * CParseur::PARextraireValeur(char * pcLigne)
 {
@@ -204,14 +204,15 @@ Parse un fichier.
 ******************************************
 Entrée : le chemin du fichier à parser.
 Nécessite : rien.
-Sortie : une instance de CTableauAssociatif contenant les données du fichier.
+Sortie : une instance de CTableauAssociatif contenant les données du fichier allouée sur le tas.
 Entraîne : soulève une Cexception en cas d'erreur de syntaxe dans le fichier
+Entraîne : Allocation d'une chaine de caractère (via new).
 ******************************************/
-CTableauAssociatif CParseur::PARparserFichier(char * pcFichier)
-{   
+CTableauAssociatif * CParseur::PARparserFichier(char * pcFichier)
+{
 	// INITIALISATIONS ////////////////////////////////////////////////////////
-	
-	CTableauAssociatif TABtab;
+
+	CTableauAssociatif * TABtab = new CTableauAssociatif();
 
 	// Souleve une exception si la syntaxe est incorrecte
 	PARanalyseSyntaxique(pcFichier);
@@ -221,9 +222,9 @@ CTableauAssociatif CParseur::PARparserFichier(char * pcFichier)
 	// TRAITEMENT /////////////////////////////////////////////////////////////////
 
 	// Pour chaque balise, on récupère la valeur sous forme de char * à traiter
-	while(!fichier.eof())
+	while (!fichier.eof())
 	{
-		char pcLigne[1024] = { 0 }, 
+		char pcLigne[1024] = { 0 },
 			pcBalise[1024] = { 0 },
 			pcValeur[1024] = { 0 };
 
@@ -239,6 +240,8 @@ CTableauAssociatif CParseur::PARparserFichier(char * pcFichier)
 		//ppcValeursBalises[uiBoucle][0] = '\0';
 		if (*pcValeur == '[')
 		{
+			char * pcValeurSansEspaces;
+
 			*pcValeur = '\0';
 			fichier.getline(pcLigne, 1024);
 
@@ -254,14 +257,17 @@ CTableauAssociatif CParseur::PARparserFichier(char * pcFichier)
 			}
 
 			// On retire le dernier \n (si la chaine n'est pas vide)
-			if(pcValeur[0] != 0)
+			if (pcValeur[0] != 0)
 				pcValeur[strlen(pcValeur) - 1] = '\0';
 
-			TABtab.TABajouterChaine(pcBalise, _strdup(supprimerEspaces(pcValeur)));
+			pcValeurSansEspaces = supprimerEspaces(pcValeur);
+			TABtab->TABajouterChaine(pcBalise, _strdup(pcValeurSansEspaces));
+
+			delete[] pcValeurSansEspaces;
 		}
 		else
 		{
-			TABtab.TABajouterAuto(pcBalise, pcValeur);
+			TABtab->TABajouterAuto(pcBalise, pcValeur);
 		}
 
 	}

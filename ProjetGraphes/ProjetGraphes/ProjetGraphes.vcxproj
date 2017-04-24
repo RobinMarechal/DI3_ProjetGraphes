@@ -146,25 +146,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Lien.cpp" />
+    <ClCompile Include="Arc.cpp" />
     <ClCompile Include="Cexception.cpp" />
     <ClCompile Include="Graphe.cpp" />
     <ClCompile Include="helpers.cpp" />
-    <ClCompile Include="LienSommetPredecesseur.cpp" />
-    <ClCompile Include="LienSommetSuccesseur.cpp" />
+    <ClCompile Include="ArcArrivant.cpp" />
+    <ClCompile Include="ArcPartant.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Parseur.cpp" />
     <ClCompile Include="Sommet.cpp" />
     <ClCompile Include="TableauAssociatif.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Lien.h" />
+    <ClInclude Include="Arc.h" />
     <ClInclude Include="Cexception.h" />
     <ClInclude Include="constantes.h" />
     <ClInclude Include="Graphe.h" />
     <ClInclude Include="helpers.h" />
-    <ClInclude Include="LienSommetPredecesseur.h" />
-    <ClInclude Include="LienSommetSuccesseur.h" />
+    <ClInclude Include="ArcArrivant.h" />
+    <ClInclude Include="ArcPartant.h" />
     <ClInclude Include="Parseur.h" />
     <ClInclude Include="Sommet.h" />
     <ClInclude Include="TableauAssociatif.h" />

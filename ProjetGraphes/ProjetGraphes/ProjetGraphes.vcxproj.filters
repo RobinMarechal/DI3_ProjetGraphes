@@ -36,13 +36,13 @@
     <ClCompile Include="Sommet.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Lien.cpp">
+    <ClCompile Include="Arc.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="LienSommetSuccesseur.cpp">
+    <ClCompile Include="ArcPartant.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="LienSommetPredecesseur.cpp">
+    <ClCompile Include="ArcArrivant.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,13 +68,13 @@
     <ClInclude Include="Sommet.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Lien.h">
+    <ClInclude Include="Arc.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="LienSommetSuccesseur.h">
+    <ClInclude Include="ArcArrivant.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="LienSommetPredecesseur.h">
+    <ClInclude Include="ArcPartant.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
