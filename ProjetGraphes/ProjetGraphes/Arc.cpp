@@ -2,31 +2,27 @@
 #include "constantes.h"
 #include "Arc.h"
 
-CSommet::CArc::CArc(CSommet * pSOMsommetVise)
+CArc::CArc(CSommet * pSOMsommetParent, CSommet * pSOMsommetVise)
 {
 	pSOMARCsommetVise = pSOMsommetVise;
 }
 
-CSommet::CArc::CArc(CArc & ARCobjet)
+CArc::CArc(CArc & ARCobjet)
 {
 	pSOMARCsommetVise = ARCobjet.pSOMARCsommetVise;
 }
 
-CSommet::CArc::~CArc()
+CArc::~CArc()
 {
+	// Rien a désallouer
 }
 
-bool CSommet::CArc::operator==(CArc & ARCobjet) const
+CSommet * CArc::ARCgetSommetVise() const
 {
-	return false;
+	return pSOMARCsommetVise;
 }
 
-bool CSommet::CArc::operator!=(CArc & ARCobjet) const
+CSommet * CArc::ARCgetSommetParent() const
 {
-	return false;
-}
-
-CSommet * CSommet::CArc::ARCgetSommetVise() const
-{
-	return nullptr;
+	return pSOMARCsommetParent;
 }

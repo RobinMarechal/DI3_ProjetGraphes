@@ -2,23 +2,23 @@
 #define CSOMMET_H
 
 #include "Graphe.h"
+#include "ArcPartant.h"
+#include "ArcArrivant.h"
 
 class CGraphe;
+class CArcPartant;
+class CArcArrivant;
 
 class CSommet
 {
-	// classes internes
-	class CArc;
-	class CArcPartant;
-	class CArcArrivant;
-
 	unsigned int uiSOMnumero;
+	unsigned int uiSOMnbSuccesseurs;
+	unsigned int uiSOMnbPredecesseurs;
 
 	// Relations
 	CGraphe * pGRASOMgraphe;
-	CArcPartant * pLSSSOMsuccesseurs;
-	CArcArrivant * pLSPSOMpredecesseurs;
-	
+	CArcPartant * pPARSOMarcsPartants;
+	CArcArrivant * pARRSOMarcsArrivants;
 
 	// initialisation & destruction
 	void SOMinit();
@@ -37,8 +37,13 @@ public:
 	bool operator==(CSommet & SOMobjet) const;
 	bool operator!=(CSommet & SOMobjet) const;
 
-	unsigned int SOMgetNumero() const;
 	CGraphe * SOMgetGraphe() const;
+	const CSommet const * SOMgetSuccesseur(unsigned int uiPos) const;
+	const CSommet const * SOMgetPredecesseur(unsigned int uiPos) const;
+
+	unsigned int SOMgetNumero() const;
+	unsigned int SOMgetNbSuccesseurs() const;
+	unsigned int SOMgetNbPredecesseurs() const;
 
 	void SOMajouterSuccesseur(CSommet *  pSOMsuccesseur);
 	void SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur);

@@ -2,18 +2,21 @@
 #define CARC_ARRIVANT_H
 
 #include "Sommet.h"
-#include "ARC.h"
+#include "Arc.h"
 
 // trigramme : ARR
-class CSommet::CArcArrivant : public CSommet::CArc
+class CArcArrivant : public CArc
 {
 public:
-	CArcArrivant(CSommet * pSOMsommetVise);
+	CArcArrivant(CSommet * pSOMsommetParent, CSommet * pSOMsommetVise);
 	CArcArrivant(CArcArrivant & ARRobjet);
-	CArcArrivant(CSommet::CArc & ARCobjet);
 	~CArcArrivant();
 
-	CSommet::CArcArrivant & operator=(CArc & ARCobjet);
+	CArcArrivant & operator=(CArcArrivant & ARRobjet);
+	bool operator==(CArcArrivant & ARRobjet) const;
+	bool operator!=(CArcArrivant & ARRobjet) const;
+
+	void ARCdebug() const;
 };
 
 #endif // C_LIEN_SOMMET_PREDECESSEUR_H

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
+#include <windows.h>
 
 
 /*****************************************
@@ -160,4 +161,19 @@ char * supprimerEspaces(char pcStr[])
 	strncpy_s(pcResultat, 1024, pcStr, pcTmp - pcStr + 1);
 
 	return pcResultat;
+}
+
+
+
+void erreur(char * pcMsg, bool bStop)
+{
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, 12);
+	std::cout << pcMsg << std::endl;
+	SetConsoleTextAttribute(hConsole, 7);
+
+	if (bStop)
+	{
+		exit(EXIT_FAILURE);
+	}
 }

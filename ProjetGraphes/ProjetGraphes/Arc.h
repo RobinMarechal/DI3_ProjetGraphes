@@ -6,24 +6,22 @@
 class CSommet;
 
 // Relier 2 sommets pour former un arc
-class CSommet::CArc {
+class CArc {
 
 	// attributs
-	CSommet * pSOMARCsommetVise;
+	CSommet * pSOMARCsommetVise; // Sommet visé par l'arc
+	CSommet * pSOMARCsommetParent; // Sommet de départ de l'arc
 
 public:
 
 	// constructeurs
-	CArc(CSommet * pSOMsommetVise);
+	CArc(CSommet * pSOMsommetParent, CSommet * pSOMsommetVise);
 	CArc(CArc & ARCarc);
 	~CArc();
 
 	CSommet * ARCgetSommetVise() const;
+	CSommet * ARCgetSommetParent() const;
 
-	// operateurs
-	virtual CArc & operator=(CArc & ARCarc) = 0;
-	virtual bool operator==(CArc & ARCarc) const;
-	virtual bool operator!=(CArc & ARCarc) const;
 	virtual void ARCdebug() const = 0;
 };
 

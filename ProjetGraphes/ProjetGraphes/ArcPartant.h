@@ -5,11 +5,18 @@
 #include "Arc.h"
 
 // trigramme : SUC
-class CSommet::CArcPartant : public CArc
+class CArcPartant : public CArc
 {
 public:
-	CArcPartant(CSommet * pSOMsommetVise);
+	CArcPartant(CSommet * pSOMsommetParent, CSommet * pSOMsommetVise);
+	CArcPartant(CArcPartant & ARRobjet);
 	~CArcPartant();
+
+	CArcPartant & operator=(CArcPartant & ARRobjet);
+	bool operator==(CArcPartant & ARRobjet) const;
+	bool operator!=(CArcPartant & ARRobjet) const;
+
+	void ARCdebug() const;
 };
 
 #endif // CARC_PARTANT_H
