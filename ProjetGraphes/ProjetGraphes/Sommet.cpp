@@ -74,12 +74,32 @@ unsigned int CSommet::SOMgetNbPredecesseurs() const
 
 unsigned int CSommet::SOMgetPositionSuccesseur(CSommet * pSOMsucc) const
 {
-	return 0;
+	unsigned int uiBoucle;
+
+	for (uiBoucle = 0; uiBoucle < uiSOMnbSuccesseurs; uiBoucle++)
+	{
+		if (*pPARSOMarcsPartants[uiBoucle].ARCgetSommetVise() == *pSOMsucc)
+		{
+			return uiBoucle;
+		}
+	}
+
+	return -1;
 }
 
 unsigned int CSommet::SOMgetPositionPredecesseur(CSommet * pSOMpred) const
 {
-	return 0;
+	unsigned int uiBoucle;
+
+	for (uiBoucle = 0; uiBoucle < uiSOMnbPredecesseurs; uiBoucle++)
+	{
+		if (*pARRSOMarcsArrivants[uiBoucle].ARCgetSommetVise() == *pSOMpred)
+		{
+			return uiBoucle;
+		}
+	}
+
+	return -1;
 }
 
 CGraphe * CSommet::SOMgetGraphe() const
@@ -171,7 +191,7 @@ void CSommet::SOMajouterPredecesseur(CSommet * pSOMpredecesseur)
 
 	if (pARRSOMarcsArrivants == nullptr)
 	{
-		erreur("echec de réallocation dans CSommet::SOMajouterSuccesseur(). Le programme s'est arrêté.");
+		erreur("echec de reallocation dans CSommet::SOMajouterSuccesseur(). Le programme s'est arrete.");
 	}
 
 	pARRSOMarcsArrivants[uiSOMnbPredecesseurs - 1] = CArcArrivant(this, pSOMpredecesseur);
@@ -203,7 +223,7 @@ void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 
 		if (pARRSOMarcsArrivants == nullptr)
 		{
-			erreur("Echec de réallocation dans CSommet::SOMsupprimerPredecesseur(). Le programme s'est arrêté.");
+			erreur("Echec de reallocation dans CSommet::SOMsupprimerPredecesseur(). Le programme s'est arrete.");
 		}
 	}
 }

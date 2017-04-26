@@ -15,11 +15,29 @@ void robin()
 	CSommet * s3 = g.GRAajouterSommet(3);
 
 	s1->SOMajouterSuccesseur(s2);
+	s1->SOMajouterSuccesseur(s3);
 
 	cout << s1->SOMgetNbSuccesseurs() << endl;
 	cout << s1->SOMgetNbPredecesseurs() << endl;
 	cout << s2->SOMgetNbSuccesseurs() << endl;
 	cout << s2->SOMgetNbPredecesseurs() << endl;
+	cout << s3->SOMgetNbSuccesseurs() << endl;
+	cout << s3->SOMgetNbPredecesseurs() << endl;
+
+	s1->SOMsupprimerSuccesseur(s1);
+	cout << "supp 2" << endl;
+	s1->SOMsupprimerSuccesseur(s2);
+
+	cout << " Supprimé : " << endl;
+
+	cout << s1->SOMgetNbSuccesseurs() << endl;
+	cout << s1->SOMgetNbPredecesseurs() << endl;
+	cout << s2->SOMgetNbSuccesseurs() << endl;
+	cout << s2->SOMgetNbPredecesseurs() << endl;
+	cout << s3->SOMgetNbSuccesseurs() << endl;
+	cout << s3->SOMgetNbPredecesseurs() << endl;
+
+
 
 	g.GRAdebug();
 }

@@ -168,8 +168,10 @@ char * supprimerEspaces(char pcStr[])
 void erreur(char * pcMsg, bool bStop)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	// 12 = rouge
 	SetConsoleTextAttribute(hConsole, 12);
 	std::cout << pcMsg << std::endl;
+	// 7 = couleur de base
 	SetConsoleTextAttribute(hConsole, 7);
 
 	if (bStop)
