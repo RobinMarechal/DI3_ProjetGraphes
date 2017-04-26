@@ -4,6 +4,9 @@
 
 void CSommet::SOMinit()
 {
+	uiSOMnbSuccesseurs = 0;
+	uiSOMnbPredecesseurs = 0;
+
 	pGRASOMgraphe = nullptr;
 	pARRSOMarcsArrivants = nullptr;
 	pPARSOMarcsPartants = nullptr;
