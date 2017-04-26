@@ -1,39 +1,28 @@
+#include "Sommet.h"
+#include "constantes.h"
 #include "Arc.h"
 
-
-
-void CArc::ARCinit()
+CArc::CArc(CSommet * pSOMsommetParent, CSommet * pSOMsommetVise)
 {
+	pSOMARCsommetVise = pSOMsommetVise;
 }
 
-void CArc::ARCdetruire()
+CArc::CArc(CArc & ARCobjet)
 {
+	pSOMARCsommetVise = ARCobjet.pSOMARCsommetVise;
 }
-
-CArc::CArc(CGraphe * pGRAgraphe, unsigned int uiNumero)
-{
-}
-
 
 CArc::~CArc()
 {
+	// Rien a désallouer
 }
 
-CArc::operator CSommet()
+CSommet * CArc::ARCgetSommetVise() const
 {
+	return pSOMARCsommetVise;
 }
 
-unsigned int CArc::ARCgetNumero() const
+CSommet * CArc::ARCgetSommetParent() const
 {
-	return 0;
-}
-
-CGraphe * CArc::ARCgetGraphe() const
-{
-	return nullptr;
-}
-
-CListeArcs * CArc::ARCgetListeArcs()
-{
-	return nullptr;
+	return pSOMARCsommetParent;
 }

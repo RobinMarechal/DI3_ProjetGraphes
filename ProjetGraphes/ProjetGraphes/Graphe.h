@@ -6,14 +6,16 @@
 #include "Sommet.h"
 #include "helpers.h"
 #include "constantes.h"
+#include "Sommet.h"
+
+class CSommet;
 
 class CGraphe
 {
 private:
 
 	unsigned int uiGRAnbSommets;
-	unsigned int uiGRAtailleTableau;
-	CSommet ** pSOMGRAsommets;
+	CSommet ** ppSOMGRAsommets;
 
 	void GRAinit();
 	void GRAdetruire();
@@ -37,6 +39,10 @@ public:
 	void GRAsupprimerSommet(const CSommet * pSOMobjet);
 	
 	void GRAafficher() const;
+	void GRAdebug() const;
 };
+
+std::ostream & operator<<(std::ostream & oFlux, const CGraphe & GRAgraphe);
+std::ostream & operator<<(std::ostream & oFlux, const CGraphe * GRAgraphe);
 
 #endif

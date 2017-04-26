@@ -22,5 +22,4 @@
 #define EXC_ERREUR_LEXICALE 6
 #define EXC_FICHIER_INTROUVABLE 7
 
-
 #endif

@@ -54,4 +54,7 @@ Entraîne : rien.
 ******************************************/
 char * supprimerEspaces(char pcStr[]);
 
+
+void erreur(char * pcMsg, bool bStop = true);
+
 #endif;

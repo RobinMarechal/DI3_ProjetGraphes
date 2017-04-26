@@ -1,28 +1,28 @@
 #ifndef CARC_H
 #define CARC_H
 
-#include "Graphe.h"
-#include "ListeArcs.h"
+#include "Sommet.h"
 
-class CArc
-{
-	unsigned int uiARCnumero;
+class CSommet;
 
-	CGraphe * pGRAARCgraphe;	
-	CListeArcs * pLISARClisteArcs;
+// Relier 2 sommets pour former un arc
+class CArc {
 
-	void ARCinit();
-	void ARCdetruire();
+	// attributs
+	CSommet * pSOMARCsommetVise; // Sommet visé par l'arc
+	CSommet * pSOMARCsommetParent; // Sommet de départ de l'arc
 
 public:
-	CArc(CGraphe * pGRAgraphe, unsigned int uiNumero);
+
+	// constructeurs
+	CArc(CSommet * pSOMsommetParent, CSommet * pSOMsommetVise);
+	CArc(CArc & ARCarc);
 	~CArc();
 
-	operator CSommet();
+	CSommet * ARCgetSommetVise() const;
+	CSommet * ARCgetSommetParent() const;
 
-	unsigned int ARCgetNumero() const;
-	CGraphe * ARCgetGraphe() const;
-	CListeArcs * ARCgetListeArcs();
+	virtual void ARCdebug() const = 0;
 };
 
-#endif
+#endif // CARC_H
