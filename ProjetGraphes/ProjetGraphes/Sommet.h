@@ -11,6 +11,7 @@ class CArcArrivant;
 
 class CSommet
 {
+private:
 	unsigned int uiSOMnumero;
 	unsigned int uiSOMnbSuccesseurs;
 	unsigned int uiSOMnbPredecesseurs;
@@ -44,6 +45,8 @@ public:
 	unsigned int SOMgetNumero() const;
 	unsigned int SOMgetNbSuccesseurs() const;
 	unsigned int SOMgetNbPredecesseurs() const;
+	unsigned int SOMgetPositionSuccesseur(CSommet * pSOMsucc) const;
+	unsigned int SOMgetPositionPredecesseur(CSommet * pSOMpred) const;
 
 	void SOMajouterSuccesseur(CSommet *  pSOMsuccesseur);
 	void SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur);

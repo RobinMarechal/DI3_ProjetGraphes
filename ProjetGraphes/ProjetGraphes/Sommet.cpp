@@ -72,6 +72,16 @@ unsigned int CSommet::SOMgetNbPredecesseurs() const
 	return uiSOMnbPredecesseurs;
 }
 
+unsigned int CSommet::SOMgetPositionSuccesseur(CSommet * pSOMsucc) const
+{
+	return 0;
+}
+
+unsigned int CSommet::SOMgetPositionPredecesseur(CSommet * pSOMpred) const
+{
+	return 0;
+}
+
 CGraphe * CSommet::SOMgetGraphe() const
 {
 	return pGRASOMgraphe;
@@ -104,11 +114,10 @@ void CSommet::SOMajouterSuccesseur(CSommet * pSOMsuccesseur)
 		
 		if (pPARSOMarcsPartants == nullptr)
 		{
-			erreur("echec de réallocation dans CSommet::SOMajouterSuccesseur(). Le programme s'est arrêté.");
+			erreur("Echec de réallocation dans CSommet::SOMajouterSuccesseur(). Le programme s'est arrêté.");
 		}
 
 		pPARSOMarcsPartants[uiSOMnbSuccesseurs - 1] = CArcPartant(this, pSOMsuccesseur);
-
 
 		// Ajout de this a la liste des predecesseurs de pSOMsuccesseur
 		pSOMsuccesseur->SOMajouterPredecesseur(this);
@@ -120,8 +129,29 @@ void CSommet::SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur)
 	// Si le sommet a ajouter n'est pas null est qu'ils sont dans le meme graphe...
 	if (pSOMsuccesseur != nullptr && pSOMsuccesseur != this && pSOMsuccesseur->pGRASOMgraphe == pGRASOMgraphe)
 	{
-		// Suppression de la liste des successeurs
-		//pLSSSOMsuccesseurs->LISsupprimer(pSOMsuccesseur); // -----> décalage + realloc
+		unsigned int uiBoucle;
+		unsigned int uiPos = SOMgetPositionSuccesseur(pSOMsuccesseur);
+
+		// Si ce sommet n'est pas dans la liste des successeurs, on ne fait rien
+		if (uiPos == -1)
+		{
+			return;
+		}
+
+		// On décale tout d'une case vers la gauche à partir de l'indice à supprimer
+		for (uiBoucle = uiPos; uiBoucle < uiSOMnbSuccesseurs - 1; uiBoucle++)
+		{
+			pPARSOMarcsPartants[uiBoucle] = pPARSOMarcsPartants[uiBoucle + 1];
+		}
+
+		// On realloue la nouvelle taille
+		uiSOMnbSuccesseurs--;
+		pPARSOMarcsPartants = (CArcPartant *)realloc(pPARSOMarcsPartants, sizeof(CArcPartant) * uiSOMnbSuccesseurs);
+
+		if (pPARSOMarcsPartants == nullptr)
+		{
+			erreur("Echec de réallocation dans CSommet::SOMsupprimerSuccesseur(). Le programme s'est arrêté.");
+		}
 
 		// Suppression de this de la liste des predecesseurs de pSOMsuccesseur
 		pSOMsuccesseur->SOMsupprimerPredecesseur(this);
@@ -149,7 +179,33 @@ void CSommet::SOMajouterPredecesseur(CSommet * pSOMpredecesseur)
 
 void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 {
-	//pLSPSOMpredecesseurs->LISsupprimer(pSOMpredecesseur); // -----> décalage + realloc
+	// Si le sommet a ajouter n'est pas null est qu'ils sont dans le meme graphe...
+	if (pSOMpredecesseur != nullptr && pSOMpredecesseur != this && pSOMpredecesseur->pGRASOMgraphe == pGRASOMgraphe)
+	{
+		unsigned int uiBoucle;
+		unsigned int uiPos = SOMgetPositionPredecesseur(pSOMpredecesseur);
+
+		// Si ce sommet n'est pas dans la liste des successeurs, on ne fait rien
+		if (uiPos == -1)
+		{
+			return;
+		}
+
+		// On décale tout d'une case vers la gauche à partir de l'indice à supprimer
+		for (uiBoucle = uiPos; uiBoucle < uiSOMnbPredecesseurs - 1; uiBoucle++)
+		{
+			pARRSOMarcsArrivants[uiBoucle] = pARRSOMarcsArrivants[uiBoucle + 1];
+		}
+
+		// On realloue la nouvelle taille
+		uiSOMnbPredecesseurs--;
+		pARRSOMarcsArrivants = (CArcArrivant *)realloc(pARRSOMarcsArrivants, sizeof(CArcArrivant) * uiSOMnbPredecesseurs);
+
+		if (pARRSOMarcsArrivants == nullptr)
+		{
+			erreur("Echec de réallocation dans CSommet::SOMsupprimerPredecesseur(). Le programme s'est arrêté.");
+		}
+	}
 }
 
 std::ostream & operator<<(std::ostream & oFlux, CSommet & SOMsommet)
