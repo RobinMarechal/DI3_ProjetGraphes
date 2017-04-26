@@ -45,8 +45,8 @@ public:
 	unsigned int SOMgetNumero() const;
 	unsigned int SOMgetNbSuccesseurs() const;
 	unsigned int SOMgetNbPredecesseurs() const;
-	unsigned int SOMgetPositionSuccesseur(CSommet * pSOMsucc) const;
-	unsigned int SOMgetPositionPredecesseur(CSommet * pSOMpred) const;
+	int SOMgetPositionSuccesseur(CSommet * pSOMsucc) const;
+	int SOMgetPositionPredecesseur(CSommet * pSOMpred) const;
 
 	void SOMajouterSuccesseur(CSommet *  pSOMsuccesseur);
 	void SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur);

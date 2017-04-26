@@ -24,6 +24,9 @@ public:
 	CSommet * ARCgetSommetVise() const;
 	CSommet * ARCgetSommetParent() const;
 
+	void ARCsetSommetVise(CSommet * pSOMsommetVise);
+	void ARCsetSommetParent(CSommet * pSOMsommetParent);
+
 	virtual void ARCdebug() const = 0;
 };
 

@@ -8,7 +8,7 @@ using namespace std;
 
 void gregoire()
 {
-	CGraphe g;
+	CGraphe g(3);
 
 	g.GRAajouterSommet(1);
 	g.GRAajouterSommet(2);
@@ -21,7 +21,7 @@ void gregoire()
 
 void robin()
 {
-	CGraphe g;
+	CGraphe g(3);
 
 	CSommet * s1 = g.GRAajouterSommet(1);
 	CSommet * s2 = g.GRAajouterSommet(2);
@@ -38,10 +38,10 @@ void robin()
 	cout << s3->SOMgetNbPredecesseurs() << endl;
 
 	s1->SOMsupprimerSuccesseur(s1);
-	cout << "supp 2" << endl;
 	s1->SOMsupprimerSuccesseur(s2);
+	s1->SOMsupprimerSuccesseur(s3);
 
-	cout << " Supprimé : " << endl;
+	cout << " Suppression..." << endl;
 
 	cout << s1->SOMgetNbSuccesseurs() << endl;
 	cout << s1->SOMgetNbPredecesseurs() << endl;
@@ -55,7 +55,7 @@ void robin()
 
 int main(int argc, char * argv[])
 {
-	//robin();
-	gregoire();
+	robin();
+	//gregoire();
 	return 0;
 }

@@ -21,7 +21,10 @@ CArcArrivant::~CArcArrivant()
 CArcArrivant & CArcArrivant::operator=(CArcArrivant & ARRobjet)
 {
 	// Appel au constructeur de recopie
-	return *this; // CArcArrivant(ARRobjet);
+	ARCsetSommetParent(ARRobjet.ARCgetSommetParent());
+	ARCsetSommetVise(ARRobjet.ARCgetSommetVise());
+
+	return *this;
 }
 
 bool CArcArrivant::operator==(CArcArrivant & ARRobjet) const

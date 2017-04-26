@@ -15,15 +15,19 @@ class CGraphe
 private:
 
 	unsigned int uiGRAnbSommets;
+	unsigned int * puiGRApositionsSommets;
+	unsigned int uiGRAtailleTableau;
+	unsigned int uiGRAposDerniereInsertion;
 	CSommet ** ppSOMGRAsommets;
 
 	void GRAinit();
 	void GRAdetruire();
-	void GRAreallouerTabSommets();
+	//void GRAreallouerTabSommets();
+	void GRArecopierGraphe(const CGraphe & GRAobjet);
 
 public:
-	CGraphe();
-	CGraphe(CGraphe & GRAobjet);
+	CGraphe(unsigned int uiNbSommets);
+	CGraphe(const CGraphe & GRAobjet);
 	~CGraphe();
 
 	CGraphe & operator=(const CGraphe & GRAobjet);
@@ -35,7 +39,7 @@ public:
 	CSommet * GRAajouterSommet(unsigned int uiNumero);
 	void GRAajouterSommet(CSommet * pSOMobjet);
 	CSommet * GRAgetSommet(unsigned int uiNumero) const;
-	int GRAgetPosSommet(const CSommet * pSOMobjet) const;
+	unsigned int GRAgetPosSommet(const CSommet * pSOMobjet) const;
 	void GRAsupprimerSommet(const CSommet * pSOMobjet);
 	
 	void GRAafficher() const;

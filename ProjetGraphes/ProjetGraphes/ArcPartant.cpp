@@ -21,7 +21,10 @@ CArcPartant::~CArcPartant()
 CArcPartant & CArcPartant::operator=(CArcPartant & ARRobjet)
 {
 	// Appel au constructeur de recopie
-	return *this; // CArcPartant(ARRobjet);
+	ARCsetSommetParent(ARRobjet.ARCgetSommetParent());
+	ARCsetSommetVise(ARRobjet.ARCgetSommetVise());
+
+	return *this;
 }
 
 bool CArcPartant::operator==(CArcPartant & ARRobjet) const

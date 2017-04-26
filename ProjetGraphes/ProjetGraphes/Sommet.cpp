@@ -47,11 +47,14 @@ void CSommet::operator >> (CSommet * SOMsuccesseur)
 
 bool CSommet::operator==(CSommet & SOMobjet) const
 {
-	/* SOIT : on compare les pointeurs, soit en parcourt les 2 listes
-	return uiSOMnumero == SOMobjet.uiSOMnumero
-		&& pARRSOMarcsArrivants == SOMobjet.pARRSOMarcsArrivants
-		&& pPARSOMarcsPartants == SOMobjet.pPARSOMarcsPartants;
-	*/
+	
+	if (uiSOMnumero == SOMobjet.SOMgetNumero() && pGRASOMgraphe == SOMobjet.pGRASOMgraphe)
+	{
+		return true;
+	}
+
+	//if()
+
 	return false;
 }
 
@@ -75,7 +78,7 @@ unsigned int CSommet::SOMgetNbPredecesseurs() const
 	return uiSOMnbPredecesseurs;
 }
 
-unsigned int CSommet::SOMgetPositionSuccesseur(CSommet * pSOMsucc) const
+int CSommet::SOMgetPositionSuccesseur(CSommet * pSOMsucc) const
 {
 	unsigned int uiBoucle;
 
@@ -90,7 +93,7 @@ unsigned int CSommet::SOMgetPositionSuccesseur(CSommet * pSOMsucc) const
 	return -1;
 }
 
-unsigned int CSommet::SOMgetPositionPredecesseur(CSommet * pSOMpred) const
+int CSommet::SOMgetPositionPredecesseur(CSommet * pSOMpred) const
 {
 	unsigned int uiBoucle;
 
@@ -171,7 +174,7 @@ void CSommet::SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur)
 		uiSOMnbSuccesseurs--;
 		pPARSOMarcsPartants = (CArcPartant *)realloc(pPARSOMarcsPartants, sizeof(CArcPartant) * uiSOMnbSuccesseurs);
 
-		if (pPARSOMarcsPartants == nullptr)
+		if (pPARSOMarcsPartants == nullptr && uiSOMnbSuccesseurs != 0)
 		{
 			erreur("Echec de réallocation dans CSommet::SOMsupprimerSuccesseur(). Le programme s'est arrêté.");
 		}
@@ -224,7 +227,7 @@ void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 		uiSOMnbPredecesseurs--;
 		pARRSOMarcsArrivants = (CArcArrivant *)realloc(pARRSOMarcsArrivants, sizeof(CArcArrivant) * uiSOMnbPredecesseurs);
 
-		if (pARRSOMarcsArrivants == nullptr)
+		if (pARRSOMarcsArrivants == nullptr && uiSOMnbPredecesseurs != 0)
 		{
 			erreur("Echec de reallocation dans CSommet::SOMsupprimerPredecesseur(). Le programme s'est arrete.");
 		}
