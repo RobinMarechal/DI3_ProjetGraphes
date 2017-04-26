@@ -6,6 +6,19 @@
 
 using namespace std;
 
+void gregoire()
+{
+	CGraphe g;
+
+	g.GRAajouterSommet(1);
+	g.GRAajouterSommet(2);
+	g.GRAajouterSommet(3);
+
+	g.GRAgetSommet(1)->SOMajouterSuccesseur(g.GRAgetSommet(2));
+
+	g.GRAdebug();
+}
+
 void robin()
 {
 	CGraphe g;
@@ -44,7 +57,7 @@ void robin()
 
 int main(int argc, char * argv[])
 {
-	robin();
-
+	//robin();
+	gregoire();
 	return 0;
 }

@@ -8,6 +8,8 @@ class CSommet;
 // Relier 2 sommets pour former un arc
 class CArc {
 
+private:
+
 	// attributs
 	CSommet * pSOMARCsommetVise; // Sommet visé par l'arc
 	CSommet * pSOMARCsommetParent; // Sommet de départ de l'arc
