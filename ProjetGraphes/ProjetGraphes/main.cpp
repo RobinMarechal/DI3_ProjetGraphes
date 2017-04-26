@@ -50,8 +50,6 @@ void robin()
 	cout << s3->SOMgetNbSuccesseurs() << endl;
 	cout << s3->SOMgetNbPredecesseurs() << endl;
 
-
-
 	g.GRAdebug();
 }
 
