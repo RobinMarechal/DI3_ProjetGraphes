@@ -29,12 +29,12 @@ CArcPartant & CArcPartant::operator=(CArcPartant & ARRobjet)
 
 bool CArcPartant::operator==(CArcPartant & ARRobjet) const
 {
-	return false;
+	return (ARCgetSommetVise() == ARRobjet.ARCgetSommetVise()) && (ARCgetSommetParent() == ARRobjet.ARCgetSommetParent());
 }
 
 bool CArcPartant::operator!=(CArcPartant & ARRobjet) const
 {
-	return false;
+	return !(* this == ARRobjet);
 }
 
 void CArcPartant::ARCdebug() const

@@ -39,8 +39,10 @@ public:
 	bool operator!=(CSommet & SOMobjet) const;
 
 	CGraphe * SOMgetGraphe() const;
-	const CSommet const * SOMgetSuccesseur(unsigned int uiPos) const;
-	const CSommet const * SOMgetPredecesseur(unsigned int uiPos) const;
+	CSommet * SOMgetSuccesseur(unsigned int uiPos) const;
+	CSommet * SOMgetPredecesseur(unsigned int uiPos) const;
+	CArcPartant & SOMgetArcPartant(unsigned int uiPos) const;
+	CArcArrivant & SOMgetArcArrivant(unsigned int uiPos) const;
 
 	unsigned int SOMgetNumero() const;
 	unsigned int SOMgetNbSuccesseurs() const;

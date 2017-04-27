@@ -6,8 +6,8 @@
 class CSommet;
 
 // Relier 2 sommets pour former un arc
-class CArc {
-
+class CArc
+{
 private:
 
 	// attributs

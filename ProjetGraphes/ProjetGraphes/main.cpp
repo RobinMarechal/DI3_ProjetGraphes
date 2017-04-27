@@ -15,6 +15,9 @@ void gregoire()
 	g.GRAajouterSommet(3);
 
 	g.GRAgetSommet(1)->SOMajouterSuccesseur(g.GRAgetSommet(2));
+	* g.GRAgetSommet(1) >> g.GRAgetSommet(3);
+
+	cout << g.GRAgetSommet(1) << endl;
 
 	g.GRAdebug();
 }
@@ -55,7 +58,7 @@ void robin()
 
 int main(int argc, char * argv[])
 {
-	robin();
-	//gregoire();
+	//robin();
+	gregoire();
 	return 0;
 }
