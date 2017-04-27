@@ -29,23 +29,23 @@ void CGraphe::GRAinit()
 {
 	ppSOMGRAsommets = new CSommet*[uiGRAnbSommets + 1];
 	puiGRApositionsSommets = (unsigned int *)calloc(uiGRAtailleTableau, sizeof(unsigned int));
-	uiGRAposDerniereInsertion = 0;
+	uiGRAposProchaineInsertion = 1;
 }
 
 void CGraphe::GRAdetruire()
 {
 	unsigned int uiBoucle;
 
-	for (uiBoucle = 0; uiBoucle < uiGRAtailleTableau; uiBoucle++)
+	for (uiBoucle = 1; uiBoucle <= uiGRAnbSommets; uiBoucle++)
 	{
-		CSommet * pSOMsommet = GRAgetSommet(uiBoucle);
+		CSommet * pSOMsommet = ppSOMGRAsommets[uiBoucle];
 		if (pSOMsommet != nullptr)
 		{
 			delete pSOMsommet;
 		}
 	}
 
-	delete ppSOMGRAsommets;
+	delete[] ppSOMGRAsommets;
 	free(puiGRApositionsSommets);
 	ppSOMGRAsommets = nullptr;
 	puiGRApositionsSommets = nullptr;
@@ -59,7 +59,7 @@ void CGraphe::GRArecopierGraphe(const CGraphe & GRAobjet)
 
 	GRAinit();
 
-	uiGRAposDerniereInsertion = GRAobjet.uiGRAposDerniereInsertion;
+	uiGRAposProchaineInsertion = GRAobjet.uiGRAposProchaineInsertion;
 
 	if (ppSOMGRAsommets == nullptr || puiGRApositionsSommets == nullptr)
 	{
@@ -143,8 +143,7 @@ void CGraphe::GRAajouterSommet(CSommet * pSOMobjet)
 		throw Cexception(EXC_SOMMET_UNIQUE, pcMsg);
 	}
 
-	uiGRAposDerniereInsertion++;
-	ppSOMGRAsommets[uiGRAposDerniereInsertion] = pSOMobjet;
+	ppSOMGRAsommets[uiGRAposProchaineInsertion] = pSOMobjet;
 
 	// So uiNumero + 1 > taille du tableau de positions, on realloue le tableau puis qu'il contienne uiNumero+1 cases
 	if (uiGRAtailleTableau <= uiNumero)
@@ -160,11 +159,17 @@ void CGraphe::GRAajouterSommet(CSommet * pSOMobjet)
 		// On copie le tableau de bases dans uiTmp pour garder les valeurs déjà présentes
 		memcpy_s(uiTemp, (uiNumero + 1) * sizeof(unsigned int), puiGRApositionsSommets, (uiGRAtailleTableau) * sizeof(unsigned int));
 
+		if (uiTemp == nullptr)
+		{
+			erreur("Erreur de copie mémoire dans CGraphe::GRAajouterSommet(CSommet*). Le programme s'est arrêté.");
+		}
+
 		free(puiGRApositionsSommets);
 		puiGRApositionsSommets = uiTemp;
 	}
 	
-	puiGRApositionsSommets[uiNumero] = uiGRAposDerniereInsertion;
+	puiGRApositionsSommets[uiNumero] = uiGRAposProchaineInsertion;
+	uiGRAposProchaineInsertion++;
 }
 
 CSommet * CGraphe::GRAgetSommet(unsigned int uiNumero) const
@@ -205,19 +210,44 @@ unsigned int CGraphe::GRAgetPosSommet(const CSommet * pSOMobjet) const
 
 void CGraphe::GRAsupprimerSommet(const CSommet * pSOMobjet)
 {
-	unsigned int uiNumero = pSOMobjet->SOMgetNumero();
-	int iPos = GRAgetPosSommet(pSOMobjet);
+	unsigned int uiBoucle, uiNumero, uiPos;
 
-	if (iPos < 0)
+	uiNumero = pSOMobjet->SOMgetNumero();
+	uiPos = GRAgetPosSommet(pSOMobjet);
+
+	if (uiPos < 0)
 	{
 		char pcMsg[1024] = { 0 };
 		sprintf_s(pcMsg, 1024, "Impossible de supprimer le sommet numéro %d, il n'est pas dans le graphe.", uiNumero);
 		throw Cexception(EXC_SOMMET_HORS_GRAPHE, pcMsg);
 	}
 
+	// On commence par désallouer le sommet à supprimer et par actualiser le tableau des positions
+	delete ppSOMGRAsommets[uiPos];
 	puiGRApositionsSommets[uiNumero] = 0;
-	delete ppSOMGRAsommets[iPos];
-	ppSOMGRAsommets[iPos] = nullptr;
+
+	// Décaler les sommets d'une case vers la gauche 
+	// + décrémenter les valeurs de puiGRApositionsSommets
+	// + décrémenter uiGRAposProchaineInsertion
+
+	for (uiBoucle = uiPos; uiBoucle < uiGRAnbSommets; uiBoucle++)
+	{
+		unsigned int uiNumeroSommetBoucle;
+
+		// décalage
+		ppSOMGRAsommets[uiBoucle] = ppSOMGRAsommets[uiBoucle + 1];
+
+		if (ppSOMGRAsommets[uiBoucle] != nullptr)
+		{
+			// décrémentation de la position dans le tableau des positions
+			uiNumeroSommetBoucle = ppSOMGRAsommets[uiBoucle]->SOMgetNumero();
+			puiGRApositionsSommets[uiNumeroSommetBoucle]--;
+		}
+	}
+
+	// on met la dernière case à NULL
+	ppSOMGRAsommets[uiGRAnbSommets] = nullptr;
+	uiGRAposProchaineInsertion--;
 }
 
 
@@ -229,22 +259,20 @@ void CGraphe::GRAafficher() const
 // affiche les informations concernant le graphe permettant le debugage
 void CGraphe::GRAdebug() const
 {
-	unsigned int uiBoucle, uiCompteur = 0;
+	unsigned int uiBoucle;
 	cout << "Debug graphe :" << endl;
-	cout << "Sommets :" << endl;
+	cout << "Sommets (" << uiGRAposProchaineInsertion - 1 << ") :" << endl;
 	
-	for (uiBoucle = 0; uiBoucle < uiGRAtailleTableau; uiBoucle++)
+	for (uiBoucle = 1; uiBoucle <= uiGRAnbSommets; uiBoucle++)
 	{
-		CSommet * pSOMsommet = GRAgetSommet(uiBoucle);
-		if (pSOMsommet == nullptr)
-		{
-			continue;
-		}
-			
-		cout << "CSommet {id = " << pSOMsommet->SOMgetNumero() << "}";
+		CSommet * pSOMsommet = ppSOMGRAsommets[uiBoucle];
 
-		cout << endl;
-		uiCompteur++;
+		if (pSOMsommet != nullptr)
+		{
+			cout << "\t" << uiBoucle - 1 << ".  CSommet {id = " << pSOMsommet->SOMgetNumero() << "}";
+
+			cout << endl;
+		}
 	}
 }
 

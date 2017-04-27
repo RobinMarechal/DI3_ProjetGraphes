@@ -17,7 +17,7 @@ private:
 	unsigned int uiGRAnbSommets;
 	unsigned int * puiGRApositionsSommets;
 	unsigned int uiGRAtailleTableau;
-	unsigned int uiGRAposDerniereInsertion;
+	unsigned int uiGRAposProchaineInsertion;
 	CSommet ** ppSOMGRAsommets;
 
 	void GRAinit();

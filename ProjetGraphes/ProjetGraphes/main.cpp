@@ -27,29 +27,22 @@ void robin()
 	CSommet * s2 = g.GRAajouterSommet(2);
 	CSommet * s3 = g.GRAajouterSommet(3);
 
-	s1->SOMajouterSuccesseur(s2);
-	s1->SOMajouterSuccesseur(s3);
+	cout << "DEBUG 1:" << endl;
+	g.GRAdebug();
 
-	cout << s1->SOMgetNbSuccesseurs() << endl;
-	cout << s1->SOMgetNbPredecesseurs() << endl;
-	cout << s2->SOMgetNbSuccesseurs() << endl;
-	cout << s2->SOMgetNbPredecesseurs() << endl;
-	cout << s3->SOMgetNbSuccesseurs() << endl;
-	cout << s3->SOMgetNbPredecesseurs() << endl;
+	g.GRAsupprimerSommet(s2);
 
-	s1->SOMsupprimerSuccesseur(s1);
-	s1->SOMsupprimerSuccesseur(s2);
-	s1->SOMsupprimerSuccesseur(s3);
+	cout << "DEBUG 2:" << endl;
+	g.GRAdebug();
 
-	cout << " Suppression..." << endl;
+	g.GRAsupprimerSommet(s1);
 
-	cout << s1->SOMgetNbSuccesseurs() << endl;
-	cout << s1->SOMgetNbPredecesseurs() << endl;
-	cout << s2->SOMgetNbSuccesseurs() << endl;
-	cout << s2->SOMgetNbPredecesseurs() << endl;
-	cout << s3->SOMgetNbSuccesseurs() << endl;
-	cout << s3->SOMgetNbPredecesseurs() << endl;
+	cout << "DEBUG 3:" << endl;
+	g.GRAdebug();
 
+	CSommet * s5 = g.GRAajouterSommet(4);
+
+	cout << "DEBUG 4:" << endl;
 	g.GRAdebug();
 }
 
