@@ -2,6 +2,12 @@
 #include "constantes.h"
 #include "Arc.h"
 
+void CArc::ARCrecopier(CArc & ARCobjet)
+{
+	pSOMARCsommetVise = ARCobjet.pSOMARCsommetVise;
+	pSOMARCsommetParent = ARCobjet.pSOMARCsommetParent;
+}
+
 CArc::CArc(CSommet * pSOMsommetParent, CSommet * pSOMsommetVise)
 {
 	pSOMARCsommetVise = pSOMsommetVise;
@@ -10,8 +16,7 @@ CArc::CArc(CSommet * pSOMsommetParent, CSommet * pSOMsommetVise)
 
 CArc::CArc(CArc & ARCobjet)
 {
-	pSOMARCsommetVise = ARCobjet.pSOMARCsommetVise;
-	pSOMARCsommetParent = ARCobjet.pSOMARCsommetParent;
+	ARCrecopier(ARCobjet);
 }
 
 CArc::~CArc()

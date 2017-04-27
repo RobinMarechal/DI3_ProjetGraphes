@@ -20,9 +20,7 @@ CArcPartant::~CArcPartant()
 
 CArcPartant & CArcPartant::operator=(CArcPartant & ARRobjet)
 {
-	// Appel au constructeur de recopie
-	ARCsetSommetParent(ARRobjet.ARCgetSommetParent());
-	ARCsetSommetVise(ARRobjet.ARCgetSommetVise());
+	ARCrecopier(ARRobjet);
 
 	return *this;
 }

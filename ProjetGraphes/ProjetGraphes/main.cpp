@@ -10,9 +10,9 @@ void gregoire()
 {
 	CGraphe g(3);
 
-	g.GRAajouterSommet(1);
-	g.GRAajouterSommet(2);
-	g.GRAajouterSommet(3);
+	g.GRAcreerSommet(1);
+	g.GRAcreerSommet(2);
+	g.GRAcreerSommet(3);
 
 	g.GRAgetSommet(1)->SOMajouterSuccesseur(g.GRAgetSommet(2));
 	* g.GRAgetSommet(1) >> g.GRAgetSommet(3);
@@ -24,34 +24,34 @@ void gregoire()
 
 void robin()
 {
-	CGraphe g(3);
+	CGraphe g(4);
 
-	CSommet * s1 = g.GRAajouterSommet(1);
-	CSommet * s2 = g.GRAajouterSommet(2);
-	CSommet * s3 = g.GRAajouterSommet(3);
+	CSommet * s1 = g.GRAcreerSommet(1);
+	CSommet * s3 = g.GRAcreerSommet(3);
+	CSommet * s2 = g.GRAcreerSommet(2);
+	CSommet * s0 = g.GRAcreerSommet(0);
 
-	cout << "DEBUG 1:" << endl;
-	g.GRAdebug();
+	s1->SOMajouterSuccesseur(s3);
+	s2->SOMajouterSuccesseur(s1);
+	s1->SOMajouterSuccesseur(s2);
 
-	g.GRAsupprimerSommet(s2);
+	CSommet * sCopy = new CSommet(*s1);
+	CSommet sCopy2 = *s1;
 
-	cout << "DEBUG 2:" << endl;
-	g.GRAdebug();
+	cout << sCopy << endl;
+	cout << (sCopy2 == *sCopy) << endl;
 
-	g.GRAsupprimerSommet(s1);
+	cout << "OK" << endl;
 
-	cout << "DEBUG 3:" << endl;
-	g.GRAdebug();
+	CArcPartant * t = s1->SOMgetArcPartant(0);
 
-	CSommet * s5 = g.GRAajouterSommet(4);
-
-	cout << "DEBUG 4:" << endl;
-	g.GRAdebug();
+	s1->SOMgetArcPartant(0)->ARCdebug();
+	t->ARCdebug();
 }
 
 int main(int argc, char * argv[])
 {
-	//robin();
-	gregoire();
+	robin();
+	//gregoire();
 	return 0;
 }

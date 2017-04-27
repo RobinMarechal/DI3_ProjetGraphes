@@ -14,6 +14,10 @@ private:
 	CSommet * pSOMARCsommetVise; // Sommet visé par l'arc
 	CSommet * pSOMARCsommetParent; // Sommet de départ de l'arc
 
+protected:
+
+	void ARCrecopier(CArc & ARCobjet);
+
 public:
 
 	// constructeurs
