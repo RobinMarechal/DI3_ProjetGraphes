@@ -27,11 +27,21 @@ CSommet::CSommet(CGraphe * pGRAgraphe, unsigned int uiNumero)
 
 CSommet::CSommet(CSommet & SOMobjet)
 {
-	/*
-	pGRASOMgraphe = SOMobjet.SOMgetGraphe();
-	pLSPSOMpredecesseurs = new CListeArcs(*SOMobjet.pLSPSOMpredecesseurs);
-	pLSSSOMsuccesseurs = new CListeArcs(*SOMobjet.pLSSSOMsuccesseurs);
-	*/
+	uiSOMnumero = SOMobjet.SOMgetNumero();
+	uiSOMnbSuccesseurs = SOMobjet.SOMgetNbSuccesseurs();
+	uiSOMnbPredecesseurs = SOMobjet.SOMgetNbPredecesseurs();
+
+	unsigned int uiBoucle;
+
+	for (uiBoucle = 0; uiBoucle < uiSOMnbSuccesseurs; uiBoucle++)
+	{
+		SOMajouterSuccesseur(SOMobjet.SOMgetSuccesseur(uiBoucle));
+	}
+
+	for (uiBoucle = 0; uiBoucle < uiSOMnbPredecesseurs; uiBoucle++)
+	{
+		SOMajouterSuccesseur(SOMobjet.SOMgetPredecesseur(uiBoucle));
+	}
 }
 
 
@@ -47,13 +57,10 @@ void CSommet::operator >> (CSommet * SOMsuccesseur)
 
 bool CSommet::operator==(CSommet & SOMobjet) const
 {
-	
 	if (uiSOMnumero == SOMobjet.SOMgetNumero() && pGRASOMgraphe == SOMobjet.pGRASOMgraphe)
 	{
 		return true;
 	}
-
-	//if()
 
 	return false;
 }
@@ -113,7 +120,7 @@ CGraphe * CSommet::SOMgetGraphe() const
 	return pGRASOMgraphe;
 }
 
-CSommet const * CSommet::SOMgetSuccesseur(unsigned int uiPos) const
+CSommet * CSommet::SOMgetSuccesseur(unsigned int uiPos) const
 {
 	if (uiPos < 0 || uiPos >= uiSOMnbSuccesseurs)
 		return nullptr;
@@ -121,12 +128,22 @@ CSommet const * CSommet::SOMgetSuccesseur(unsigned int uiPos) const
 	return pPARSOMarcsPartants[uiPos].ARCgetSommetVise();
 }
 
-CSommet const * CSommet::SOMgetPredecesseur(unsigned int uiPos) const
+CSommet * CSommet::SOMgetPredecesseur(unsigned int uiPos) const
 {
 	if (uiPos < 0 || uiPos >= uiSOMnbPredecesseurs)
 		return nullptr;
 
 	return pARRSOMarcsArrivants[uiPos].ARCgetSommetVise();
+}
+
+CArcPartant & CSommet::SOMgetArcPartant(unsigned int uiPos) const
+{
+	return pPARSOMarcsPartants[uiPos];
+}
+	
+CArcArrivant & CSommet::SOMgetArcArrivant(unsigned int uiPos) const
+{
+	return pARRSOMarcsArrivants[uiPos];
 }
 
 void CSommet::SOMajouterSuccesseur(CSommet * pSOMsuccesseur)
@@ -236,6 +253,32 @@ void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 
 std::ostream & operator<<(std::ostream & oFlux, CSommet & SOMsommet)
 {
+	unsigned int uiBoucle;
+
+	oFlux << "Sommet numéro " << SOMsommet.SOMgetNumero() << std::endl;
+
+	// Affichage des successeurs.
+
+	oFlux << SOMsommet.SOMgetNbSuccesseurs() << " successeurs : [ ";
+
+	for (uiBoucle = 0; uiBoucle < SOMsommet.SOMgetNbSuccesseurs(); uiBoucle++)
+	{
+		oFlux << SOMsommet.SOMgetSuccesseur(uiBoucle)->SOMgetNumero() << " ";
+	}
+
+	oFlux << "]" << std::endl;
+
+	// Affichage des prédecesseurs.
+
+	oFlux << SOMsommet.SOMgetNbPredecesseurs() << " prédecesseurs : [ ";
+
+	for (uiBoucle = 0; uiBoucle < SOMsommet.SOMgetNbPredecesseurs(); uiBoucle++)
+	{
+		oFlux << SOMsommet.SOMgetPredecesseur(uiBoucle)->SOMgetNumero() << " ";
+	}
+
+	oFlux << "]";
+
 	return oFlux;
 }
 

@@ -29,26 +29,12 @@ CArcArrivant & CArcArrivant::operator=(CArcArrivant & ARRobjet)
 
 bool CArcArrivant::operator==(CArcArrivant & ARRobjet) const
 {
-	if (ARCgetSommetParent() == nullptr || ARCgetSommetVise() == nullptr)
-	{
-		return true;
-	}
-
-	else if (ARCgetSommetParent()->SOMgetNumero() == ARRobjet.ARCgetSommetParent()->SOMgetNumero()
-			&& ARCgetSommetVise()->SOMgetNumero() == ARRobjet.ARCgetSommetVise()->SOMgetNumero())
-	{
-		return (ARCgetSommetParent() == ARRobjet.ARCgetSommetParent()) && (ARCgetSommetVise() == ARRobjet.ARCgetSommetVise());
-	}
-
-	else
-	{
-		return false;
-	}
+	return (ARCgetSommetVise() == ARRobjet.ARCgetSommetVise()) && (ARCgetSommetParent() == ARRobjet.ARCgetSommetParent());
 }
 
 bool CArcArrivant::operator!=(CArcArrivant & ARRobjet) const
 {
-	return false;
+	return !(* this == ARRobjet);
 }
 
 void CArcArrivant::ARCdebug() const
