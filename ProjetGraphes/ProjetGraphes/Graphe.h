@@ -38,9 +38,10 @@ public:
 
 	CSommet * GRAcreerSommet(unsigned int uiNumero);
 	void GRAajouterSommet(CSommet * pSOMobjet);
-	CSommet * GRAgetSommet(unsigned int uiNumero) const;
+	CSommet * GRAgetSommetNumero(unsigned int uiNumero) const;
+	CSommet * GRAgetSommetPosition(unsigned int uiPos) const;
 	unsigned int GRAgetPosSommet(const CSommet * pSOMobjet) const;
-	void GRAsupprimerSommet(const CSommet * pSOMobjet);
+	void GRAsupprimerSommet(CSommet * pSOMobjet);
 	
 	void GRAafficher() const;
 	void GRAdebug() const;

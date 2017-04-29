@@ -99,22 +99,16 @@ bool CGraphe::operator==(const CGraphe & GRAobjet) const
 		CSommet * pSOMtmp = ppSOMGRAsommets[uiBoucle];
 		unsigned int uiNumero = pSOMtmp->SOMgetNumero();
 
-		if (GRAobjet.GRAgetSommet(uiNumero) == GRA_AUCUN_SOMMET)
+		if (GRAobjet.puiGRApositionsSommets[uiNumero] == GRA_AUCUN_SOMMET)
 		{
 			// ce sommet n'est pas dans l'autre graphe
 			return false;
 		}
 
-		// ---> On a trouvé un sommet avec le même numéro dans l'autre graphe
-
-		// On utilise pas l'operateur == de CSommet car il compare les adresses des graphes
-		// Ce qui retournerait tout le temps faux sauf si GRAobjet == *this
-		// Modifier l'operateur == ? (je pense qu'il faut)
-		if (pSOMtmp->SOMgetNumero() != uiNumero)
-		{
-			return false;
-		}
+		// ---> On a trouvé un sommet équivalent dans l'autre graphes
 	}
+
+	// + COMPARER LES ARCS
 
 	return true;
 }
@@ -131,7 +125,6 @@ CSommet * CGraphe::GRAcreerSommet(unsigned int uiNumero)
 	try 
 	{
 		pSOMsommet = new CSommet(this, uiNumero);
-		GRAajouterSommet(pSOMsommet);
 	}
 	catch (Cexception EXCe)
 	{
@@ -150,7 +143,7 @@ void CGraphe::GRAajouterSommet(CSommet * pSOMobjet)
 	if (GRAgetPosSommet(pSOMobjet) != GRA_AUCUN_SOMMET)
 	{
 		char pcMsg[1024] = { 0 };
-		sprintf_s(pcMsg, 1024, "Impossible d'ajouter le sommet au graphe : il en existe déjà un avec le numéro %d.", uiNumero);
+		sprintf_s(pcMsg, 1024, "Impossible d'ajouter le sommet au graphe : il en existe deja un avec le numero %d.", uiNumero);
 		throw Cexception(EXC_SOMMET_UNIQUE, pcMsg);
 	}
 
@@ -160,12 +153,6 @@ void CGraphe::GRAajouterSommet(CSommet * pSOMobjet)
 	if (uiGRAtailleTableau <= uiNumero)
 	{
 		unsigned int * puiTemp = new unsigned int[uiNumero + 1]();
-		//unsigned int * uiTemp = (unsigned int *)calloc(uiNumero + 1, sizeof(unsigned int));
-
-		if (puiTemp == nullptr)
-		{
-			erreur("Erreur d'allocation mémoire dans CGraphe::GRAajouterSommet(CSommet*). Le programme s'est arrêté.");
-		}
 
 		// On copie le tableau de bases dans uiTmp pour garder les valeurs déjà présentes
 		memcpy_s(puiTemp, (uiNumero + 1) * sizeof(unsigned int), puiGRApositionsSommets, (uiGRAtailleTableau) * sizeof(unsigned int));
@@ -185,23 +172,33 @@ void CGraphe::GRAajouterSommet(CSommet * pSOMobjet)
 	uiGRAposProchaineInsertion++;
 }
 
-CSommet * CGraphe::GRAgetSommet(unsigned int uiNumero) const
+CSommet * CGraphe::GRAgetSommetNumero(unsigned int uiNumero) const
 {
 	CSommet * pSOMsommet = nullptr;
 
 	// Si le numéro appartient bien au tableau des positions
-	if (uiNumero > 0 && uiNumero < uiGRAtailleTableau)
+	if (uiNumero >= 0 && uiNumero < uiGRAtailleTableau)
 	{
 		// On la récupère
 		unsigned int uiPos = puiGRApositionsSommets[uiNumero];
 		// Si pos == 0, alors le sommet n'est pas dans le graphe (les sommets commencent à l'indice 1)
-		if (ppSOMGRAsommets[uiPos] != GRA_AUCUN_SOMMET)
+		if (uiPos != GRA_AUCUN_SOMMET)
 		{
 			pSOMsommet = ppSOMGRAsommets[uiPos];
 		}
 	}
 
 	return pSOMsommet;
+}
+
+CSommet * CGraphe::GRAgetSommetPosition(unsigned int uiPos) const
+{
+	if (uiPos >= uiGRAnbSommets)
+	{
+		return nullptr;
+	}
+
+	return ppSOMGRAsommets[uiPos + 1];
 }
 
 unsigned int CGraphe::GRAgetPosSommet(const CSommet * pSOMobjet) const
@@ -221,7 +218,7 @@ unsigned int CGraphe::GRAgetPosSommet(const CSommet * pSOMobjet) const
 	return GRA_AUCUN_SOMMET;
 }
 
-void CGraphe::GRAsupprimerSommet(const CSommet * pSOMobjet)
+void CGraphe::GRAsupprimerSommet(CSommet * pSOMobjet)
 {
 	unsigned int uiBoucle, uiNumero, uiPos;
 
@@ -236,7 +233,7 @@ void CGraphe::GRAsupprimerSommet(const CSommet * pSOMobjet)
 	}
 
 	// On commence par désallouer le sommet à supprimer et par actualiser le tableau des positions
-	delete ppSOMGRAsommets[uiPos];
+	delete pSOMobjet;
 	puiGRApositionsSommets[uiNumero] = GRA_AUCUN_SOMMET;
 
 	// Décaler les sommets d'une case vers la gauche 
@@ -299,7 +296,7 @@ std::ostream & operator<<(std::ostream & oFlux, const CGraphe & GRAgraphe)
 
 	for (uiBoucle = 1; uiBoucle <= GRAgraphe.GRAgetNbSommets(); uiBoucle++)
 	{
-		CSommet * pSOMsommet = GRAgraphe.GRAgetSommet(uiBoucle);
+		CSommet * pSOMsommet = GRAgraphe.GRAgetSommetNumero(uiBoucle);
 		if (pSOMsommet != nullptr)
 		{
 			oFlux << *pSOMsommet << std::endl;

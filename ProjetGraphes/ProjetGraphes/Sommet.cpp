@@ -1,5 +1,6 @@
 #include "Sommet.h"
 #include "helpers.h"
+#include "Cexception.h"
 
 
 void CSommet::SOMinit()
@@ -14,6 +15,17 @@ void CSommet::SOMinit()
 
 void CSommet::SOMdetruire()
 {
+	// Supprimer les arcs partants et arrivant
+	while (uiSOMnbSuccesseurs != 0)
+	{
+		SOMsupprimerSuccesseur(SOMgetSuccesseur(0));
+	}
+
+	while (uiSOMnbPredecesseurs != 0)
+	{
+		SOMgetPredecesseur(0)->SOMsupprimerSuccesseur(this);
+	}
+
 	free(pARRSOMarcsArrivants);
 	free(pPARSOMarcsPartants);
 }
@@ -58,6 +70,15 @@ CSommet::CSommet(CGraphe * pGRAgraphe, unsigned int uiNumero)
 	SOMinit();
 	pGRASOMgraphe = pGRAgraphe;
 	uiSOMnumero = uiNumero;
+
+	try {
+		pGRAgraphe->GRAajouterSommet(this);
+	}
+	catch (Cexception EXCe)
+	{
+		pGRASOMgraphe = nullptr;
+		erreur(EXCe.EXCgetMessage(), false);
+	}
 }
 
 CSommet::CSommet(CSommet & SOMobjet)
@@ -86,12 +107,12 @@ void CSommet::operator >> (CSommet * SOMsuccesseur)
 
 bool CSommet::operator==(CSommet & SOMobjet) const
 {
-	if (uiSOMnumero == SOMobjet.SOMgetNumero() && pGRASOMgraphe == SOMobjet.pGRASOMgraphe)
+	if (uiSOMnumero != SOMobjet.SOMgetNumero())
 	{
-		return true;
+		return false;
 	}
 
-	return false;
+	return true;
 }
 
 bool CSommet::operator!=(CSommet & SOMobjet) const
@@ -217,6 +238,8 @@ void CSommet::SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur)
 			return;
 		}
 
+		delete pPARSOMarcsPartants[uiPos];
+
 		// On décale tout d'une case vers la gauche à partir de l'indice à supprimer
 		for (uiBoucle = uiPos; uiBoucle < uiSOMnbSuccesseurs - 1; uiBoucle++)
 		{
@@ -269,6 +292,8 @@ void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 		{
 			return;
 		}
+
+		delete pARRSOMarcsArrivants[uiPos];
 
 		// On décale tout d'une case vers la gauche à partir de l'indice à supprimer
 		for (uiBoucle = uiPos; uiBoucle < uiSOMnbPredecesseurs - 1; uiBoucle++)

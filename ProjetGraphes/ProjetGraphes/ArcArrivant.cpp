@@ -27,7 +27,7 @@ CArcArrivant & CArcArrivant::operator=(CArcArrivant & ARRobjet)
 
 bool CArcArrivant::operator==(CArcArrivant & ARRobjet) const
 {
-	return (ARCgetSommetVise() == ARRobjet.ARCgetSommetVise()) && (ARCgetSommetParent() == ARRobjet.ARCgetSommetParent());
+	return (*ARCgetSommetVise() == *ARRobjet.ARCgetSommetVise()) && (*ARCgetSommetParent() == *ARRobjet.ARCgetSommetParent());
 }
 
 bool CArcArrivant::operator!=(CArcArrivant & ARRobjet) const
