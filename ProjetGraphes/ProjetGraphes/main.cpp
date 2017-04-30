@@ -8,16 +8,18 @@ using namespace std;
 
 void gregoire()
 {
-	CGraphe g(3);
+	CGraphe g(6);
 
 	g.GRAajouterSommet(1);
-	g.GRAajouterSommet(2);
 	g.GRAajouterSommet(3);
+	g.GRAajouterSommet(2);
+	/*g.GRAajouterSommet(5);
+	g.GRAajouterSommet(6);
+	g.GRAajouterSommet(4);*/
+
 
 	g.GRAgetSommet(1)->SOMajouterSuccesseur(g.GRAgetSommet(2));
 	* g.GRAgetSommet(1) >> g.GRAgetSommet(3);
-
-	//cout << g.GRAgetSommet(1) << endl;
 
 	cout << g << endl;
 }

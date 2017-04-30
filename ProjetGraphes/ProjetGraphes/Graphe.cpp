@@ -282,14 +282,14 @@ std::ostream & operator<<(std::ostream & oFlux, const CGraphe & GRAgraphe)
 
 	oFlux << "----------------------------------" << std::endl;
 	oFlux << "Graphe :" << std::endl;
-	oFlux << "Sommets : " << GRAgraphe.GRAgetNbSommets() << std::endl;
+	oFlux << "Nombre de sommets : " << GRAgraphe.GRAgetNbSommets() << std::endl << std::endl;
 
 	for (uiBoucle = 1; uiBoucle <= GRAgraphe.GRAgetNbSommets(); uiBoucle++)
 	{
 		CSommet * pSOMsommet = GRAgraphe.GRAgetSommet(uiBoucle);
 		if (pSOMsommet != nullptr)
 		{
-			oFlux << *pSOMsommet << std::endl;
+			oFlux << *pSOMsommet << std::endl << std::endl;
 		}
 	}
 
