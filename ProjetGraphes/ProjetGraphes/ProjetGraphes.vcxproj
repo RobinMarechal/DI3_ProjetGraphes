@@ -153,6 +153,7 @@
     <ClCompile Include="ArcArrivant.cpp" />
     <ClCompile Include="ArcPartant.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OperationGraphe.cpp" />
     <ClCompile Include="Parseur.cpp" />
     <ClCompile Include="Sommet.cpp" />
     <ClCompile Include="TableauAssociatif.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="helpers.h" />
     <ClInclude Include="ArcArrivant.h" />
     <ClInclude Include="ArcPartant.h" />
+    <ClInclude Include="OperationGraphe.h" />
     <ClInclude Include="Parseur.h" />
     <ClInclude Include="Sommet.h" />
     <ClInclude Include="TableauAssociatif.h" />

@@ -22,4 +22,7 @@
 #define EXC_ERREUR_LEXICALE 6
 #define EXC_FICHIER_INTROUVABLE 7
 
+
+#define GRA_AUCUN_SOMMET 0
+
 #endif

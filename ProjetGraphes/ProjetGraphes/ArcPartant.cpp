@@ -20,16 +20,14 @@ CArcPartant::~CArcPartant()
 
 CArcPartant & CArcPartant::operator=(CArcPartant & ARRobjet)
 {
-	// Appel au constructeur de recopie
-	ARCsetSommetParent(ARRobjet.ARCgetSommetParent());
-	ARCsetSommetVise(ARRobjet.ARCgetSommetVise());
+	ARCrecopier(ARRobjet);
 
 	return *this;
 }
 
 bool CArcPartant::operator==(CArcPartant & ARRobjet) const
 {
-	return (ARCgetSommetVise() == ARRobjet.ARCgetSommetVise()) && (ARCgetSommetParent() == ARRobjet.ARCgetSommetParent());
+	return (*ARCgetSommetVise() == *ARRobjet.ARCgetSommetVise()) && (*ARCgetSommetParent() == *ARRobjet.ARCgetSommetParent());
 }
 
 bool CArcPartant::operator!=(CArcPartant & ARRobjet) const

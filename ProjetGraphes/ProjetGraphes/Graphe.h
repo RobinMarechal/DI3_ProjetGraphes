@@ -36,11 +36,12 @@ public:
 
 	unsigned int GRAgetNbSommets() const { return uiGRAnbSommets; } ;
 
-	CSommet * GRAajouterSommet(unsigned int uiNumero);
+	CSommet * GRAcreerSommet(unsigned int uiNumero);
 	void GRAajouterSommet(CSommet * pSOMobjet);
-	CSommet * GRAgetSommet(unsigned int uiNumero) const;
+	CSommet * GRAgetSommetNumero(unsigned int uiNumero) const;
+	CSommet * GRAgetSommetPosition(unsigned int uiPos) const;
 	unsigned int GRAgetPosSommet(const CSommet * pSOMobjet) const;
-	void GRAsupprimerSommet(const CSommet * pSOMobjet);
+	void GRAsupprimerSommet(CSommet * pSOMobjet);
 	
 	void GRAafficher() const;
 	void GRAdebug() const;

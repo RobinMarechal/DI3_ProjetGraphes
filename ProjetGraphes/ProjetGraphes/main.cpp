@@ -3,57 +3,67 @@
 #include "constantes.h"
 #include "helpers.h"
 #include "Graphe.h"
+#include "OperationGraphe.h"
 
 using namespace std;
 
 void gregoire()
 {
-	CGraphe g(6);
+	CGraphe g(3);
 
-	g.GRAajouterSommet(1);
-	g.GRAajouterSommet(3);
-	g.GRAajouterSommet(2);
-	/*g.GRAajouterSommet(5);
-	g.GRAajouterSommet(6);
-	g.GRAajouterSommet(4);*/
+	g.GRAcreerSommet(1);
+	g.GRAcreerSommet(2);
+	g.GRAcreerSommet(3);
+
+	g.GRAgetSommetNumero(1)->SOMajouterSuccesseur(g.GRAgetSommetNumero(2));
+	g.GRAgetSommetNumero(1)->SOMajouterSuccesseur(g.GRAgetSommetNumero(3));
+	g.GRAgetSommetNumero(2)->SOMajouterSuccesseur(g.GRAgetSommetNumero(3));
+	g.GRAgetSommetNumero(3)->SOMajouterSuccesseur(g.GRAgetSommetNumero(2));
 
 
-	g.GRAgetSommet(1)->SOMajouterSuccesseur(g.GRAgetSommet(2));
-	* g.GRAgetSommet(1) >> g.GRAgetSommet(3);
+	cout << g << endl << endl;
 
-	cout << g << endl;
+	COperationGraphe o;
+
+	cout << o.OPGinverserGraphe(g) << endl;
 }
 
 void robin()
 {
 	CGraphe g(3);
 
-	CSommet * s1 = g.GRAajouterSommet(1);
-	CSommet * s2 = g.GRAajouterSommet(2);
-	CSommet * s3 = g.GRAajouterSommet(3);
+	CSommet * s1 = g.GRAcreerSommet(1);
+	CSommet * s3 = g.GRAcreerSommet(3);
+	CSommet * s2 = g.GRAcreerSommet(11);
 
-	cout << "DEBUG 1:" << endl;
+	s1->SOMajouterSuccesseur(s3);
+	s2->SOMajouterSuccesseur(s1);	
+	s1->SOMajouterSuccesseur(s2);
+	s2->SOMajouterSuccesseur(s3);
+
+	cout << s1 << endl;
+	cout << s2 << endl;
+	cout << s3 << endl;
+
 	g.GRAdebug();
 
-	g.GRAsupprimerSommet(s2);
+	cout << "Inversion..." << endl;
 
-	cout << "DEBUG 2:" << endl;
-	g.GRAdebug();
+	COperationGraphe og;
 
-	g.GRAsupprimerSommet(s1);
+	CGraphe * g2 = og.OPGinverserGraphe(g);
 
-	cout << "DEBUG 3:" << endl;
-	g.GRAdebug();
+	g2->GRAdebug();
 
-	CSommet * s5 = g.GRAajouterSommet(4);
-
-	cout << "DEBUG 4:" << endl;
-	g.GRAdebug();
+	cout << g2->GRAgetSommetPosition(0) << endl;
+	cout << g2->GRAgetSommetPosition(1) << endl;
+	cout << g2->GRAgetSommetPosition(2) << endl;
 }
 
 int main(int argc, char * argv[])
 {
 	//robin();
 	gregoire();
+
 	return 0;
 }
