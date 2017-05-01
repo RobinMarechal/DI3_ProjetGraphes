@@ -23,9 +23,15 @@ void gregoire()
 
 	cout << g << endl << endl;
 
-	COperationGraphe o;
+	CGraphe g2(g);
 
-	cout << o.OPGinverserGraphe(g) << endl;
+	//g2.GRAcreerSommet(4);
+	//g2.GRAgetSommetNumero(4)->SOMajouterSuccesseur(g2.GRAgetSommetNumero(2));
+
+
+	//COperationGraphe o;
+
+	//cout << o.OPGinverserGraphe(g) << endl;
 }
 
 void robin()
