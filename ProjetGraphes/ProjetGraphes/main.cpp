@@ -9,7 +9,8 @@ using namespace std;
 
 void gregoire()
 {
-	CGraphe g(3);
+	CGraphe g;
+	CGraphe * g2;
 
 	g.GRAcreerSommet(1);
 	g.GRAcreerSommet(2);
@@ -23,20 +24,17 @@ void gregoire()
 
 	cout << g << endl << endl;
 
-	CGraphe g2(g);
+	COperationGraphe o;
 
-	//g2.GRAcreerSommet(4);
-	//g2.GRAgetSommetNumero(4)->SOMajouterSuccesseur(g2.GRAgetSommetNumero(2));
+	g2 = o.OPGinverserGraphe(g);
 
-
-	//COperationGraphe o;
-
-	//cout << o.OPGinverserGraphe(g) << endl;
+	cout << *g2 << endl;
 }
 
 void robin()
 {
-	CGraphe g(3);
+	/*
+	CGraphe g;
 
 	CSommet * s1 = g.GRAcreerSommet(1);
 	CSommet * s3 = g.GRAcreerSommet(3);
@@ -64,12 +62,32 @@ void robin()
 	cout << g2->GRAgetSommetPosition(0) << endl;
 	cout << g2->GRAgetSommetPosition(1) << endl;
 	cout << g2->GRAgetSommetPosition(2) << endl;
+	*/
+
+	CGraphe graphe;
+	
+	CSommet * s0 = graphe.GRAcreerSommet(0);
+	CSommet * s1 = graphe.GRAcreerSommet(1);
+	CSommet * s3 = graphe.GRAcreerSommet(3);
+
+	graphe.GRAsupprimerSommet(s3);
+	CSommet * s2 = graphe.GRAcreerSommet(4);
+
+	s0->SOMajouterSuccesseur(s1);
+	s2->SOMajouterSuccesseur(s0);
+	s2->SOMsupprimerSuccesseur(s0);
+	s0->SOMajouterSuccesseur(s2);
+
+	CGraphe graphe2(graphe);
+	
+	cout << graphe << endl;
+	cout << graphe2 << endl;
 }
 
 int main(int argc, char * argv[])
 {
-	//robin();
-	gregoire();
+	robin();
+	//gregoire();
 
 	return 0;
 }

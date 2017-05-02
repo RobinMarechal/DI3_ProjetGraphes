@@ -57,4 +57,60 @@ char * supprimerEspaces(char pcStr[]);
 
 void erreur(char * pcMsg, bool bStop = true);
 
+
+template <class T>
+void trierTableau(T * ptTab, unsigned int uiTaille);
+
+template <class T>
+bool tableauxSontEquivalents(T * ptTab1, T * ptTab2, unsigned int uiTaille);
+
+
+template <class T>
+void trierTableau(T * ptTab, unsigned int uiTaille)
+{
+	unsigned int uiBoucleI, uiBoucleJ;
+
+	for (uiBoucleI = 0; uiBoucleI < uiTaille; uiBoucleI++)
+	{
+		unsigned int uiPos = uiBoucleI;
+		T tMin = ptTab[uiBoucleI];
+
+		// récuperer le min et sa position dans le sous tableau partant de uiBoucleI
+		for (uiBoucleJ = uiBoucleI; uiBoucleJ < uiTaille; uiBoucleJ++)
+		{
+			if (tMin > ptTab[uiBoucleJ])
+			{
+				tMin = ptTab[uiBoucleJ];
+				uiPos = uiBoucleJ;
+			}
+		}
+
+		// On inverse les valeurs aux positions uiPos (le min) et uiBoucleI
+		ptTab[uiPos] = ptTab[uiBoucleI];
+		ptTab[uiBoucleI] = tMin;
+	}
+}
+
+// précondition : meme taille 
+template <class T>
+bool tableauxSontEquivalents(T * ptTab1, T * ptTab2, unsigned int uiTaille)
+{
+	unsigned int uiBoucle;
+
+	// On trie les tableaux
+	trierTableau<T>(ptTab1, uiTaille);
+	trierTableau<T>(ptTab2, uiTaille);
+
+	// On compare chaque valeur
+	for (uiBoucle = 0; uiBoucle < uiTaille; uiBoucle++)
+	{
+		if (ptTab1[uiBoucle] != ptTab2[uiBoucle])
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 #endif;

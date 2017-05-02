@@ -17,7 +17,7 @@ private:
 	unsigned int uiGRAnbSommets;
 	unsigned int * puiGRApositionsSommets;
 	unsigned int uiGRAtailleTableau;
-	unsigned int uiGRAposProchaineInsertion;
+
 	CSommet ** ppSOMGRAsommets;
 
 	/*****************************************
@@ -62,7 +62,7 @@ public:
 	Sortie : une instance de CGraphe.
 	Entraîne : la création d'un graphe contenant le nombre de sommets indiqués.
 	******************************************/
-	CGraphe(unsigned int uiNbSommets);
+	CGraphe();
 
 
 	/*****************************************

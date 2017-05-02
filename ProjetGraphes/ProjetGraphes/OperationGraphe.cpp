@@ -27,7 +27,7 @@ CGraphe * COperationGraphe::OPGinverserGraphe(const CGraphe & GRAgraphe) const
 
 	uiNbSommets = GRAgraphe.GRAgetNbSommets();
 
-	CGraphe * GRAresult = new CGraphe(uiNbSommets);
+	CGraphe * GRAresult = new CGraphe();
 
 	// On crée à nouveau le même nombre de sommets.
 

@@ -77,7 +77,7 @@ CSommet::CSommet(CGraphe * pGRAgraphe, unsigned int uiNumero)
 	catch (Cexception EXCe)
 	{
 		pGRASOMgraphe = nullptr;
-		erreur(EXCe.EXCgetMessage(), false);
+		throw Cexception(EXCe.EXCgetValeur(), EXCe.EXCgetMessage());
 	}
 }
 

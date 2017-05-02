@@ -16,10 +16,8 @@ Nécessite : rien.
 Sortie : une instance de CGraphe.
 Entraîne : la création d'un graphe contenant le nombre de sommets indiqués.
 ******************************************/
-CGraphe::CGraphe(unsigned int uiNbSommets)
+CGraphe::CGraphe()
 {
-	uiGRAnbSommets = uiNbSommets;
-	uiGRAtailleTableau = 0;
     GRAinit();
 }
 
@@ -62,9 +60,10 @@ Entraîne : l'initialisation du graphe.
 ******************************************/
 void CGraphe::GRAinit()
 {
-	ppSOMGRAsommets = new CSommet*[uiGRAnbSommets + 1];
-	puiGRApositionsSommets = new unsigned int[uiGRAtailleTableau]();
-	uiGRAposProchaineInsertion = 1;
+	uiGRAnbSommets = 0;
+	uiGRAtailleTableau = 0;
+	ppSOMGRAsommets = nullptr;
+	puiGRApositionsSommets = nullptr;
 }
 
 
@@ -89,7 +88,7 @@ void CGraphe::GRAdetruire()
 		}
 	}
 
-	delete[] ppSOMGRAsommets;
+	free(ppSOMGRAsommets);
 	delete[] puiGRApositionsSommets;
 	ppSOMGRAsommets = nullptr;
 	puiGRApositionsSommets = nullptr;
@@ -107,22 +106,30 @@ Entraîne : la recopie du graphe passé en paramètre.
 void CGraphe::GRArecopierGraphe(const CGraphe & GRAobjet)
 {
 	unsigned int uiBoucle;
-	uiGRAnbSommets = GRAobjet.uiGRAnbSommets;
-	uiGRAtailleTableau = GRAobjet.uiGRAtailleTableau;
+	unsigned int uiNbSommets = GRAobjet.GRAgetNbSommets();
 
 	GRAinit();
 
-	uiGRAposProchaineInsertion = GRAobjet.uiGRAposProchaineInsertion;
-
-	for (uiBoucle = 1; uiBoucle <= uiGRAnbSommets; uiBoucle++)
+	for (uiBoucle = 1; uiBoucle <= uiNbSommets; uiBoucle++)
 	{
-		ppSOMGRAsommets[uiBoucle] = new CSommet(*GRAobjet.ppSOMGRAsommets[uiBoucle]);
+		GRAcreerSommet(GRAobjet.ppSOMGRAsommets[uiBoucle]->SOMgetNumero());
 	}
 
-	// Copie du tableau des positions
-	if (memcpy_s(puiGRApositionsSommets, sizeof(int) * uiGRAtailleTableau, GRAobjet.puiGRApositionsSommets, sizeof(int) * uiGRAtailleTableau) != 0)
+	// RECOPIER LES ARCS...
+
+	for (uiBoucle = 0; uiBoucle < uiNbSommets; uiBoucle++)
 	{
-		erreur("Echec de copie de mémoire dans CGraphe::CGraphe(CGraphe). Le programme s'est arrêté.");
+		unsigned int uiNbSuccesseurs, uiBoucleSuccesseurs;
+		CSommet * pSOMsommet = GRAgetSommetPosition(uiBoucle);
+		CSommet * pSOMsommetObj = GRAobjet.GRAgetSommetPosition(uiBoucle);
+
+		uiNbSuccesseurs = pSOMsommetObj->SOMgetNbSuccesseurs();
+
+		for (uiBoucleSuccesseurs = 0; uiBoucleSuccesseurs < uiNbSuccesseurs; uiBoucleSuccesseurs++)
+		{
+			unsigned int uiNumSucc = pSOMsommetObj->SOMgetSuccesseur(uiBoucleSuccesseurs)->SOMgetNumero();
+			pSOMsommet->SOMajouterSuccesseur(GRAgetSommetNumero(uiNumSucc));
+		}
 	}
 }
 
@@ -180,7 +187,51 @@ bool CGraphe::operator==(const CGraphe & GRAobjet) const
 		// ---> On a trouvé un sommet équivalent dans l'autre graphes
 	}
 
-	// + COMPARER LES ARCS
+	// Comparaison des arcs
+
+	for (uiBoucle = 1; uiBoucle <= uiGRAnbSommets; uiBoucle++)
+	{
+		unsigned int uiBoucleArcs,
+			uiNbSucc,
+			uiNbPred,
+			*puiThisSuccNumeros,
+			*puiObjSuccNumeros;
+
+		CSommet *pSOMthisSommet, *pSOMobjSommet;
+
+
+		pSOMthisSommet = GRAgetSommetPosition(0);
+		pSOMobjSommet = GRAobjet.GRAgetSommetPosition(pSOMthisSommet->SOMgetNumero());
+
+		uiNbSucc = pSOMthisSommet->SOMgetNbSuccesseurs();
+		uiNbPred = pSOMthisSommet->SOMgetNbPredecesseurs();
+
+		// Si les deux sommets équivalents n'ont pas le même nombre de successeurs et de predecesseurs, les graphes ne sont pas egaux
+		if (uiNbSucc != pSOMobjSommet->SOMgetNbSuccesseurs()
+			|| uiNbPred != pSOMobjSommet->SOMgetNbPredecesseurs())
+		{
+			return false;
+		}
+
+		// Comparer les successeurs suffit pour comparer les arcs
+
+		puiThisSuccNumeros = (unsigned int *) malloc(sizeof(unsigned int) * uiNbSucc);
+		puiObjSuccNumeros = (unsigned int *) malloc(sizeof(unsigned int) * uiNbSucc);
+
+		for (uiBoucleArcs = 0; uiBoucleArcs < uiNbSucc; uiBoucleArcs++)
+		{
+			puiThisSuccNumeros[uiBoucleArcs] = pSOMthisSommet->SOMgetSuccesseur(uiBoucleArcs)->SOMgetNumero();
+			puiObjSuccNumeros[uiBoucleArcs] = pSOMobjSommet->SOMgetSuccesseur(uiBoucleArcs)->SOMgetNumero();
+		}
+
+		if (!tableauxSontEquivalents<unsigned int>(puiThisSuccNumeros, puiObjSuccNumeros, uiNbSucc))
+		{
+			return false;
+		}
+
+		free(puiThisSuccNumeros);
+		free(puiObjSuccNumeros);
+	}
 
 	return true;
 }
@@ -247,9 +298,15 @@ void CGraphe::GRAajouterSommet(CSommet * pSOMobjet)
 		throw Cexception(EXC_SOMMET_UNIQUE, pcMsg);
 	}
 
-	ppSOMGRAsommets[uiGRAposProchaineInsertion] = pSOMobjet;
+	uiGRAnbSommets++;
+	ppSOMGRAsommets = (CSommet **) realloc(ppSOMGRAsommets, sizeof(CSommet *) * (uiGRAnbSommets + 1));
 
-	// So uiNumero + 1 > taille du tableau de positions, on realloue le tableau puis qu'il contienne uiNumero+1 cases
+	if (ppSOMGRAsommets == nullptr)
+	{
+		erreur("Erreur d'allocation memoire dans CGraphe::GRAajouterSommet(CSommet*). Le programme s'est arrete.");
+	}
+
+	// Si uiNumero + 1 > taille du tableau de positions, on realloue le tableau puis qu'il contienne uiNumero+1 cases
 	if (uiGRAtailleTableau <= uiNumero)
 	{
 		unsigned int * puiTemp = new unsigned int[uiNumero + 1]();
@@ -268,8 +325,8 @@ void CGraphe::GRAajouterSommet(CSommet * pSOMobjet)
 		puiGRApositionsSommets = puiTemp;
 	}
 	
-	puiGRApositionsSommets[uiNumero] = uiGRAposProchaineInsertion;
-	uiGRAposProchaineInsertion++;
+	ppSOMGRAsommets[uiGRAnbSommets] = pSOMobjet;
+	puiGRApositionsSommets[uiNumero] = uiGRAnbSommets;
 }
 
 
@@ -374,7 +431,6 @@ void CGraphe::GRAsupprimerSommet(CSommet * pSOMobjet)
 
 	// Décaler les sommets d'une case vers la gauche 
 	// + décrémenter les valeurs de puiGRApositionsSommets
-	// + décrémenter uiGRAposProchaineInsertion
 
 	for (uiBoucle = uiPos; uiBoucle < uiGRAnbSommets; uiBoucle++)
 	{
@@ -391,9 +447,9 @@ void CGraphe::GRAsupprimerSommet(CSommet * pSOMobjet)
 		}
 	}
 
-	// on met la dernière case à NULL
-	ppSOMGRAsommets[uiGRAnbSommets] = nullptr;
-	uiGRAposProchaineInsertion--;
+	// On retire une case au tableau
+	ppSOMGRAsommets = (CSommet **) realloc(ppSOMGRAsommets, sizeof(CSommet *) * uiGRAnbSommets);
+	uiGRAnbSommets--;
 }
 
 
@@ -415,7 +471,7 @@ void CGraphe::GRAdebug() const
 {
 	unsigned int uiBoucle;
 	cout << "Debug graphe :" << endl;
-	cout << "Sommets (" << uiGRAposProchaineInsertion - 1 << ") :" << endl;
+	cout << "Sommets (" << uiGRAnbSommets << ") :" << endl;
 	
 	for (uiBoucle = 1; uiBoucle <= uiGRAnbSommets; uiBoucle++)
 	{
@@ -441,14 +497,15 @@ Entraîne : l'affichage du graphe passé en paramètre.
 std::ostream & operator<<(std::ostream & oFlux, const CGraphe & GRAgraphe)
 {
 	unsigned int uiBoucle;
+	unsigned int uiNbSommets = GRAgraphe.GRAgetNbSommets();;
 
 	oFlux << "----------------------------------" << std::endl;
 	oFlux << "Graphe :" << std::endl;
-	oFlux << "Nombre de sommets : " << GRAgraphe.GRAgetNbSommets() << std::endl << std::endl;
+	oFlux << "Nombre de sommets : " << uiNbSommets << std::endl << std::endl;
 
-	for (uiBoucle = 1; uiBoucle <= GRAgraphe.GRAgetNbSommets(); uiBoucle++)
+	for (uiBoucle = 0; uiBoucle < uiNbSommets; uiBoucle++)
 	{
-		CSommet * pSOMsommet = GRAgraphe.GRAgetSommetNumero(uiBoucle);
+		CSommet * pSOMsommet = GRAgraphe.GRAgetSommetPosition(uiBoucle);
 		if (pSOMsommet != nullptr)
 		{
 			oFlux << *pSOMsommet << std::endl << std::endl;
