@@ -3,6 +3,14 @@
 #include "Cexception.h"
 
 
+/*****************************************
+Initialisation du sommet.
+******************************************
+Entrée : rien.
+Nécessite : rien.
+Sortie : rien.
+Entraîne : l'initialisation du sommet.
+******************************************/
 void CSommet::SOMinit()
 {
 	uiSOMnbSuccesseurs = 0;
@@ -13,6 +21,15 @@ void CSommet::SOMinit()
 	pPARSOMarcsPartants = nullptr;
 }
 
+
+/*****************************************
+Destruction du sommet.
+******************************************
+Entrée : rien.
+Nécessite : rien.
+Sortie : rien.
+Entraîne : la destruction des arcs reliés au sommet.
+******************************************/
 void CSommet::SOMdetruire()
 {
 	// Supprimer les arcs partants et arrivant
@@ -30,6 +47,15 @@ void CSommet::SOMdetruire()
 	free(pPARSOMarcsPartants);
 }
 
+
+/*****************************************
+Recopie du sommet.
+******************************************
+Entrée : une référence sur une instance de CSommet.
+Nécessite : rien.
+Sortie : rien.
+Entraîne : la recopie du sommet passé en paramètre.
+******************************************/
 void CSommet::SOMrecopier(CSommet & SOMobjet)
 {
 	SOMinit();
@@ -65,6 +91,16 @@ void CSommet::SOMrecopier(CSommet & SOMobjet)
 	}
 }
 
+
+/*****************************************
+Constructeur à deux arguments.
+******************************************
+Entrée : un pointeur sur une instance de CGraphe,
+		 le nnuméro du sommet (unsigned int).
+Nécessite : rien.
+Sortie : rien.
+Entraîne : la création d'un sommet avec le numéro indiqué.
+******************************************/
 CSommet::CSommet(CGraphe * pGRAgraphe, unsigned int uiNumero)
 {
 	SOMinit();
@@ -81,17 +117,43 @@ CSommet::CSommet(CGraphe * pGRAgraphe, unsigned int uiNumero)
 	}
 }
 
+
+/*****************************************
+Constructeur de recopie.
+******************************************
+Entrée : une référence sur une instance de CSommet.
+Nécessite : rien.
+Sortie : rien.
+Entraîne : la recopie du sommet passé en paramètre.
+******************************************/
 CSommet::CSommet(CSommet & SOMobjet)
 {
 	SOMrecopier(SOMobjet);
 }
 
 
+/*****************************************
+Destructeur.
+******************************************
+Entrée : rien.
+Nécessite : rien.
+Sortie : rien.
+Entraîne : la destruction des arcs du sommet.
+******************************************/
 CSommet::~CSommet()
 {
 	SOMdetruire();
 }
 
+
+/*****************************************
+Surcharge de l'opérateur =.
+******************************************
+Entrée : une référence sur une instance de CSommet.
+Nécessite : rien.
+Sortie : une référence sur une instance de CSommet.
+Entraîne : l'affectation du sommet passé en paramètre.
+******************************************/
 CSommet & CSommet::operator=(CSommet & SOMobjet)
 {
 	SOMdetruire();
@@ -100,11 +162,30 @@ CSommet & CSommet::operator=(CSommet & SOMobjet)
 	return *this;
 }
 
+
+/*****************************************
+Surcharge de l'opérateur >>.
+******************************************
+Entrée : une référence sur une instance de CSommet.
+Nécessite : rien.
+Sortie : rien.
+Entraîne : l'ajout d'un successeur au sommet.
+******************************************/
 void CSommet::operator >> (CSommet * SOMsuccesseur)
 {
 	SOMajouterSuccesseur(SOMsuccesseur);
 }
 
+
+/*****************************************
+Surcharge de l'opérateur ==.
+******************************************
+Entrée : une référence sur une instance de CSommet.
+Nécessite : rien.
+Sortie : un booléen.
+Entraîne : (true : les sommets sont identiques)
+			ou (false : les sommets sont différents).
+******************************************/
 bool CSommet::operator==(CSommet & SOMobjet) const
 {
 	if (uiSOMnumero != SOMobjet.SOMgetNumero())
@@ -115,26 +196,73 @@ bool CSommet::operator==(CSommet & SOMobjet) const
 	return true;
 }
 
+
+/*****************************************
+Surcharge de l'opérateur !=.
+******************************************
+Entrée : une référence sur une instance de CSommet.
+Nécessite : rien.
+Sortie : un booléen.
+Entraîne : (true : les sommets sont différents)
+			ou (false : les sommets dont identiques).
+******************************************/
 bool CSommet::operator!=(CSommet & SOMobjet) const
 {
 	return !operator==(SOMobjet);
 }
 
+
+/*****************************************
+Lecture du numéro du sommet.
+******************************************
+Entrée : rien.
+Nécessite : rien.
+Sortie : le numéro du sommet (unsigned int).
+Entraîne : rien.
+******************************************/
 inline unsigned int CSommet::SOMgetNumero() const
 {
 	return uiSOMnumero;
 }
 
+
+/*****************************************
+Lecture du nombre de successeurs.
+******************************************
+Entrée : rien.
+Nécessite : rien.
+Sortie : le nombre de successeurs (unsigned int).
+Entraîne : rien.
+******************************************/
 inline unsigned int CSommet::SOMgetNbSuccesseurs() const
 {
 	return uiSOMnbSuccesseurs;
 }
 
+
+/*****************************************
+Lecture du nombre de prédecesseurs.
+******************************************
+Entrée : rien.
+Nécessite : rien.
+Sortie : le nombre de prédecesseurs (unsigned int).
+Entraîne : rien.
+******************************************/
 inline unsigned int CSommet::SOMgetNbPredecesseurs() const
 {
 	return uiSOMnbPredecesseurs;
 }
 
+
+/*****************************************
+Lecture de la position d'un successeur.
+******************************************
+Entrée : un pointeur sur une instance de CSommet.
+Nécessite : rien.
+Sortie : la position du successeur (int).
+Entraîne : (la position du successeur s'il existe)
+			ou (-1 s'il n'existe pas).
+******************************************/
 int CSommet::SOMgetPositionSuccesseur(CSommet * pSOMsucc) const
 {
 	unsigned int uiBoucle;
@@ -150,6 +278,16 @@ int CSommet::SOMgetPositionSuccesseur(CSommet * pSOMsucc) const
 	return -1;
 }
 
+
+/*****************************************
+Lecture de la position d'un prédecesseur.
+******************************************
+Entrée : un pointeur sur une instance de CSommet.
+Nécessite : rien.
+Sortie : la position du prédecesseur (int).
+Entraîne : (la position du prédecesseur s'il existe)
+			ou (-1 s'il n'existe pas).
+******************************************/
 int CSommet::SOMgetPositionPredecesseur(CSommet * pSOMpred) const
 {
 	unsigned int uiBoucle;
@@ -165,12 +303,29 @@ int CSommet::SOMgetPositionPredecesseur(CSommet * pSOMpred) const
 	return -1;
 }
 
-// Peut pas mettre inline, dunno why
+
+/*****************************************
+Lecture du graphe.
+******************************************
+Entrée : rien.
+Nécessite : rien.
+Sortie : un pointeur sur une instance de CGraphe.
+Entraîne : rien.
+******************************************/
 CGraphe * CSommet::SOMgetGraphe() const
 {
 	return pGRASOMgraphe;
 }
 
+
+/*****************************************
+Lecture d'un successeur.
+******************************************
+Entrée : la position du successeur (unsigned int).
+Nécessite : la position > 0.
+Sortie : un pointeur sur une instance de CSommet.
+Entraîne : rien.
+******************************************/
 inline CSommet * CSommet::SOMgetSuccesseur(unsigned int uiPos) const
 {
 	if (uiPos < 0 || uiPos >= uiSOMnbSuccesseurs)
@@ -179,6 +334,15 @@ inline CSommet * CSommet::SOMgetSuccesseur(unsigned int uiPos) const
 	return pPARSOMarcsPartants[uiPos]->ARCgetSommetVise();
 }
 
+
+/*****************************************
+Lecture d'un prédecesseur.
+******************************************
+Entrée : la position du prédecesseur (unsigned int).
+Nécessite : la position > 0.
+Sortie : un pointeur sur une instance de CSommet.
+Entraîne : rien.
+******************************************/
 inline CSommet * CSommet::SOMgetPredecesseur(unsigned int uiPos) const
 {
 	if (uiPos < 0 || uiPos >= uiSOMnbPredecesseurs)
@@ -187,6 +351,15 @@ inline CSommet * CSommet::SOMgetPredecesseur(unsigned int uiPos) const
 	return pARRSOMarcsArrivants[uiPos]->ARCgetSommetVise();
 }
 
+
+/*****************************************
+Lecture d'un arc partant.
+******************************************
+Entrée : la position de l'arc (unsigned int).
+Nécessite : la position > 0.
+Sortie : un pointeur sur une instance de CArcPArtant.
+Entraîne : rien.
+******************************************/
 CArcPartant * CSommet::SOMgetArcPartant(unsigned int uiPos) const
 {
 	if (uiPos < 0 || uiPos >= uiSOMnbPredecesseurs)
@@ -195,6 +368,15 @@ CArcPartant * CSommet::SOMgetArcPartant(unsigned int uiPos) const
 	return pPARSOMarcsPartants[uiPos];
 }
 	
+
+/*****************************************
+Lecture d'un arc arrivant.
+******************************************
+Entrée : la position de l'arc arrivant (unsigned int).
+Nécessite : la position > 0.
+Sortie : un pointeur sur une instance de CArcArrivant.
+Entraîne : rien.
+******************************************/
 CArcArrivant * CSommet::SOMgetArcArrivant(unsigned int uiPos) const
 {
 	if (uiPos < 0 || uiPos >= uiSOMnbPredecesseurs)
@@ -203,6 +385,16 @@ CArcArrivant * CSommet::SOMgetArcArrivant(unsigned int uiPos) const
 	return pARRSOMarcsArrivants[uiPos];
 }
 
+
+/*****************************************
+Ajout d'un successeur.
+******************************************
+Entrée : un pointeur sur une instance de CSommet.
+Nécessite : rien.
+Sortie : rien.
+Entraîne : l'ajout du sommet indiqué en successeur
+		   et création d'un arc entre les deux.
+******************************************/
 void CSommet::SOMajouterSuccesseur(CSommet * pSOMsuccesseur)
 {
 	// Si le sommet a ajouter n'est pas null est qu'ils sont dans le meme graphe...
@@ -224,6 +416,16 @@ void CSommet::SOMajouterSuccesseur(CSommet * pSOMsuccesseur)
 	}
 }
 
+
+/*****************************************
+Suppression d'un successeur.
+******************************************
+Entrée : un pointeur sur une instance de CSommet.
+Nécessite : rien.
+Sortie : rien.
+Entraîne : la suppression du successeur
+		   et de l'arc entre les deux.
+******************************************/
 void CSommet::SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur)
 {
 	// Si le sommet a ajouter n'est pas null est qu'ils sont dans le meme graphe...
@@ -260,12 +462,21 @@ void CSommet::SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur)
 	}
 }
 
+
+// A supprimer ?
 void CSommet::SOMdebug() const
 {
 }
 
-// private
 
+/*****************************************
+Ajout d'un prédecesseur.
+******************************************
+Entrée : un pointeur sur une instance de CSOmmet.
+Nécessite : rien.
+Sortie : rien.
+Entraîne : l'ajout d'un prédecesseur du sommet.
+******************************************/
 void CSommet::SOMajouterPredecesseur(CSommet * pSOMpredecesseur)
 {
 	uiSOMnbPredecesseurs++;
@@ -279,6 +490,15 @@ void CSommet::SOMajouterPredecesseur(CSommet * pSOMpredecesseur)
 	pARRSOMarcsArrivants[uiSOMnbPredecesseurs - 1] = new CArcArrivant(this, pSOMpredecesseur);
 }
 
+
+/*****************************************
+Suppression d'un prédecesseur.
+******************************************
+Entrée : un pointeur sur une instance de CSommet.
+Nécessite : rien.
+Sortie : rien.
+Entraîne : la suppression d'un prédecesseur de sommet.
+******************************************/
 void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 {
 	// Si le sommet a ajouter n'est pas null est qu'ils sont dans le meme graphe...
@@ -312,6 +532,15 @@ void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 	}
 }
 
+
+/*****************************************
+Affichage du sommet.
+******************************************
+Entrée : un flux, une référence sur une instance de CSommet.
+Nécessite : rien.
+Sortie : un flux.
+Entraîne : l'affichage du sommet.
+******************************************/
 std::ostream & operator<<(std::ostream & oFlux, CSommet & SOMsommet)
 {
 	unsigned int uiBoucle;
@@ -343,6 +572,15 @@ std::ostream & operator<<(std::ostream & oFlux, CSommet & SOMsommet)
 	return oFlux;
 }
 
+
+/*****************************************
+Affichage du sommet.
+******************************************
+Entrée : un flux, un pointeur sur une instance de CSommet.
+Nécessite : rien.
+Sortie : un flux.
+Entraîne : l'affichage du sommet.
+******************************************/
 std::ostream & operator<<(std::ostream & oFlux, CSommet * SOMsommet)
 {
 	oFlux << *SOMsommet;
