@@ -40,6 +40,7 @@ void CParseur::PARanalyseSyntaxique(char * pcFichier)
 		char pcLigne[256] = { 0 };
 		char pcMsg[1024] = { 0 };
 		unsigned int uiBoucle = 0;
+		char * pcTestLigneVide = nullptr;
 		iLigne++;
 		IFSfichier.getline(pcLigne, 256);
 
@@ -98,8 +99,12 @@ void CParseur::PARanalyseSyntaxique(char * pcFichier)
 		// Si la syntaxe n'est pas [BALISE]=[VALEUR], syntaxe invalide
 		if (!bBalise || !bEgal || !bValeur)
 		{
-			strcat_s(pcMsg, 1024, ".");
-			throw Cexception(EXC_ERREUR_SYNTAXIQUE, pcMsg);
+			char * pcTestLigneVide = supprimerEspaces(pcLigne);
+			if (*pcTestLigneVide != '\0')
+			{
+				strcat_s(pcMsg, 1024, ".");
+				throw Cexception(EXC_ERREUR_SYNTAXIQUE, pcMsg);
+			}
 		}
 
 		// S'il y a un crochet fermant mais pas de crochet ouvrant, syntaxe invalide
@@ -228,7 +233,17 @@ CTableauAssociatif * CParseur::PARparserFichier(char * pcFichier)
 			pcBalise[1024] = { 0 },
 			pcValeur[1024] = { 0 };
 
+		char * pcTestLigneVide = nullptr;
+
 		fichier.getline(pcLigne, 1024);
+
+
+		pcTestLigneVide = supprimerEspaces(pcLigne);
+		if (*pcTestLigneVide == '\0')
+		{
+			continue;
+		}
+
 
 		strcpy_s(pcBalise, 1024, PARextraireBalise(pcLigne));
 		strcpy_s(pcValeur, 1024, PARextraireValeur(pcLigne));
