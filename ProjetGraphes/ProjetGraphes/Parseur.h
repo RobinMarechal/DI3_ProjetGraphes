@@ -8,7 +8,6 @@
 #include "Cexception.h"
 #include "TableauAssociatif.h"
 #include "helpers.h"
-#include "constantes.h"
 
 
 /*************************************************
@@ -28,7 +27,7 @@ public:
 	Entraîne : soulève une Cexception en cas d'erreur de syntaxe dans le fichier
 	Entraîne : Allocation d'une chaine de caractère (via new).
 	******************************************/
-	static CTableauAssociatif * PARparserFichier(char * pcFichier);
+	static CTableauAssociatif * PARparserFichier(const char * pcFichier);
 
 
 	/*****************************************
@@ -39,7 +38,7 @@ public:
 	Sortie : rien.
 	Entraîne : soulève une Cexception en cas d'erreur de syntaxe dans le fichier
 	******************************************/
-	static void PARanalyseSyntaxique(char * pcFichier);
+	static void PARanalyseSyntaxique(const char * pcFichier);
 
 
 	/*****************************************
@@ -50,7 +49,7 @@ public:
 	Sortie : la partie gauche de la ligne allouée sur le tas.
 	Entraîne : Allocation d'une chaine de caractère (via new).
 	******************************************/
-	static char * PARextraireBalise(char * pcLigne);
+	static char * PARextraireBalise(const char * pcLigne);
 
 
 	/*****************************************
@@ -61,6 +60,6 @@ public:
 	Sortie : la partie droite de la ligne allouée sur le tas.
 	Entraîne : Allocation d'une chaine de caractère (via new).
 	******************************************/
-	static char *  PARextraireValeur(char * pcLigne);
+	static char *  PARextraireValeur(const char * pcLigne);
 };
 #endif

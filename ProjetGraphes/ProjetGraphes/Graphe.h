@@ -5,8 +5,15 @@
 
 #include "Sommet.h"
 #include "helpers.h"
-#include "constantes.h"
-#include "Sommet.h"
+
+#define GRA_AUCUN_SOMMET 0
+#define GRA_BALISE_NB_SOMMETS "NBSommets"
+#define GRA_BALISE_NB_ARCS "NBArcs"
+#define GRA_BALISE_SOMMETS "Sommets"
+#define GRA_BALISE_ARCS "Arcs"
+#define GRA_BALISE_NUMERO "Numero"
+#define GRA_BALISE_DEBUT "Debut"
+#define GRA_BALISE_FIN "Fin"
 
 class CSommet;
 
@@ -209,6 +216,30 @@ public:
 	Entraîne : l'affichage d'un graphe.
 	******************************************/
 	void GRAafficher() const;
+
+
+	/*****************************************
+	Vérifie le contenu d'une instance de CTableauAssociatif
+	pour créer un objet CGraphe
+	******************************************
+	Entrée : Un pointeur sur une instance de CTableauAssociatif.
+	Nécessite : rien.
+	Sortie : rien.
+	Entraîne : une Cexception  est levée si le tableau de contient pas "NBSommets", "NBArcs", "Sommets" et "Arcs",
+	ou que les types correspondants sont incorrects (resp. Entier, Entier, Chaine, Chaine)
+	******************************************/
+	static void GRAverifierContenuTableau(CTableauAssociatif * pTABtab);
+
+	/*****************************************
+	Génération d'un graphe à partir d'un fichier
+	******************************************
+	Entrée : le nom du fichier
+	Nécessite : rien.
+	Sortie : une instance de CGraphe.
+	Entraîne : La création d'un objet CGraphe avec les informations du fichier
+	Entraîne : Une exception de type Cexception en cas de fichier introuvable ou d'erreur de syntaxe.
+	******************************************/
+	static CGraphe GRAgenerer(const char * pcFichier);
 
 	// A supprimer ?
 	void GRAdebug() const;

@@ -7,7 +7,6 @@
 #include "Cexception.h"
 #include "TableauAssociatif.h"
 #include "helpers.h"
-#include "constantes.h"
 
 
 using namespace std;
@@ -21,7 +20,7 @@ Nécessite : rien.
 Sortie : rien.
 Entraîne : soulève une Cexception en cas d'erreur de syntaxe dans le fichier
 ******************************************/
-void CParseur::PARanalyseSyntaxique(char * pcFichier)
+void CParseur::PARanalyseSyntaxique(const char * pcFichier)
 {
 	bool bBalise = false,
 		bValeur = false,
@@ -154,7 +153,7 @@ Nécessite : la ligne contient un (et un seul) '='.
 Sortie : la partie gauche de la ligne allouée sur le tas.
 Entraîne : Allocation d'une chaine de caractère (via new).
 ******************************************/
-char * CParseur::PARextraireBalise(char * pcLigne)
+char * CParseur::PARextraireBalise(const char * pcLigne)
 {
 	char pcTmp[1024] = { 0 };
 	char * pcEgal = NULL;
@@ -183,7 +182,7 @@ Nécessite : la ligne contient un (et un seul) '='.
 Sortie : la partie droite de la ligne allouée sur le tas.
 Entraîne : Allocation d'une chaine de caractère (via new).
 ******************************************/
-char * CParseur::PARextraireValeur(char * pcLigne)
+char * CParseur::PARextraireValeur(const char * pcLigne)
 {
 	char pcTmp[1024] = { 0 };
 	char * pcEgal = NULL;
@@ -213,7 +212,7 @@ Sortie : une instance de CTableauAssociatif contenant les données du fichier all
 Entraîne : soulève une Cexception en cas d'erreur de syntaxe dans le fichier
 Entraîne : Allocation d'une chaine de caractère (via new).
 ******************************************/
-CTableauAssociatif * CParseur::PARparserFichier(char * pcFichier)
+CTableauAssociatif * CParseur::PARparserFichier(const char * pcFichier)
 {
 	// INITIALISATIONS ////////////////////////////////////////////////////////
 

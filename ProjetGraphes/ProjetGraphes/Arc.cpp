@@ -1,5 +1,4 @@
 #include "Sommet.h"
-#include "constantes.h"
 #include "Arc.h"
 
 /*****************************************

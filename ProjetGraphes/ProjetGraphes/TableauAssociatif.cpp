@@ -5,7 +5,6 @@
 #include "helpers.h"
 
 #include "Cexception.h"
-#include "constantes.h"
 
 
 /********************************************************
@@ -42,7 +41,7 @@ void CTableauAssociatif::TABdetruire()
 	for (uiBoucle = 0; uiBoucle < uiTABnbElements; uiBoucle++)
 	{
 		free(ppcTABcles[uiBoucle]);
-		if(puiTypes[uiBoucle] == TAB_TYPE_CHAINE)
+		if(puiTypes[uiBoucle] == TYPE_CHAINE)
 			free(pvTABvaleurs[uiBoucle].pcChaine);
 	}
 
@@ -82,7 +81,7 @@ CTableauAssociatif::CTableauAssociatif(const CTableauAssociatif & TABobjet)
 	TABinit();
 	for (uiBoucle = 0; uiBoucle < TABobjet.uiTABnbElements; uiBoucle++)
 	{
-		if (TABobjet.puiTypes[uiBoucle] == TAB_TYPE_CHAINE)
+		if (TABobjet.puiTypes[uiBoucle] == TYPE_CHAINE)
 		{
 			TABajouterChaine(TABobjet.ppcTABcles[uiBoucle], _strdup(TABobjet.pvTABvaleurs[uiBoucle].pcChaine));
 		}
@@ -125,7 +124,7 @@ CTableauAssociatif & CTableauAssociatif::operator=(const CTableauAssociatif & TA
 	TABinit();
 	for (uiBoucle = 0; uiBoucle < TABobjet.uiTABnbElements; uiBoucle++)
 	{
-		if (TABobjet.puiTypes[uiBoucle] == TAB_TYPE_CHAINE)
+		if (TABobjet.puiTypes[uiBoucle] == TYPE_CHAINE)
 		{
 			TABajouterChaine(TABobjet.ppcTABcles[uiBoucle], _strdup(TABobjet.pvTABvaleurs[uiBoucle].pcChaine));
 		}
@@ -161,7 +160,7 @@ void CTableauAssociatif::TABsupprimer(const char * pcCle)
 	free(ppcTABcles[uiPos]);
 
 	// Si c'est une chaine qu'on supprime, on la free
-	if (puiTypes[uiPos] == TAB_TYPE_CHAINE)
+	if (puiTypes[uiPos] == TYPE_CHAINE)
 	{
 		free(pvTABvaleurs[uiPos].pcChaine);
 	}
@@ -180,7 +179,7 @@ void CTableauAssociatif::TABsupprimer(const char * pcCle)
 
 	// Si le dernier élément du tableau est une chaine, on met le pointeur à null
 	// On ne la free pas car on a coppié le pointeur dans l'avant dernière 'case'
-	if (puiTypes[uiTABnbElements - 1] == TAB_TYPE_CHAINE)
+	if (puiTypes[uiTABnbElements - 1] == TYPE_CHAINE)
 	{
 		pvTABvaleurs[uiTABnbElements - 1].pcChaine = NULL;
 	}
@@ -205,7 +204,7 @@ Ajout d'un union au tableau associatif
 *********************************************************
 Entrée : la clé,
 Entrée : l'union contenant la valeur,
-Entrée : Le type de la valeur (TAB_TYPE_CHAINE, TAB_TYPE_REEL, ou TAB_TYPE_ENTIER)
+Entrée : Le type de la valeur (TYPE_CHAINE, TYPE_REEL, ou TYPE_ENTIER)
 Nécessite : rien
 Sortie : rien
 Entraîne : La réallocations des trois tableaux et l'insertion
@@ -245,7 +244,7 @@ void CTableauAssociatif::TABajouterEntier(const char * pcCle, int iVal)
 {
 	Valeur vVal;
 	vVal.iEntier = iVal;
-	TABajouter(pcCle, vVal, TAB_TYPE_ENTIER);
+	TABajouter(pcCle, vVal, TYPE_ENTIER);
 }
 
 
@@ -264,7 +263,7 @@ void CTableauAssociatif::TABajouterReel(const char * pcCle, double dVal)
 {
 	Valeur vVal;
 	vVal.dReel = dVal;
-	TABajouter(pcCle, vVal, TAB_TYPE_REEL);
+	TABajouter(pcCle, vVal, TYPE_REEL);
 }
 
 
@@ -283,7 +282,7 @@ void CTableauAssociatif::TABajouterChaine(const char * pcCle, char * pcVal)
 {
 	Valeur vVal;
 	vVal.pcChaine = pcVal;
-	TABajouter(pcCle, vVal, TAB_TYPE_CHAINE);
+	TABajouter(pcCle, vVal, TYPE_CHAINE);
 }
 
 
@@ -304,7 +303,7 @@ void CTableauAssociatif::TABajouterAuto(const char * pcCle, char * pcVal)
 {
 	// Format : XX
 	int iType = analyserType(pcVal);
-	if (iType == TAB_TYPE_ENTIER)
+	if (iType == TYPE_ENTIER)
 	{
 		// On parse la chaine en int
 		int iVal = atoi(pcVal);
@@ -313,7 +312,7 @@ void CTableauAssociatif::TABajouterAuto(const char * pcCle, char * pcVal)
 		TABajouterEntier(pcCle, iVal);
 	}
 	// Format : XX.XX || XX,XX
-	else if(iType == TAB_TYPE_REEL)
+	else if(iType == TYPE_REEL)
 	{
 		// On rajoute un 0 au début et à la fin pour etre sur d'éviter les problèmes pour convertir
 		unsigned int uiBoucle;
@@ -448,7 +447,7 @@ Lecture du type de la valeur à une position
 *********************************************************
 Entrée : la position
 Nécessite : 0 <= uiPos < Nombre d'éléments
-Sortie: Le type de la valeur (TAB_TYPE_CHAINE, TAB_TYPE_REEL, ou TAB_TYPE_ENTIER)
+Sortie: Le type de la valeur (TYPE_CHAINE, TYPE_REEL, ou TYPE_ENTIER)
 Entraîne : rien
 *********************************************************/
 unsigned int CTableauAssociatif::TABgetValeurType(unsigned int uiPos) const
@@ -463,7 +462,7 @@ Lecture du type de la valeur associée à une clé
 *********************************************************
 Entrée : la clé
 Nécessite : pcCle est dans le tableau des clés
-Sortie : Le type de la valeur (TAB_TYPE_CHAINE, TAB_TYPE_REEL, ou TAB_TYPE_ENTIER)
+Sortie : Le type de la valeur (TYPE_CHAINE, TYPE_REEL, ou TYPE_ENTIER)
 Entraîne : rien
 *********************************************************/
 unsigned int CTableauAssociatif::TABgetValeurType(const char * pcCle) const
@@ -489,7 +488,7 @@ int CTableauAssociatif::TABgetValeurEntier(const char * pcCle) const
 {
 	unsigned int uiPos = TABgetIndiceCle(pcCle);
 
-	if (puiTypes[uiPos] == TAB_TYPE_REEL)
+	if (puiTypes[uiPos] == TYPE_REEL)
 	{
 		return (int) pvTABvaleurs[uiPos].dReel;
 	}
@@ -516,7 +515,7 @@ double CTableauAssociatif::TABgetValeurReel(const char * pcCle) const
 {
 	unsigned int uiPos = TABgetIndiceCle(pcCle);
 
-	if (puiTypes[uiPos] == TAB_TYPE_ENTIER)
+	if (puiTypes[uiPos] == TYPE_ENTIER)
 	{
 		return (double) pvTABvaleurs[uiPos].iEntier;
 	}
@@ -533,11 +532,11 @@ Lecture de la valeur au type Chaine
 *********************************************************
 Entrée : la clé
 Nécessite : pcCle est dans le tableau des clés
-Nécessite : La valeur a été stockée en tant qu'Entier
-Sortie : La valeur de type Entier de l'union Valeur associé à la clé.
+Nécessite : La valeur a été stockée en tant que Chaine
+Sortie : La valeur de type Chaine de l'union Valeur associé à la clé. Cette chaine de caractère est allouée sur le tas.
 Entraîne : rien
-Attention ! Si la valeur n'a pas été stockée en tant qu'Entier,
-La valeur sera faussée.
+Attention : Si la valeur n'a pas été stockée en tant que Chaine, La valeur sera faussée.
+Attention : Ne jamais free la chaine de caractère retournée, a moins qu'elle ne soit réallouée juste après.
 *********************************************************/
 char * CTableauAssociatif::TABgetValeurChaine(const char * pcCle) const 
 {

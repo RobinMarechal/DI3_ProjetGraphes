@@ -1,4 +1,3 @@
-#include "constantes.h"
 #include "ArcArrivant.h"
 #include "Sommet.h"
 

@@ -2,11 +2,18 @@
 #define HERLPERS_H
 
 #include "helpers.h"
-#include "constantes.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
+
+/*******************************************
+Types de donnée
+********************************************/
+#define TYPE_NON_DEFINI 0
+#define TYPE_ENTIER 1
+#define TYPE_REEL 2
+#define TYPE_CHAINE 3
 
 /*****************************************
 Retourne le type correspondant à la chaine en paramètre
@@ -25,11 +32,11 @@ Extraction d'une sous chaine
 ******************************************
 Entrée : un pointeur sur le début de la sous-chaîne,
 Entrée : un pointeur sur la fin de la sous-chaîne.
-Nécessite : pcStart >= pcEnd.
-Sortie : la sous-chaîne souhaitée (de type char *).
-Entraîne : Allocation dynamique d'un char * (malloc)
+Nécessite : pcDebut >= pcFin.
+Sortie : la sous-chaîne souhaitée.
+Entraîne : Allocation dynamique d'un char * (via new)
 ******************************************/
-char * sousChaine(const char * pcStart, const char * pcEnd);
+char * sousChaine(const char * pcDebut, const char * pcFin);
 
 
 /*****************************************

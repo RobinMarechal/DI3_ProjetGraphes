@@ -5,7 +5,6 @@
 #include "Sommet.h"
 #include "ArcArrivant.h"
 #include "ArcPartant.h"
-#include "constantes.h"
 #include "Cexception.h"
 #include "helpers.h"
 

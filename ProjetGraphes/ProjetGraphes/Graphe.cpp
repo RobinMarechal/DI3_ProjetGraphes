@@ -4,7 +4,8 @@
 #include "Cexception.h"
 #include "Sommet.h"
 #include "helpers.h"
-#include "constantes.h"
+#include "TableauAssociatif.h"
+#include "Parseur.h"
 
 using namespace std;
 
@@ -464,6 +465,171 @@ Entraîne : l'affichage d'un graphe.
 void CGraphe::GRAafficher() const
 {
 	cout << this << endl;
+}
+
+
+/*****************************************
+Vérifie le contenu d'une instance de CTableauAssociatif
+pour créer un objet CGraphe
+******************************************
+Entrée : Un pointeur sur une instance de CTableauAssociatif.
+Nécessite : rien.
+Sortie : rien.
+Entraîne : une Cexception  est levée si le tableau de contient pas "NBSommets", "NBArcs", "Sommets" et "Arcs",
+ou que les types correspondants sont incorrects (resp. Entier, Entier, Chaine, Chaine)
+******************************************/
+void CGraphe::GRAverifierContenuTableau(CTableauAssociatif * pTABtab)
+{
+	char * pcValeurSommets, * pcValeurArcs;
+
+	// On vérifie d'abord si toutes les balises son présentes
+
+	if (pTABtab->TABgetIndiceCle(GRA_BALISE_NB_SOMMETS) == -1)
+	{
+		throw Cexception(EXC_ERREUR_SYNTAXIQUE, "Erreur : champs '" GRA_BALISE_NB_SOMMETS "'  non renseigné.");
+	}
+
+	if (pTABtab->TABgetIndiceCle(GRA_BALISE_NB_ARCS) == -1)
+	{
+		throw Cexception(EXC_ERREUR_SYNTAXIQUE, "Erreur : champs '" GRA_BALISE_NB_ARCS "'  non renseigné.");
+	}
+
+	if (pTABtab->TABgetIndiceCle(GRA_BALISE_SOMMETS) == -1)
+	{
+		throw Cexception(EXC_ERREUR_SYNTAXIQUE, "Erreur : champs '" GRA_BALISE_SOMMETS "'  non renseigné.");
+	}
+
+	if (pTABtab->TABgetIndiceCle(GRA_BALISE_ARCS) == -1)
+	{
+		throw Cexception(EXC_ERREUR_SYNTAXIQUE, "Erreur : champs '" GRA_BALISE_ARCS "'  non renseigné.");
+	}
+
+
+	// Puis si leur valeur est correcte
+
+	if (pTABtab->TABgetValeurType(GRA_BALISE_NB_SOMMETS) != TYPE_ENTIER || pTABtab->TABgetValeurEntier(GRA_BALISE_NB_SOMMETS) < 0)
+	{
+		throw Cexception(EXC_ERREUR_LEXICALE, "Erreur de creation du graphe : La valeur de '" GRA_BALISE_NB_SOMMETS "' doit etre un nombre entier positif.");
+	}
+
+	if (pTABtab->TABgetValeurType(GRA_BALISE_NB_ARCS) != TYPE_ENTIER || pTABtab->TABgetValeurEntier(GRA_BALISE_NB_ARCS) < 0)
+	{
+		throw Cexception(EXC_ERREUR_LEXICALE, "Erreur de creation du graphe : La valeur de '" GRA_BALISE_NB_ARCS "' doit etre un nombre entier positif.");
+	}
+
+	pcValeurSommets = supprimerEspaces(pTABtab->TABgetValeurChaine(GRA_BALISE_SOMMETS));
+
+	// On vérifie que c'est bien une liste, c'est à dire une chaine qui commence par [ et termine par ]
+	if (pTABtab->TABgetValeurType(GRA_BALISE_SOMMETS) != TYPE_CHAINE
+		&& (pcValeurSommets[0] != '[' || pcValeurSommets[strlen(pcValeurSommets) - 1] != ']'))
+	{
+		throw Cexception(EXC_ERREUR_LEXICALE, "Erreur de creation du graphe : La valeur de '" GRA_BALISE_SOMMETS "' doit etre une liste ('[....]')");
+	}
+
+	pcValeurArcs = supprimerEspaces(pTABtab->TABgetValeurChaine(GRA_BALISE_ARCS));
+
+	// On vérifie que c'est bien une liste, c'est à dire une chaine qui commence par [ et termine par ]
+	if (pTABtab->TABgetValeurType(GRA_BALISE_ARCS) != TYPE_CHAINE
+		&& (pcValeurArcs[0] != '[' || pcValeurArcs[strlen(pcValeurArcs) - 1] != ']'))
+	{
+		throw Cexception(EXC_ERREUR_LEXICALE, "Erreur de creation du graphe : La valeur de '" GRA_BALISE_ARCS "' doit etre une liste ('[....]')");
+	}
+
+	delete[] pcValeurSommets;
+	delete[] pcValeurArcs;
+}
+
+/*****************************************
+Génération d'un graphe à partir d'un fichier
+******************************************
+Entrée : le nom du fichier
+Nécessite : rien.
+Sortie : une instance de CGraphe.
+Entraîne : La création d'un objet CGraphe avec les informations du fichier
+Entraîne : Une exception de type Cexception en cas de fichier introuvable ou d'erreur de syntaxe.
+******************************************/
+CGraphe CGraphe::GRAgenerer(const char * pcFichier)
+{
+	CGraphe GRAobj;
+	char * pcListeSommets;
+	char * pcListeArcs;
+	CTableauAssociatif * pTABtab;
+	unsigned int uiBoucle, uiNbArcs, uiNbSommets;
+	char * pcDebutSousChaine = nullptr; // pointeur sur le 'N' de la uiBoucle-ième ligne "Numero=x\n"
+	char * pcFinSousChaine = nullptr; // pointeur sur le '\n' de la uiBoucle-ième ligne "Numero=x\n"
+
+	pTABtab = CParseur::PARparserFichier(pcFichier);
+
+	// Throw une exception si le contenu est incorrect
+	CGraphe::GRAverifierContenuTableau(pTABtab);
+
+	uiNbSommets = pTABtab->TABgetValeurEntier(GRA_BALISE_NB_SOMMETS);
+	uiNbArcs = pTABtab->TABgetValeurEntier(GRA_BALISE_NB_ARCS);
+
+	pcListeSommets = pTABtab->TABgetValeurChaine(GRA_BALISE_SOMMETS);
+	pcListeArcs = pTABtab->TABgetValeurChaine(GRA_BALISE_ARCS);
+
+	pcFinSousChaine = pcListeSommets;
+
+
+	// Construction des sommets
+	for (uiBoucle = 0; uiBoucle < uiNbSommets; uiBoucle++)
+	{
+		pcDebutSousChaine = strstr(pcFinSousChaine, GRA_BALISE_NUMERO);
+
+		if (pcDebutSousChaine == nullptr) // moins de lignes que prévu ou la balise n'est pas "Numero"
+		{
+			throw Cexception(EXC_ERREUR_LEXICALE, "Erreur lors de la creation du graphe, 2 possibilites : \n"  
+				"\t- La liste '" GRA_BALISE_SOMMETS "' contient moins de valeurs que precise par la balise '" GRA_BALISE_NB_SOMMETS  "\n"
+				"\t- La syntaxe est mauvaise : la balise doit etre '" GRA_BALISE_NUMERO "'.");
+		}
+
+		pcFinSousChaine = strchr(pcDebutSousChaine, '\n');
+
+		if (pcFinSousChaine == nullptr) // ']' sur la même ligne (la méthode GRAverifierContenuTableau() vérifie que la chaine termine bien par ']')
+		{
+			// La fin de la ligne est le caractère ']' au lieu de '\n'
+			pcFinSousChaine = strchr(pcDebutSousChaine, ']');
+		}
+
+		char * pcSousChaine = sousChaine(pcDebutSousChaine, pcFichier); // "Numero=x\n"
+
+		char * pcBalise = CParseur::PARextraireBalise(pcSousChaine); // "Numero", les espaces sont supprimés par la méthode
+		char * pcValeur = CParseur::PARextraireValeur(pcSousChaine); // "x", les espaces sont supprimés par la méthode
+
+		if (analyserType(pcValeur) != TYPE_ENTIER || pcValeur[0] == '-')
+		{
+			throw Cexception(EXC_ERREUR_LEXICALE, "Erreur lors de la creation du graphe : la valeur de la balise '" GRA_BALISE_NUMERO 
+				"' doit être un entier positif ou nul");
+		}
+
+		try
+		{
+			// Création du sommet de numéro (int)pcValeur
+			GRAobj.GRAcreerSommet(strtol(pcValeur, NULL, 10));
+		}
+		catch (Cexception EXCe)
+		{
+			char pcMsg[1024] = "Erreur lors de la création du graphe, l'exception suivante a ete lancee :\n\t";
+			strcat_s(pcMsg, 1024, EXCe.EXCgetMessage());
+
+			throw Cexception(EXC_ECHEC_TRANSFORMATION_TYPE, pcMsg);
+		}
+		
+		delete[] pcBalise;
+		delete[] pcValeur;
+		delete[] pcSousChaine;
+	}
+
+
+	// Construction des arcs
+	for (uiBoucle = 0; uiBoucle < uiNbArcs; uiBoucle++)
+	{
+
+	}
+
+
+	return GRAobj;
 }
 
 // affiche les informations concernant le graphe permettant le debugage

@@ -7,7 +7,7 @@
 
 #include "Cexception.h"
 #include "helpers.h"
-#include "constantes.h"
+
 
 /**************************************************
 Union permettant de stocker une valeur dans le 
@@ -79,7 +79,7 @@ class CTableauAssociatif
 	*********************************************************
 	Entrée : la clé,
 	Entrée : l'union contenant la valeur,
-	Entrée : Le type de la valeur (TAB_TYPE_CHAINE, TAB_TYPE_REEL, ou TAB_TYPE_ENTIER)
+	Entrée : Le type de la valeur (TYPE_CHAINE, TYPE_REEL, ou TYPE_ENTIER)
 	Nécessite : rien
 	Sortie : rien
 	Entraîne : La réallocations des trois tableaux et l'insertion
@@ -279,7 +279,7 @@ public:
 	*********************************************************
 	Entrée : la position
 	Nécessite : 0 <= uiPos < Nombre d'éléments
-	Sortie: Le type de la valeur (TAB_TYPE_CHAINE, TAB_TYPE_REEL, ou TAB_TYPE_ENTIER)
+	Sortie: Le type de la valeur (TYPE_CHAINE, TYPE_REEL, ou TYPE_ENTIER)
 	Entraîne : rien
 	*********************************************************/
 	unsigned int TABgetValeurType(unsigned int uiPos) const;
@@ -291,7 +291,7 @@ public:
 	*********************************************************
 	Entrée : la clé
 	Nécessite : pcCle est dans le tableau des clés
-	Sortie : Le type de la valeur (TAB_TYPE_CHAINE, TAB_TYPE_REEL, ou TAB_TYPE_ENTIER)
+	Sortie : Le type de la valeur (TYPE_CHAINE, TYPE_REEL, ou TYPE_ENTIER)
 	Entraîne : rien
 	*********************************************************/
 	unsigned int TABgetValeurType( const char * pcCle) const;
@@ -322,7 +322,7 @@ public:
 	*********************************************************
 	Entrée : la clé
 	Nécessite : pcCle est dans le tableau des clés
-	Nécessite : La valeur a été stockée en tant qu'Reel
+	Nécessite : La valeur a été stockée en tant que Reel
 	Sortie : La valeur de type Reel de l'union Valeur associé à la clé.
 	Entraîne : rien
 	Attention ! Si la valeur a été stockée en tant que Chaine,
@@ -332,17 +332,16 @@ public:
 
 
 
-
 	/********************************************************
 	Lecture de la valeur au type Chaine
 	*********************************************************
 	Entrée : la clé
 	Nécessite : pcCle est dans le tableau des clés
-	Nécessite : La valeur a été stockée en tant qu'Entier
-	Sortie : La valeur de type Entier de l'union Valeur associé à la clé.
+	Nécessite : La valeur a été stockée en tant que Chaine
+	Sortie : La valeur de type Chaine de l'union Valeur associé à la clé. Cette chaine de caractère est allouée sur le tas.
 	Entraîne : rien
-	Attention ! Si la valeur n'a pas été stockée en tant qu'Entier,
-	La valeur sera faussée.
+	Attention : Si la valeur n'a pas été stockée en tant que Chaine, La valeur sera faussée.
+	Attention : Ne jamais free la chaine de caractère retournée, a moins qu'elle ne soit réallouée juste après.
 	*********************************************************/
 	char * TABgetValeurChaine( const char * pcCle) const;
 

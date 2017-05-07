@@ -1,5 +1,5 @@
 #include "helpers.h"
-#include "constantes.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,7 +18,7 @@ Entraîne : (0 = entier) || (1 = réel) || (3 = chaine)
 int analyserType(char * pcVal)
 {
 	int iEtat = 0;
-	int iType = TAB_TYPE_CHAINE;
+	int iType = TYPE_CHAINE;
 	bool bStop = false;
 	while (!bStop)
 	{
@@ -36,7 +36,7 @@ int analyserType(char * pcVal)
 		case 1:
 			if (cChar == '.') iEtat = 4;
 			else if (cChar == 'e' || cChar == 'E') iEtat = 6;
-			else { iType = TAB_TYPE_ENTIER; bStop = true; }
+			else { iType = TYPE_ENTIER; bStop = true; }
 			break;
 
 		case 2:
@@ -49,20 +49,20 @@ int analyserType(char * pcVal)
 			if (cChar == '.') iEtat = 4;
 			else if (cChar == 'e' || cChar == 'E') iEtat = 6;
 			else if (cChar >= '0' && cChar <= '9') iEtat = 3;
-			else if (cChar == '\0') { iType = TAB_TYPE_ENTIER; bStop = true; }
-			else { iType = TAB_TYPE_CHAINE; bStop = true; }
+			else if (cChar == '\0') { iType = TYPE_ENTIER; bStop = true; }
+			else { iType = TYPE_CHAINE; bStop = true; }
 			break;
 
 		case 4:
 			if (cChar >= '0' && cChar <= '9') iEtat = 5;
-			else if (cChar == '\0') { iType = TAB_TYPE_ENTIER; bStop = true; } // Car "7." => 7 avec atof()
+			else if (cChar == '\0') { iType = TYPE_ENTIER; bStop = true; } // Car "7." => 7 avec atof()
 			else iEtat = -1;
 			break;
 
 		case 5:
 			if (cChar == 'e' || cChar == 'E') iEtat = 6;
 			else if (cChar >= '0' && cChar <= '9') iEtat = 5;
-			else { iType = TAB_TYPE_REEL; bStop = true; }
+			else { iType = TYPE_REEL; bStop = true; }
 			break;
 
 		case 6:
@@ -78,11 +78,11 @@ int analyserType(char * pcVal)
 
 		case 8:
 			if (cChar >= '0' && cChar <= '9') iEtat = 8;
-			else { iType = TAB_TYPE_REEL; bStop = true; }
+			else { iType = TYPE_REEL; bStop = true; }
 			break;
 
 		case -1:
-			iType = TAB_TYPE_CHAINE;
+			iType = TYPE_CHAINE;
 			bStop = true;
 			break;
 		}
@@ -98,16 +98,16 @@ Extraction d'une sous chaine
 ******************************************
 Entrée : un pointeur sur le début de la sous-chaîne,
 Entrée : un pointeur sur la fin de la sous-chaîne.
-Nécessite : pcStart >= pcEnd.
-Sortie : la sous-chaîne souhaitée (de type char *).
-Entraîne : Allocation dynamique d'un char * (malloc)
+Nécessite : pcDebut >= pcFin.
+Sortie : la sous-chaîne souhaitée.
+Entraîne : Allocation dynamique d'un char * (via new)
 ******************************************/
-char * sousChaine(const char * pcStart, const char * pcEnd) {
+char * sousChaine(const char * pcDebut, const char * pcFin) {
 	unsigned int uiBoucle = 0;
-	char * pcStr = (char *)malloc(sizeof(char) * (size_t)(pcEnd - pcStart + 1));
-	while (pcStart + uiBoucle != pcEnd && pcStart[uiBoucle] != '\0')
+	char * pcStr = new char[pcFin - pcDebut + 1];
+	while (pcDebut + uiBoucle != pcFin && pcDebut[uiBoucle] != '\0')
 	{
-		pcStr[uiBoucle] = pcStart[uiBoucle];
+		pcStr[uiBoucle] = pcDebut[uiBoucle];
 		uiBoucle++;
 	}
 	pcStr[uiBoucle] = '\0';

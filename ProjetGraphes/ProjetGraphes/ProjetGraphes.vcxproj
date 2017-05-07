@@ -161,7 +161,6 @@
   <ItemGroup>
     <ClInclude Include="Arc.h" />
     <ClInclude Include="Cexception.h" />
-    <ClInclude Include="constantes.h" />
     <ClInclude Include="Graphe.h" />
     <ClInclude Include="helpers.h" />
     <ClInclude Include="ArcArrivant.h" />

@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include "constantes.h"
 #include "helpers.h"
 #include "Graphe.h"
 #include "OperationGraphe.h"
