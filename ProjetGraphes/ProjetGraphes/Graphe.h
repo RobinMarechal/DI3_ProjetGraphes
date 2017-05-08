@@ -16,6 +16,7 @@
 #define GRA_BALISE_FIN "Fin"
 
 class CSommet;
+class CTableauAssociatif;
 
 class CGraphe
 {
@@ -138,13 +139,13 @@ public:
 	Sortie : le nombre de sommets du graphe (unsigned int).
 	Entraîne : rien.
 	******************************************/
-	unsigned int GRAgetNbSommets() const { return uiGRAnbSommets; } ;
+	unsigned int GRAgetNbSommets() const { return uiGRAnbSommets; };
 
 
 	/*****************************************
 	Création d'un sommet.
 	******************************************
-	Entrée : le numéro du sommet (unsigned int).
+	Entrée : le numéro du sommet.
 	Nécessite : le numéro est un nombre > 0.
 	Sortie : un pointeur sur une instance de CSommet.
 	Entraîne : la création d'un sommet.
@@ -161,6 +162,21 @@ public:
 	Entraîne : l'ajout du sommet passé en paramètre au graphe.
 	******************************************/
 	void GRAajouterSommet(CSommet * pSOMobjet);
+
+
+	/*****************************************
+	Création d'un arc reliant deux sommets.
+	******************************************
+	Entrée : le numéro du sommet de départ.
+	Entrée : le numéro du sommet d'arrivée
+	Nécessite : rien.
+	Sortie : rien.
+	Entraîne : La création d'un arc entre les deux sommets.
+	Entraîne : Une exception de type Cexception si le graphe ne possède 
+			   pas de sommets numéro uiNumDepart et uiNumArrivee.
+	Entraîne : Un exception de type Cexception si la création de l'arc a échoué.
+	******************************************/
+	void GRAcreerArc(unsigned int uiNumDepart, unsigned int uiNumArrivee);
 
 
 	/*****************************************

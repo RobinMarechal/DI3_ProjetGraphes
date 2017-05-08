@@ -83,7 +83,7 @@ CTableauAssociatif::CTableauAssociatif(const CTableauAssociatif & TABobjet)
 	{
 		if (TABobjet.puiTypes[uiBoucle] == TYPE_CHAINE)
 		{
-			TABajouterChaine(TABobjet.ppcTABcles[uiBoucle], _strdup(TABobjet.pvTABvaleurs[uiBoucle].pcChaine));
+			TABajouterChaine(TABobjet.ppcTABcles[uiBoucle], TABobjet.pvTABvaleurs[uiBoucle].pcChaine);
 		}
 		else
 		{
@@ -126,7 +126,7 @@ CTableauAssociatif & CTableauAssociatif::operator=(const CTableauAssociatif & TA
 	{
 		if (TABobjet.puiTypes[uiBoucle] == TYPE_CHAINE)
 		{
-			TABajouterChaine(TABobjet.ppcTABcles[uiBoucle], _strdup(TABobjet.pvTABvaleurs[uiBoucle].pcChaine));
+			TABajouterChaine(TABobjet.ppcTABcles[uiBoucle], TABobjet.pvTABvaleurs[uiBoucle].pcChaine);
 		}
 		else
 		{
@@ -281,7 +281,7 @@ et ajout des éléments dans leur tableau respectif
 void CTableauAssociatif::TABajouterChaine(const char * pcCle, char * pcVal) 
 {
 	Valeur vVal;
-	vVal.pcChaine = pcVal;
+	vVal.pcChaine = _strdup(pcVal);
 	TABajouter(pcCle, vVal, TYPE_CHAINE);
 }
 
@@ -342,7 +342,7 @@ void CTableauAssociatif::TABajouterAuto(const char * pcCle, char * pcVal)
 	else
 	{
 		// on ajoute simplement la chaine
-		TABajouterChaine(pcCle, _strdup(pcVal));
+		TABajouterChaine(pcCle, pcVal);
 	}
 }
 

@@ -57,10 +57,10 @@ private:
 	/*****************************************
 	Ajout d'un prédecesseur.
 	******************************************
-	Entrée : un pointeur sur une instance de CSOmmet.
-	Nécessite : rien.
+	Entrée : un pointeur sur une instance de CSommet.
+	Nécessite : Cette méthode doit être appelée uniquement par CSommet::SOMajouterSuccesseur().
 	Sortie : rien.
-	Entraîne : l'ajout d'un prédecesseur du sommet.
+	Entraîne : l'ajout d'un arc arrivant au sommet, ou le remplacement s'il existait déjà.
 	******************************************/
 	void SOMajouterPredecesseur(CSommet * pSOMpredecesseur);
 
@@ -69,9 +69,9 @@ private:
 	Suppression d'un prédecesseur.
 	******************************************
 	Entrée : un pointeur sur une instance de CSommet.
-	Nécessite : rien.
+	Nécessite : Cette méthode doit être appelée uniquement par CSommet::SOMsupprimerSuccesseur().
 	Sortie : rien.
-	Entraîne : la suppression d'un prédecesseur de sommet.
+	Entraîne : la suppression d'un arc arrivant au sommet.
 	******************************************/
 	void SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur);
 
@@ -275,8 +275,7 @@ public:
 	Entrée : un pointeur sur une instance de CSommet.
 	Nécessite : rien.
 	Sortie : rien.
-	Entraîne : l'ajout du sommet indiqué en successeur
-			   et création d'un arc entre les deux.
+	Entraîne : Ajouter d'un arc partant au sommet, ou remplacement si un existait déjà.
 	******************************************/
 	void SOMajouterSuccesseur(CSommet *  pSOMsuccesseur);
 
@@ -287,8 +286,7 @@ public:
 	Entrée : un pointeur sur une instance de CSommet.
 	Nécessite : rien.
 	Sortie : rien.
-	Entraîne : la suppression du successeur
-			   et de l'arc entre les deux.
+	Entraîne : Suppression d'un arc partant du sommet
 	******************************************/
 	void SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur);
 

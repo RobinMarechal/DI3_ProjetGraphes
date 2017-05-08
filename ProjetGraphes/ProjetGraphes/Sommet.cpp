@@ -392,27 +392,36 @@ Ajout d'un successeur.
 Entrée : un pointeur sur une instance de CSommet.
 Nécessite : rien.
 Sortie : rien.
-Entraîne : l'ajout du sommet indiqué en successeur
-		   et création d'un arc entre les deux.
+Entraîne : Ajouter d'un arc partant au sommet, ou remplacement si un existait déjà.
 ******************************************/
 void CSommet::SOMajouterSuccesseur(CSommet * pSOMsuccesseur)
 {
 	// Si le sommet a ajouter n'est pas null est qu'ils sont dans le meme graphe...
 	if (pSOMsuccesseur != nullptr && pSOMsuccesseur != this && pSOMsuccesseur->pGRASOMgraphe == pGRASOMgraphe)
 	{
-		// Ajout a la liste des successeurs
-		uiSOMnbSuccesseurs++;
-		pPARSOMarcsPartants = (CArcPartant **)realloc(pPARSOMarcsPartants, sizeof(CArcPartant*) * uiSOMnbSuccesseurs);
-		
-		if (pPARSOMarcsPartants == nullptr)
+		int iPos = SOMgetPositionSuccesseur(pSOMsuccesseur);
+		if (iPos >= 0)
 		{
-			erreur("Echec de réallocation dans CSommet::SOMajouterSuccesseur(). Le programme s'est arrêté.");
+			delete pPARSOMarcsPartants[iPos];
+			pPARSOMarcsPartants[iPos] = new CArcPartant(this, pSOMsuccesseur);
+		}
+		else
+		{
+			// Ajout a la liste des successeurs
+			uiSOMnbSuccesseurs++;
+			pPARSOMarcsPartants = (CArcPartant **)realloc(pPARSOMarcsPartants, sizeof(CArcPartant*) * uiSOMnbSuccesseurs);
+		
+			if (pPARSOMarcsPartants == nullptr)
+			{
+				erreur("Echec de réallocation dans CSommet::SOMajouterSuccesseur(). Le programme s'est arrêté.");
+			}
+
+			pPARSOMarcsPartants[uiSOMnbSuccesseurs - 1] = new CArcPartant(this, pSOMsuccesseur);
+
+			// Ajout de this a la liste des predecesseurs de pSOMsuccesseur
+			pSOMsuccesseur->SOMajouterPredecesseur(this);
 		}
 
-		pPARSOMarcsPartants[uiSOMnbSuccesseurs - 1] = new CArcPartant(this, pSOMsuccesseur);
-
-		// Ajout de this a la liste des predecesseurs de pSOMsuccesseur
-		pSOMsuccesseur->SOMajouterPredecesseur(this);
 	}
 }
 
@@ -423,8 +432,7 @@ Suppression d'un successeur.
 Entrée : un pointeur sur une instance de CSommet.
 Nécessite : rien.
 Sortie : rien.
-Entraîne : la suppression du successeur
-		   et de l'arc entre les deux.
+Entraîne : Suppression d'un arc partant du sommet
 ******************************************/
 void CSommet::SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur)
 {
@@ -432,18 +440,18 @@ void CSommet::SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur)
 	if (pSOMsuccesseur != nullptr && pSOMsuccesseur != this && pSOMsuccesseur->pGRASOMgraphe == pGRASOMgraphe)
 	{
 		unsigned int uiBoucle;
-		unsigned int uiPos = SOMgetPositionSuccesseur(pSOMsuccesseur);
+		int iPos = SOMgetPositionSuccesseur(pSOMsuccesseur);
 
 		// Si ce sommet n'est pas dans la liste des successeurs, on ne fait rien
-		if (uiPos == -1)
+		if (iPos == -1)
 		{
 			return;
 		}
 
-		delete pPARSOMarcsPartants[uiPos];
+		delete pPARSOMarcsPartants[iPos];
 
 		// On décale tout d'une case vers la gauche à partir de l'indice à supprimer
-		for (uiBoucle = uiPos; uiBoucle < uiSOMnbSuccesseurs - 1; uiBoucle++)
+		for (uiBoucle = iPos; uiBoucle < uiSOMnbSuccesseurs - 1; uiBoucle++)
 		{
 			pPARSOMarcsPartants[uiBoucle] = pPARSOMarcsPartants[uiBoucle + 1];
 		}
@@ -472,22 +480,32 @@ void CSommet::SOMdebug() const
 /*****************************************
 Ajout d'un prédecesseur.
 ******************************************
-Entrée : un pointeur sur une instance de CSOmmet.
-Nécessite : rien.
+Entrée : un pointeur sur une instance de CSommet.
+Nécessite : Cette méthode doit être appelée uniquement par CSommet::SOMajouterSuccesseur().
 Sortie : rien.
-Entraîne : l'ajout d'un prédecesseur du sommet.
+Entraîne : l'ajout d'un arc arrivant au sommet, ou le remplacement s'il existait déjà.
 ******************************************/
 void CSommet::SOMajouterPredecesseur(CSommet * pSOMpredecesseur)
 {
-	uiSOMnbPredecesseurs++;
-	pARRSOMarcsArrivants = (CArcArrivant **)realloc(pARRSOMarcsArrivants, sizeof(CArcPartant*) * uiSOMnbPredecesseurs);
-
-	if (pARRSOMarcsArrivants == nullptr)
+	int iPos = SOMgetPositionPredecesseur(pSOMpredecesseur);
+	if (iPos >= 0)
 	{
-		erreur("echec de reallocation dans CSommet::SOMajouterSuccesseur(). Le programme s'est arrete.");
+		delete pARRSOMarcsArrivants[iPos];
+		pARRSOMarcsArrivants[iPos] = new CArcArrivant(this, pSOMpredecesseur);
+	}
+	else
+	{
+		uiSOMnbPredecesseurs++;
+		pARRSOMarcsArrivants = (CArcArrivant **)realloc(pARRSOMarcsArrivants, sizeof(CArcPartant*) * uiSOMnbPredecesseurs);
+
+		if (pARRSOMarcsArrivants == nullptr)
+		{
+			erreur("echec de reallocation dans CSommet::SOMajouterSuccesseur(). Le programme s'est arrete.");
+		}
+
+		pARRSOMarcsArrivants[uiSOMnbPredecesseurs - 1] = new CArcArrivant(this, pSOMpredecesseur);
 	}
 
-	pARRSOMarcsArrivants[uiSOMnbPredecesseurs - 1] = new CArcArrivant(this, pSOMpredecesseur);
 }
 
 
@@ -495,9 +513,9 @@ void CSommet::SOMajouterPredecesseur(CSommet * pSOMpredecesseur)
 Suppression d'un prédecesseur.
 ******************************************
 Entrée : un pointeur sur une instance de CSommet.
-Nécessite : rien.
+Nécessite : Cette méthode doit être appelée uniquement par CSommet::SOMsupprimerSuccesseur().
 Sortie : rien.
-Entraîne : la suppression d'un prédecesseur de sommet.
+Entraîne : la suppression d'un arc arrivant au sommet.
 ******************************************/
 void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 {
@@ -505,18 +523,18 @@ void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 	if (pSOMpredecesseur != nullptr && pSOMpredecesseur != this && pSOMpredecesseur->pGRASOMgraphe == pGRASOMgraphe)
 	{
 		unsigned int uiBoucle;
-		unsigned int uiPos = SOMgetPositionPredecesseur(pSOMpredecesseur);
+		int iPos = SOMgetPositionPredecesseur(pSOMpredecesseur);
 
 		// Si ce sommet n'est pas dans la liste des successeurs, on ne fait rien
-		if (uiPos == -1)
+		if (iPos == -1)
 		{
 			return;
 		}
 
-		delete pARRSOMarcsArrivants[uiPos];
+		delete pARRSOMarcsArrivants[iPos];
 
 		// On décale tout d'une case vers la gauche à partir de l'indice à supprimer
-		for (uiBoucle = uiPos; uiBoucle < uiSOMnbPredecesseurs - 1; uiBoucle++)
+		for (uiBoucle = iPos; uiBoucle < uiSOMnbPredecesseurs - 1; uiBoucle++)
 		{
 			pARRSOMarcsArrivants[uiBoucle] = pARRSOMarcsArrivants[uiBoucle + 1];
 		}

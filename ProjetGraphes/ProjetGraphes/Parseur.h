@@ -45,21 +45,24 @@ public:
 	Extraire la partie gauche d'une ligne du fichier
 	******************************************
 	Entrée : la ligne du fichier à analyser
+	Entrée : le caractère qui sépare les deux parties
 	Nécessite : la ligne contient un (et un seul) '='.
 	Sortie : la partie gauche de la ligne allouée sur le tas.
 	Entraîne : Allocation d'une chaine de caractère (via new).
 	******************************************/
-	static char * PARextraireBalise(const char * pcLigne);
+	static char * PARextrairePartieGauche(const char * pcLigne, const char cSeparateur = '=');
 
 
 	/*****************************************
-	Extraire la partie droite d'une ligne du fichier
+	Extraire la partie gauche d'une ligne du fichier
 	******************************************
 	Entrée : la ligne du fichier à analyser
+	Entrée : le caractère qui sépare les deux parties
 	Nécessite : la ligne contient un (et un seul) '='.
-	Sortie : la partie droite de la ligne allouée sur le tas.
+	Sortie : la partie gauche de la ligne allouée sur le tas, ou nullptr
+	si le séparateur ne fait pas partie de la chaine.
 	Entraîne : Allocation d'une chaine de caractère (via new).
 	******************************************/
-	static char *  PARextraireValeur(const char * pcLigne);
+	static char *  PARextrairePartieDroite(const char * pcLigne, const char cSeparateur = '=');
 };
 #endif

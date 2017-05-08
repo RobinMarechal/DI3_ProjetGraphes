@@ -149,56 +149,70 @@ void CParseur::PARanalyseSyntaxique(const char * pcFichier)
 Extraire la partie gauche d'une ligne du fichier
 ******************************************
 Entrée : la ligne du fichier à analyser
+Entrée : le caractère qui sépare les deux parties
 Nécessite : la ligne contient un (et un seul) '='.
 Sortie : la partie gauche de la ligne allouée sur le tas.
 Entraîne : Allocation d'une chaine de caractère (via new).
 ******************************************/
-char * CParseur::PARextraireBalise(const char * pcLigne)
+char * CParseur::PARextrairePartieGauche(const char * pcLigne, const char cSeparateur)
 {
 	char pcTmp[1024] = { 0 };
-	char * pcEgal = NULL;
+	char * pcPosSep = nullptr;
 
-	strcpy_s(pcTmp, 1024, pcLigne);
-	pcEgal = strchr(pcTmp, '=');
+	strcpy_s(pcTmp, sizeof(pcTmp), pcLigne);
+	pcPosSep = strchr(pcTmp, cSeparateur);
 
-	// On revérifie au cas ou la méthode est appelée à un autre moment sans 
-	// analyse syntaxique au préalable.
-	if (pcEgal == NULL)
+	// Si le separateur a été trouvé, il devient la fin de la chaine
+	if (pcPosSep != nullptr)
 	{
-		throw Cexception(EXC_ERREUR_SYNTAXIQUE, "Erreur syntaxique : une ligne du fichier ne contient pas de '='.");
+		pcTmp[pcPosSep - pcTmp] = '\0';
 	}
 
-	pcTmp[pcEgal - pcTmp] = '\0';
+	// sinon, la "partie gauche" est la chaine entière
 
 	return supprimerEspaces(pcTmp);
 }
 
 
 /*****************************************
-Extraire la partie droite d'une ligne du fichier
+Extraire la partie gauche d'une ligne du fichier
 ******************************************
 Entrée : la ligne du fichier à analyser
+Entrée : le caractère qui sépare les deux parties
 Nécessite : la ligne contient un (et un seul) '='.
-Sortie : la partie droite de la ligne allouée sur le tas.
+Sortie : la partie gauche de la ligne allouée sur le tas, ou nullptr
+		 si le séparateur ne fait pas partie de la chaine.
 Entraîne : Allocation d'une chaine de caractère (via new).
 ******************************************/
-char * CParseur::PARextraireValeur(const char * pcLigne)
+char * CParseur::PARextrairePartieDroite(const char * pcLigne, const char cSeparateur)
 {
 	char pcTmp[1024] = { 0 };
-	char * pcEgal = NULL;
-	char * pcFin = NULL;
+	char * pcPosSep = nullptr;
+	char * pcPosFin = nullptr;
 
-	strcpy_s(pcTmp, 1024, pcLigne);
-	pcEgal = strchr(pcTmp, '=');
+	strcpy_s(pcTmp, sizeof(pcTmp), pcLigne);
+	pcPosSep = strchr(pcTmp, cSeparateur);
 
 	// On revérifie au cas ou la méthode est appelée à un autre moment sans 
 	// analyse syntaxique au préalable.
-	if (pcEgal == NULL)
+	if (pcPosSep == nullptr)
 	{
-		throw Cexception(EXC_ERREUR_SYNTAXIQUE, "Erreur syntaxique : une ligne du fichier ne contient pas de '='.");
+		char pcMsg[1024] = { 0 };
+		sprintf_s(pcMsg, sizeof(pcMsg), "Erreur syntaxique : une ligne du fichier ne contient pas de '%c'.", cSeparateur);
+		throw Cexception(EXC_ERREUR_SYNTAXIQUE, pcMsg);
 	}
 
-	return supprimerEspaces(pcEgal + 1);
+	// Si le separateur a été trouvé, on retourne la partie de la chaine après celui-ci
+	if (pcPosSep != nullptr)
+	{
+		return supprimerEspaces(pcPosSep + 1);
+	}
+
+	// sinon, il n'y a pas de partie droite
+	return nullptr;
+
+	// OU on retourne toute la chaine
+	// return supprimerEspaces(pcLigne);
 }
 
 
@@ -244,8 +258,8 @@ CTableauAssociatif * CParseur::PARparserFichier(const char * pcFichier)
 		}
 
 
-		strcpy_s(pcBalise, 1024, PARextraireBalise(pcLigne));
-		strcpy_s(pcValeur, 1024, PARextraireValeur(pcLigne));
+		strcpy_s(pcBalise, 1024, PARextrairePartieGauche(pcLigne));
+		strcpy_s(pcValeur, 1024, PARextrairePartieDroite(pcLigne));
 
 		// On permet un peu de souplesse par rapport à la casse des valeurs
 		// Ex : 'TypeMatrice=DOUble' => fonctionne
@@ -255,6 +269,7 @@ CTableauAssociatif * CParseur::PARparserFichier(const char * pcFichier)
 		if (*pcValeur == '[')
 		{
 			char * pcValeurSansEspaces;
+			char pcListe[1024] = { 1024 };
 
 			*pcValeur = '\0';
 			fichier.getline(pcLigne, 1024);
@@ -271,11 +286,13 @@ CTableauAssociatif * CParseur::PARparserFichier(const char * pcFichier)
 			}
 
 			// On retire le dernier \n (si la chaine n'est pas vide)
-			if (pcValeur[0] != 0)
-				pcValeur[strlen(pcValeur) - 1] = '\0';
+			//if (pcValeur[0] != 0)
+			//	pcValeur[strlen(pcValeur) - 1] = '\0';
 
 			pcValeurSansEspaces = supprimerEspaces(pcValeur);
-			TABtab->TABajouterChaine(pcBalise, _strdup(pcValeurSansEspaces));
+			sprintf_s(pcListe, sizeof(pcLigne), "[\n%s]", pcValeurSansEspaces);
+
+			TABtab->TABajouterChaine(pcBalise, pcListe);
 
 			delete[] pcValeurSansEspaces;
 		}

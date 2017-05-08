@@ -32,55 +32,12 @@ void gregoire()
 
 void robin()
 {
-	/*
-	CGraphe g;
+	char * pcFichier = "C:\\Users\\Robin\\Desktop\\Divers\\Work\\Polytech\\S6\\C++\\DI3_ProjetGraphes\\JePasse\\fichier01.txt";
 
-	CSommet * s1 = g.GRAcreerSommet(1);
-	CSommet * s3 = g.GRAcreerSommet(3);
-	CSommet * s2 = g.GRAcreerSommet(11);
+	CGraphe g = CGraphe::GRAgenerer(pcFichier);
 
-	s1->SOMajouterSuccesseur(s3);
-	s2->SOMajouterSuccesseur(s1);	
-	s1->SOMajouterSuccesseur(s2);
-	s2->SOMajouterSuccesseur(s3);
+	cout << g;
 
-	cout << s1 << endl;
-	cout << s2 << endl;
-	cout << s3 << endl;
-
-	g.GRAdebug();
-
-	cout << "Inversion..." << endl;
-
-	COperationGraphe og;
-
-	CGraphe * g2 = og.OPGinverserGraphe(g);
-
-	g2->GRAdebug();
-
-	cout << g2->GRAgetSommetPosition(0) << endl;
-	cout << g2->GRAgetSommetPosition(1) << endl;
-	cout << g2->GRAgetSommetPosition(2) << endl;
-	*/
-
-	CGraphe graphe;
-	
-	CSommet * s0 = graphe.GRAcreerSommet(0);
-	CSommet * s1 = graphe.GRAcreerSommet(1);
-	CSommet * s3 = graphe.GRAcreerSommet(3);
-
-	graphe.GRAsupprimerSommet(s3);
-	CSommet * s2 = graphe.GRAcreerSommet(4);
-
-	s0->SOMajouterSuccesseur(s1);
-	s2->SOMajouterSuccesseur(s0);
-	s2->SOMsupprimerSuccesseur(s0);
-	s0->SOMajouterSuccesseur(s2);
-
-	CGraphe graphe2(graphe);
-	
-	cout << graphe << endl;
-	cout << graphe2 << endl;
 }
 
 int main(int argc, char * argv[])
