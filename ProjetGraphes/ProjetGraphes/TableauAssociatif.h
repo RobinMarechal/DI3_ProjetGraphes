@@ -217,7 +217,7 @@ public:
 	Sortie : le nombre d'élements du tableau associatif
 	Entraîne : rien
 	*********************************************************/
-	unsigned int TABgetNbElements() const;
+	unsigned int TABgetNbElements() const { return uiTABnbElements; }
 
 
 
@@ -270,7 +270,10 @@ public:
 	Sortie : un union Valeur
 	Entraîne : rien
 	*********************************************************/
-	Valeur TABgetValeurPos(unsigned int uiPos) const;
+	Valeur TABgetValeurPos(unsigned int uiPos) const
+	{
+		return pvTABvaleurs[uiPos];
+	}
 
 
 
@@ -282,7 +285,10 @@ public:
 	Sortie: Le type de la valeur (TYPE_CHAINE, TYPE_REEL, ou TYPE_ENTIER)
 	Entraîne : rien
 	*********************************************************/
-	unsigned int TABgetValeurType(unsigned int uiPos) const;
+	unsigned int TABgetValeurType(unsigned int uiPos) const
+	{
+		return puiTypes[uiPos];
+	}
 
 
 
@@ -294,9 +300,11 @@ public:
 	Sortie : Le type de la valeur (TYPE_CHAINE, TYPE_REEL, ou TYPE_ENTIER)
 	Entraîne : rien
 	*********************************************************/
-	unsigned int TABgetValeurType( const char * pcCle) const;
-
-
+	unsigned int TABgetValeurType( const char * pcCle) const
+	{
+		unsigned int uiPos = TABgetIndiceCle(pcCle);
+		return TABgetValeurType(uiPos);
+	}
 
 
 	/********************************************************
@@ -344,8 +352,6 @@ public:
 	Attention : Ne jamais free la chaine de caractère retournée, a moins qu'elle ne soit réallouée juste après.
 	*********************************************************/
 	char * TABgetValeurChaine( const char * pcCle) const;
-
-
 };
 
 #endif

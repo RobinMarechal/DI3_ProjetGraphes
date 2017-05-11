@@ -22,11 +22,11 @@ class CGraphe
 {
 private:
 
-	unsigned int uiGRAnbSommets;
-	unsigned int * puiGRApositionsSommets;
-	unsigned int uiGRAtailleTableau;
+	unsigned int uiGRAnbSommets; // Le nombre de sommets du graphe
+	unsigned int * puiGRApositionsSommets; // Le tableau des positions
+	unsigned int uiGRAtailleTableau; // Taille du tableau des positions
 
-	CSommet ** ppSOMGRAsommets;
+	CSommet ** ppSOMGRAsommets; // Liste des sommets
 
 	/*****************************************
 	Initialisation d'un graphe.
@@ -53,7 +53,7 @@ private:
 	/*****************************************
 	Recopie d'un graphe.
 	******************************************
-	Entrée : une référence sur une instance de CGraphe
+	Entrée : une instance de CGraphe
 	Nécessite : rien.
 	Sortie : rien.
 	Entraîne : la recopie du graphe passé en paramètre.
@@ -65,9 +65,9 @@ public:
 	/*****************************************
 	Constructeur à un argument.
 	******************************************
-	Entrée : le nombre de sommets du graphe à construire (unsigned int).
+	Entrée : rien.
 	Nécessite : rien.
-	Sortie : une instance de CGraphe.
+	Sortie : rien.
 	Entraîne : la création d'un graphe contenant le nombre de sommets indiqués.
 	******************************************/
 	CGraphe();
@@ -78,7 +78,7 @@ public:
 	******************************************
 	Entrée : une instance de CGraphe.
 	Nécessite : rien.
-	Sortie : une instance de CGraphe.
+	Sortie : rien.
 	Entraîne : la création d'une copie du graphe passé en paramètre.
 	******************************************/
 	CGraphe(const CGraphe & GRAobjet);
@@ -90,7 +90,7 @@ public:
 	Entrée : rien.
 	Nécessite : rien.
 	Sortie : rien.
-	Entraîne : la désallocation des pointeurs.
+	Entraîne : la désallocation de la mémoire allouée et destruction de l'objet.
 	******************************************/
 	~CGraphe();
 
@@ -101,13 +101,14 @@ public:
 	Entrée : une instance de CGraphe.
 	Nécessite : rien.
 	Sortie : une instance de CGraphe.
-	Entraîne : la recopie du graphe passé en paramètre.
+	Entraîne : l'affectation du graphe passé en paramètre.
 	******************************************/
 	CGraphe & operator=(const CGraphe & GRAobjet);
 
 
 	/*****************************************
 	Surcharge de l'opérateur ==
+	Compare deux graphes, y compris les sommets et les arcs
 	******************************************
 	Entrée : une instance de CGraphe.
 	Nécessite : rien.
@@ -120,6 +121,7 @@ public:
 
 	/*****************************************
 	Surcharge de l'opérateur !=.
+	Compare deux graphes, y compris les sommets et les arcs
 	******************************************
 	Entrée : une instance de CGraphe.
 	Nécessite : rien.
@@ -136,7 +138,7 @@ public:
 	******************************************
 	Entrée : rien.
 	Nécessite : rien.
-	Sortie : le nombre de sommets du graphe (unsigned int).
+	Sortie : le nombre de sommets du graphe.
 	Entraîne : rien.
 	******************************************/
 	unsigned int GRAgetNbSommets() const { return uiGRAnbSommets; };
@@ -146,9 +148,9 @@ public:
 	Création d'un sommet.
 	******************************************
 	Entrée : le numéro du sommet.
-	Nécessite : le numéro est un nombre > 0.
-	Sortie : un pointeur sur une instance de CSommet.
-	Entraîne : la création d'un sommet.
+	Nécessite : rien.
+	Sortie : un pointeur sur une instance de CSommet ou nullptr en cas d'echec.
+	Entraîne : la création d'un sommet ou message d'erreur dans la console.
 	******************************************/
 	CSommet * GRAcreerSommet(unsigned int uiNumero);
 
@@ -160,6 +162,7 @@ public:
 	Nécessite : rien.
 	Sortie : rien.
 	Entraîne : l'ajout du sommet passé en paramètre au graphe.
+	Entraîne : Un exception de type Cexception si le graphe possède déjà un sommet avec ce numéro.
 	******************************************/
 	void GRAajouterSommet(CSommet * pSOMobjet);
 
@@ -168,34 +171,46 @@ public:
 	Création d'un arc reliant deux sommets.
 	******************************************
 	Entrée : le numéro du sommet de départ.
-	Entrée : le numéro du sommet d'arrivée
+	Entrée : le numéro du sommet d'arrivée.
 	Nécessite : rien.
 	Sortie : rien.
 	Entraîne : La création d'un arc entre les deux sommets.
 	Entraîne : Une exception de type Cexception si le graphe ne possède 
-			   pas de sommets numéro uiNumDepart et uiNumArrivee.
-	Entraîne : Un exception de type Cexception si la création de l'arc a échoué.
+			   pas de sommets numéro uiNumDepart ou uiNumArrivee.
 	******************************************/
 	void GRAcreerArc(unsigned int uiNumDepart, unsigned int uiNumArrivee);
 
 
 	/*****************************************
-	Lecture d'un sommet.
+	Suppression d'un arc
 	******************************************
-	Entrée : le numéro du sommet (unsigned int).
-	Nécessite : le nméro est > 0.
-	Sortie : un pointeur sur une instance de CSommet.
+	Entrée : le numéro du sommet de départ.
+	Entrée : le numéro du sommet d'arrivée.
+	Nécessite : rien.
+	Sortie : rien.
+	Entraîne : La suppression de l'arc entre les deux sommets.
+	Entraîne : Une exception de type Cexception si le graphe ne possède
+			   pas de sommets numéro uiNumDepart ou uiNumArrivee.
+	******************************************/
+	void GRAsupprimerArc(unsigned int uiNumDepart, unsigned int uiNumArrivee);
+
+	/*****************************************
+	Récupération d'un sommet en fonction de son numéro.
+	******************************************
+	Entrée : le numéro du sommet
+	Nécessite : rien
+	Sortie : un pointeur sur une instance de CSommet ou nullptr.
 	Entraîne : rien.
 	******************************************/
 	CSommet * GRAgetSommetNumero(unsigned int uiNumero) const;
 
 
 	/*****************************************
-	Lecture de la position d'un sommet.
+	Récupération d'un sommet en fonction de sa position dans le tableau
 	******************************************
-	Entrée : la position du sommet (unsigned int).
-	Nécessite : la position est > 0.
-	Sortie : une instance de CSommet.
+	Entrée : la position du sommet.
+	Nécessite : rien
+	Sortie : un pointeur sur une instance de CSommet ou nullptr.
 	Entraîne : rien.
 	******************************************/
 	CSommet * GRAgetSommetPosition(unsigned int uiPos) const;
@@ -206,7 +221,7 @@ public:
 	******************************************
 	Entrée : un pointeur sur une instance de CSommet.
 	Nécessite : rien.
-	Sortie : la position du sommet (unsigned int).
+	Sortie : la position du sommet ou 0 si le sommet n'est pas dans le graphe.
 	Entraîne : rien.
 	******************************************/
 	unsigned int GRAgetPosSommet(const CSommet * pSOMobjet) const;
@@ -229,7 +244,7 @@ public:
 	Entrée : rien.
 	Nécessite : rien.
 	Sortie : rien.
-	Entraîne : l'affichage d'un graphe.
+	Entraîne : l'affichage d'un graphe dans la console.
 	******************************************/
 	void GRAafficher() const;
 
@@ -241,10 +256,11 @@ public:
 	Entrée : Un pointeur sur une instance de CTableauAssociatif.
 	Nécessite : rien.
 	Sortie : rien.
-	Entraîne : une Cexception  est levée si le tableau de contient pas "NBSommets", "NBArcs", "Sommets" et "Arcs",
-	ou que les types correspondants sont incorrects (resp. Entier, Entier, Chaine, Chaine)
+	Entraîne : une Cexception est levée si le tableau de contient pas "NBSommets", "NBArcs", "Sommets" et "Arcs",
+			   ou que les types correspondants sont incorrects (resp. Entier, Entier, Chaine, Chaine)
 	******************************************/
 	static void GRAverifierContenuTableau(CTableauAssociatif * pTABtab);
+
 
 	/*****************************************
 	Génération d'un graphe à partir d'un fichier
@@ -253,33 +269,19 @@ public:
 	Nécessite : rien.
 	Sortie : une instance de CGraphe.
 	Entraîne : La création d'un objet CGraphe avec les informations du fichier
-	Entraîne : Une exception de type Cexception en cas de fichier introuvable ou d'erreur de syntaxe.
+	Entraîne : Une exception de type Cexception en cas de fichier introuvable, d'erreur syntaxique ou lexicale.
 	******************************************/
 	static CGraphe GRAgenerer(const char * pcFichier);
-
-	// A supprimer ?
-	void GRAdebug() const;
 };
 
 /*****************************************
 Surchage de l'opérateur <<.
 ******************************************
-Entrée : un flux, une référence sur une instance de CGraphe.
+Entrée : un flux, une instance de CGraphe.
 Nécessite : rien.
 Sortie : un flux.
 Entraîne : l'affichage du graphe passé en paramètre.
 ******************************************/
 std::ostream & operator<<(std::ostream & oFlux, const CGraphe & GRAgraphe);
-
-
-/*****************************************
-Surchage de l'opérateur <<.
-******************************************
-Entrée : un flux, un pointeur sur une instance de CGraphe.
-Nécessite : rien.
-Sortie : un flux.
-Entraîne : l'affichage du graphe passé en paramètre.
-******************************************/
-std::ostream & operator<<(std::ostream & oFlux, const CGraphe * GRAgraphe);
 
 #endif

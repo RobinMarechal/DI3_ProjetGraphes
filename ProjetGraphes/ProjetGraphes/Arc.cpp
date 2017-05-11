@@ -4,7 +4,7 @@
 /*****************************************
 Recopie d'un arc.
 ******************************************
-Entrée : une référence sur une instance de CArc.
+Entrée : une instance de CArc.
 Nécessite : rien.
 Sortie : rien.
 Entraîne : la recopie de l'arc passé en paramètre.
@@ -19,8 +19,8 @@ void CArc::ARCrecopier(CArc & ARCobjet)
 /*****************************************
 Constructeur à deux arguments.
 ******************************************
-Entrée : un pointeur sur une instance de Csommet parent,
-		 un pointeur sur une instance de CSommet visé.
+Entrée : un pointeur sur une instance de CSommet.
+Entrée : un pointeur sur une instance de CSommet.
 Nécessite : rien.
 Sortie : rien.
 Entraîne : la création d'un arc entre les deux sommets passés en paramètre.
@@ -35,7 +35,7 @@ CArc::CArc(CSommet * pSOMsommetParent, CSommet * pSOMsommetVise)
 /*****************************************
 Constructeur de recopie.
 ******************************************
-Entrée : une référence sur une instance de CArc.
+Entrée : une instance de CArc.
 Nécessite : rien.
 Sortie : rien.
 Entraîne : la recopie de l'arc passé en paramètre.
@@ -57,60 +57,4 @@ Entraîne : rien.
 CArc::~CArc()
 {
 	// Rien a désallouer
-}
-
-
-/*****************************************
-Lecture du sommet visé.
-******************************************
-Entrée : rien.
-Nécessite : rien.
-Sortie : un pointeur sur le CSommet visé.
-Entraîne : rien.
-******************************************/
-CSommet * CArc::ARCgetSommetVise() const
-{
-	return pSOMARCsommetVise;
-}
-
-
-/*****************************************
-Lecture du sommet parent.
-******************************************
-Entrée : rien.
-Nécessite : rien.
-Sortie : un pointeur sur le CSommet parent.
-Entraîne : rien.
-******************************************/
-CSommet * CArc::ARCgetSommetParent() const
-{
-	return pSOMARCsommetParent;
-}
-
-
-/*****************************************
-Affectation du sommet visé.
-******************************************
-Entrée : un pointeur sur une instance de CSommet.
-Nécessite : rien.
-Sortie : rien.
-Entraîne : l'affectation du sommet visé.
-******************************************/
-void CArc::ARCsetSommetVise(CSommet * pSOMsommetVise)
-{
-	pSOMARCsommetVise = pSOMsommetVise;
-}
-
-
-/*****************************************
-Affectation du sommet parent.
-******************************************
-Entrée : un pointeur sur une instance de CSommet.
-Nécessite : rien.
-Sortie : rien.
-Entraîne : l'affectation du sommet parent.
-******************************************/
-void CArc::ARCsetSommetParent(CSommet * pSOMsommetParent)
-{
-	pSOMARCsommetParent = pSOMsommetParent;
 }

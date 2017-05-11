@@ -9,7 +9,7 @@ using namespace std;
 Constructeur à deux arguments.
 ******************************************
 Entrée : un pointeur sur une instance du CSommet parent,
-		 un pointeur sur une instance du CSommet visé.
+Entrée : un pointeur sur une instance du CSommet visé.
 Nécessite : rien.
 Sortie : rien.
 Entraîne : la création d'un arc.
@@ -22,7 +22,7 @@ CArcArrivant::CArcArrivant(CSommet * pSOMsommetParent, CSommet * pSOMsommetVise)
 /*****************************************
 Constructeur de recopie.
 ******************************************
-Entrée : une référence sur une instance de CArcArrivant.
+Entrée : une instance de CArcArrivant.
 Nécessite : rien.
 Sortie : rien.
 Entraîne : la recopie de l'arc passé en paramètre.
@@ -48,9 +48,9 @@ CArcArrivant::~CArcArrivant()
 /*****************************************
 Surcharge de l'opérateur =.
 ******************************************
-Entrée : une référence sur une instance de CArcArrivant.
+Entrée : une instance de CArcArrivant.
 Nécessite : rien.
-Sortie : une référence sur une instance de CArcArrivant.
+Sortie : une instance de CArcArrivant.
 Entraîne : l'affectation de l'arc passé en paramètre.
 ******************************************/
 CArcArrivant & CArcArrivant::operator=(CArcArrivant & ARRobjet)
@@ -64,7 +64,7 @@ CArcArrivant & CArcArrivant::operator=(CArcArrivant & ARRobjet)
 /*****************************************
 Surcharge de l'opérateur ==.
 ******************************************
-Entrée : une référence sur une instance de CArcArrivant.
+Entrée : une instance de CArcArrivant.
 Nécessite : rien.
 Sortie : un booléen.
 Entraîne : (true : les arcs sont identiques)
@@ -79,7 +79,7 @@ bool CArcArrivant::operator==(CArcArrivant & ARRobjet) const
 /*****************************************
 Surcharge de l'opérateur !=.
 ******************************************
-Entrée : une référence sur une instance de CArcArrivant.
+Entrée : une instance de CArcArrivant.
 Nécessite : rien.
 Sortie : un booléen.
 Entraîne : (true : les arcs sont différents)
@@ -87,12 +87,5 @@ Entraîne : (true : les arcs sont différents)
 ******************************************/
 bool CArcArrivant::operator!=(CArcArrivant & ARRobjet) const
 {
-	return !(* this == ARRobjet);
-}
-
-
-// A supprimer ?
-void CArcArrivant::ARCdebug() const
-{
-	cout << ARCgetSommetParent()->SOMgetNumero() << " <- " << ARCgetSommetVise()->SOMgetNumero() << endl;
+	return !(*this == ARRobjet);
 }

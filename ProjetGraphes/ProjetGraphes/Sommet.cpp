@@ -17,8 +17,8 @@ void CSommet::SOMinit()
 	uiSOMnbPredecesseurs = 0;
 
 	pGRASOMgraphe = nullptr;
-	pARRSOMarcsArrivants = nullptr;
-	pPARSOMarcsPartants = nullptr;
+	ppARRSOMarcsArrivants = nullptr;
+	ppPARSOMarcsPartants = nullptr;
 }
 
 
@@ -35,23 +35,25 @@ void CSommet::SOMdetruire()
 	// Supprimer les arcs partants et arrivant
 	while (uiSOMnbSuccesseurs != 0)
 	{
+		// La méthode décrémente uiSOMnbSuccesseurs et décale le tableau des successeurs
 		SOMsupprimerSuccesseur(SOMgetSuccesseur(0));
 	}
 
 	while (uiSOMnbPredecesseurs != 0)
 	{
+		// La méthode décrémente uiSOMnbPredecesseurs et décale le tableau des predecesseurs
 		SOMgetPredecesseur(0)->SOMsupprimerSuccesseur(this);
 	}
 
-	free(pARRSOMarcsArrivants);
-	free(pPARSOMarcsPartants);
+	free(ppARRSOMarcsArrivants);
+	free(ppPARSOMarcsPartants);
 }
 
 
 /*****************************************
 Recopie du sommet.
 ******************************************
-Entrée : une référence sur une instance de CSommet.
+Entrée : une instance de CSommet.
 Nécessite : rien.
 Sortie : rien.
 Entraîne : la recopie du sommet passé en paramètre.
@@ -65,10 +67,10 @@ void CSommet::SOMrecopier(CSommet & SOMobjet)
 	uiSOMnbSuccesseurs = SOMobjet.uiSOMnbSuccesseurs;
 	uiSOMnbPredecesseurs = SOMobjet.uiSOMnbPredecesseurs;
 
-	pPARSOMarcsPartants = (CArcPartant **)malloc(uiSOMnbSuccesseurs * sizeof(CArcPartant*));
-	pARRSOMarcsArrivants = (CArcArrivant **)malloc(uiSOMnbPredecesseurs * sizeof(CArcArrivant*));
+	ppPARSOMarcsPartants = (CArcPartant **)malloc(uiSOMnbSuccesseurs * sizeof(CArcPartant*));
+	ppARRSOMarcsArrivants = (CArcArrivant **)malloc(uiSOMnbPredecesseurs * sizeof(CArcArrivant*));
 
-	if (pPARSOMarcsPartants == nullptr || pARRSOMarcsArrivants == nullptr)
+	if (ppPARSOMarcsPartants == nullptr || ppARRSOMarcsArrivants == nullptr)
 	{
 		erreur("Echec d'allocation dans CSommet::SOMrecopier(CSommet). Le programme s'est arrêté.");
 	}
@@ -77,17 +79,13 @@ void CSommet::SOMrecopier(CSommet & SOMobjet)
 
 	for (uiBoucle = 0; uiBoucle < SOMobjet.uiSOMnbSuccesseurs; uiBoucle++)
 	{
-		//SOMajouterSuccesseur(SOMobjet.SOMgetSuccesseur(uiBoucle));
-		//SOMajouterSuccesseur(new CSommet(SOMobjet.pGRASOMgraphe, SOMobjet.SOMgetSuccesseur(uiBoucle)->SOMgetNumero()));
-		pPARSOMarcsPartants[uiBoucle] = new CArcPartant(*SOMobjet.pPARSOMarcsPartants[uiBoucle]);
+		ppPARSOMarcsPartants[uiBoucle] = new CArcPartant(*SOMobjet.ppPARSOMarcsPartants[uiBoucle]);
 
 	}
 
 	for (uiBoucle = 0; uiBoucle < SOMobjet.uiSOMnbPredecesseurs; uiBoucle++)
 	{
-		//SOMajouterSuccesseur(SOMobjet.SOMgetPredecesseur(uiBoucle));
-		//SOMajouterPredecesseur(new CSommet(SOMobjet.pGRASOMgraphe, SOMobjet.SOMgetPredecesseur(uiBoucle)->SOMgetNumero()));
-		pARRSOMarcsArrivants[uiBoucle] = new CArcArrivant(*SOMobjet.pARRSOMarcsArrivants[uiBoucle]);
+		ppARRSOMarcsArrivants[uiBoucle] = new CArcArrivant(*SOMobjet.ppARRSOMarcsArrivants[uiBoucle]);
 	}
 }
 
@@ -121,7 +119,7 @@ CSommet::CSommet(CGraphe * pGRAgraphe, unsigned int uiNumero)
 /*****************************************
 Constructeur de recopie.
 ******************************************
-Entrée : une référence sur une instance de CSommet.
+Entrée : une instance de CSommet.
 Nécessite : rien.
 Sortie : rien.
 Entraîne : la recopie du sommet passé en paramètre.
@@ -149,9 +147,9 @@ CSommet::~CSommet()
 /*****************************************
 Surcharge de l'opérateur =.
 ******************************************
-Entrée : une référence sur une instance de CSommet.
+Entrée : une instance de CSommet.
 Nécessite : rien.
-Sortie : une référence sur une instance de CSommet.
+Sortie : une instance de CSommet.
 Entraîne : l'affectation du sommet passé en paramètre.
 ******************************************/
 CSommet & CSommet::operator=(CSommet & SOMobjet)
@@ -162,25 +160,10 @@ CSommet & CSommet::operator=(CSommet & SOMobjet)
 	return *this;
 }
 
-
-/*****************************************
-Surcharge de l'opérateur >>.
-******************************************
-Entrée : une référence sur une instance de CSommet.
-Nécessite : rien.
-Sortie : rien.
-Entraîne : l'ajout d'un successeur au sommet.
-******************************************/
-void CSommet::operator >> (CSommet * SOMsuccesseur)
-{
-	SOMajouterSuccesseur(SOMsuccesseur);
-}
-
-
 /*****************************************
 Surcharge de l'opérateur ==.
 ******************************************
-Entrée : une référence sur une instance de CSommet.
+Entrée : une instance de CSommet.
 Nécessite : rien.
 Sortie : un booléen.
 Entraîne : (true : les sommets sont identiques)
@@ -200,7 +183,7 @@ bool CSommet::operator==(CSommet & SOMobjet) const
 /*****************************************
 Surcharge de l'opérateur !=.
 ******************************************
-Entrée : une référence sur une instance de CSommet.
+Entrée : une instance de CSommet.
 Nécessite : rien.
 Sortie : un booléen.
 Entraîne : (true : les sommets sont différents)
@@ -209,48 +192,6 @@ Entraîne : (true : les sommets sont différents)
 bool CSommet::operator!=(CSommet & SOMobjet) const
 {
 	return !operator==(SOMobjet);
-}
-
-
-/*****************************************
-Lecture du numéro du sommet.
-******************************************
-Entrée : rien.
-Nécessite : rien.
-Sortie : le numéro du sommet (unsigned int).
-Entraîne : rien.
-******************************************/
-inline unsigned int CSommet::SOMgetNumero() const
-{
-	return uiSOMnumero;
-}
-
-
-/*****************************************
-Lecture du nombre de successeurs.
-******************************************
-Entrée : rien.
-Nécessite : rien.
-Sortie : le nombre de successeurs (unsigned int).
-Entraîne : rien.
-******************************************/
-inline unsigned int CSommet::SOMgetNbSuccesseurs() const
-{
-	return uiSOMnbSuccesseurs;
-}
-
-
-/*****************************************
-Lecture du nombre de prédecesseurs.
-******************************************
-Entrée : rien.
-Nécessite : rien.
-Sortie : le nombre de prédecesseurs (unsigned int).
-Entraîne : rien.
-******************************************/
-inline unsigned int CSommet::SOMgetNbPredecesseurs() const
-{
-	return uiSOMnbPredecesseurs;
 }
 
 
@@ -269,7 +210,7 @@ int CSommet::SOMgetPositionSuccesseur(CSommet * pSOMsucc) const
 
 	for (uiBoucle = 0; uiBoucle < uiSOMnbSuccesseurs; uiBoucle++)
 	{
-		if (*pPARSOMarcsPartants[uiBoucle]->ARCgetSommetVise() == *pSOMsucc)
+		if (*ppPARSOMarcsPartants[uiBoucle]->ARCgetSommetVise() == *pSOMsucc)
 		{
 			return uiBoucle;
 		}
@@ -294,7 +235,7 @@ int CSommet::SOMgetPositionPredecesseur(CSommet * pSOMpred) const
 
 	for (uiBoucle = 0; uiBoucle < uiSOMnbPredecesseurs; uiBoucle++)
 	{
-		if (*pARRSOMarcsArrivants[uiBoucle]->ARCgetSommetVise() == *pSOMpred)
+		if (*ppARRSOMarcsArrivants[uiBoucle]->ARCgetSommetVise() == *pSOMpred)
 		{
 			return uiBoucle;
 		}
@@ -331,7 +272,7 @@ inline CSommet * CSommet::SOMgetSuccesseur(unsigned int uiPos) const
 	if (uiPos < 0 || uiPos >= uiSOMnbSuccesseurs)
 		return nullptr;
 
-	return pPARSOMarcsPartants[uiPos]->ARCgetSommetVise();
+	return ppPARSOMarcsPartants[uiPos]->ARCgetSommetVise();
 }
 
 
@@ -348,41 +289,7 @@ inline CSommet * CSommet::SOMgetPredecesseur(unsigned int uiPos) const
 	if (uiPos < 0 || uiPos >= uiSOMnbPredecesseurs)
 		return nullptr;
 
-	return pARRSOMarcsArrivants[uiPos]->ARCgetSommetVise();
-}
-
-
-/*****************************************
-Lecture d'un arc partant.
-******************************************
-Entrée : la position de l'arc (unsigned int).
-Nécessite : la position > 0.
-Sortie : un pointeur sur une instance de CArcPArtant.
-Entraîne : rien.
-******************************************/
-CArcPartant * CSommet::SOMgetArcPartant(unsigned int uiPos) const
-{
-	if (uiPos < 0 || uiPos >= uiSOMnbPredecesseurs)
-		return nullptr;
-
-	return pPARSOMarcsPartants[uiPos];
-}
-	
-
-/*****************************************
-Lecture d'un arc arrivant.
-******************************************
-Entrée : la position de l'arc arrivant (unsigned int).
-Nécessite : la position > 0.
-Sortie : un pointeur sur une instance de CArcArrivant.
-Entraîne : rien.
-******************************************/
-CArcArrivant * CSommet::SOMgetArcArrivant(unsigned int uiPos) const
-{
-	if (uiPos < 0 || uiPos >= uiSOMnbPredecesseurs)
-		return nullptr;
-
-	return pARRSOMarcsArrivants[uiPos];
+	return ppARRSOMarcsArrivants[uiPos]->ARCgetSommetVise();
 }
 
 
@@ -402,21 +309,21 @@ void CSommet::SOMajouterSuccesseur(CSommet * pSOMsuccesseur)
 		int iPos = SOMgetPositionSuccesseur(pSOMsuccesseur);
 		if (iPos >= 0)
 		{
-			delete pPARSOMarcsPartants[iPos];
-			pPARSOMarcsPartants[iPos] = new CArcPartant(this, pSOMsuccesseur);
+			delete ppPARSOMarcsPartants[iPos];
+			ppPARSOMarcsPartants[iPos] = new CArcPartant(this, pSOMsuccesseur);
 		}
 		else
 		{
 			// Ajout a la liste des successeurs
 			uiSOMnbSuccesseurs++;
-			pPARSOMarcsPartants = (CArcPartant **)realloc(pPARSOMarcsPartants, sizeof(CArcPartant*) * uiSOMnbSuccesseurs);
+			ppPARSOMarcsPartants = (CArcPartant **)realloc(ppPARSOMarcsPartants, sizeof(CArcPartant*) * uiSOMnbSuccesseurs);
 		
-			if (pPARSOMarcsPartants == nullptr)
+			if (ppPARSOMarcsPartants == nullptr)
 			{
 				erreur("Echec de réallocation dans CSommet::SOMajouterSuccesseur(). Le programme s'est arrêté.");
 			}
 
-			pPARSOMarcsPartants[uiSOMnbSuccesseurs - 1] = new CArcPartant(this, pSOMsuccesseur);
+			ppPARSOMarcsPartants[uiSOMnbSuccesseurs - 1] = new CArcPartant(this, pSOMsuccesseur);
 
 			// Ajout de this a la liste des predecesseurs de pSOMsuccesseur
 			pSOMsuccesseur->SOMajouterPredecesseur(this);
@@ -448,19 +355,19 @@ void CSommet::SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur)
 			return;
 		}
 
-		delete pPARSOMarcsPartants[iPos];
+		delete ppPARSOMarcsPartants[iPos];
 
 		// On décale tout d'une case vers la gauche à partir de l'indice à supprimer
 		for (uiBoucle = iPos; uiBoucle < uiSOMnbSuccesseurs - 1; uiBoucle++)
 		{
-			pPARSOMarcsPartants[uiBoucle] = pPARSOMarcsPartants[uiBoucle + 1];
+			ppPARSOMarcsPartants[uiBoucle] = ppPARSOMarcsPartants[uiBoucle + 1];
 		}
 
 		// On realloue la nouvelle taille
 		uiSOMnbSuccesseurs--;
-		pPARSOMarcsPartants = (CArcPartant **)realloc(pPARSOMarcsPartants, sizeof(CArcPartant*) * uiSOMnbSuccesseurs);
+		ppPARSOMarcsPartants = (CArcPartant **)realloc(ppPARSOMarcsPartants, sizeof(CArcPartant*) * uiSOMnbSuccesseurs);
 
-		if (pPARSOMarcsPartants == nullptr && uiSOMnbSuccesseurs != 0)
+		if (ppPARSOMarcsPartants == nullptr && uiSOMnbSuccesseurs != 0)
 		{
 			erreur("Echec de réallocation dans CSommet::SOMsupprimerSuccesseur(). Le programme s'est arrêté.");
 		}
@@ -468,12 +375,6 @@ void CSommet::SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur)
 		// Suppression de this de la liste des predecesseurs de pSOMsuccesseur
 		pSOMsuccesseur->SOMsupprimerPredecesseur(this);
 	}
-}
-
-
-// A supprimer ?
-void CSommet::SOMdebug() const
-{
 }
 
 
@@ -490,20 +391,20 @@ void CSommet::SOMajouterPredecesseur(CSommet * pSOMpredecesseur)
 	int iPos = SOMgetPositionPredecesseur(pSOMpredecesseur);
 	if (iPos >= 0)
 	{
-		delete pARRSOMarcsArrivants[iPos];
-		pARRSOMarcsArrivants[iPos] = new CArcArrivant(this, pSOMpredecesseur);
+		delete ppARRSOMarcsArrivants[iPos];
+		ppARRSOMarcsArrivants[iPos] = new CArcArrivant(this, pSOMpredecesseur);
 	}
 	else
 	{
 		uiSOMnbPredecesseurs++;
-		pARRSOMarcsArrivants = (CArcArrivant **)realloc(pARRSOMarcsArrivants, sizeof(CArcPartant*) * uiSOMnbPredecesseurs);
+		ppARRSOMarcsArrivants = (CArcArrivant **)realloc(ppARRSOMarcsArrivants, sizeof(CArcPartant*) * uiSOMnbPredecesseurs);
 
-		if (pARRSOMarcsArrivants == nullptr)
+		if (ppARRSOMarcsArrivants == nullptr)
 		{
 			erreur("echec de reallocation dans CSommet::SOMajouterSuccesseur(). Le programme s'est arrete.");
 		}
 
-		pARRSOMarcsArrivants[uiSOMnbPredecesseurs - 1] = new CArcArrivant(this, pSOMpredecesseur);
+		ppARRSOMarcsArrivants[uiSOMnbPredecesseurs - 1] = new CArcArrivant(this, pSOMpredecesseur);
 	}
 
 }
@@ -531,19 +432,19 @@ void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 			return;
 		}
 
-		delete pARRSOMarcsArrivants[iPos];
+		delete ppARRSOMarcsArrivants[iPos];
 
 		// On décale tout d'une case vers la gauche à partir de l'indice à supprimer
 		for (uiBoucle = iPos; uiBoucle < uiSOMnbPredecesseurs - 1; uiBoucle++)
 		{
-			pARRSOMarcsArrivants[uiBoucle] = pARRSOMarcsArrivants[uiBoucle + 1];
+			ppARRSOMarcsArrivants[uiBoucle] = ppARRSOMarcsArrivants[uiBoucle + 1];
 		}
 
 		// On realloue la nouvelle taille
 		uiSOMnbPredecesseurs--;
-		pARRSOMarcsArrivants = (CArcArrivant **)realloc(pARRSOMarcsArrivants, sizeof(CArcArrivant*) * uiSOMnbPredecesseurs);
+		ppARRSOMarcsArrivants = (CArcArrivant **)realloc(ppARRSOMarcsArrivants, sizeof(CArcArrivant*) * uiSOMnbPredecesseurs);
 
-		if (pARRSOMarcsArrivants == nullptr && uiSOMnbPredecesseurs != 0)
+		if (ppARRSOMarcsArrivants == nullptr && uiSOMnbPredecesseurs != 0)
 		{
 			erreur("Echec de reallocation dans CSommet::SOMsupprimerPredecesseur(). Le programme s'est arrete.");
 		}
@@ -554,7 +455,7 @@ void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 /*****************************************
 Affichage du sommet.
 ******************************************
-Entrée : un flux, une référence sur une instance de CSommet.
+Entrée : un flux, une instance de CSommet.
 Nécessite : rien.
 Sortie : un flux.
 Entraîne : l'affichage du sommet.
@@ -587,20 +488,5 @@ std::ostream & operator<<(std::ostream & oFlux, CSommet & SOMsommet)
 
 	oFlux << "}";
 
-	return oFlux;
-}
-
-
-/*****************************************
-Affichage du sommet.
-******************************************
-Entrée : un flux, un pointeur sur une instance de CSommet.
-Nécessite : rien.
-Sortie : un flux.
-Entraîne : l'affichage du sommet.
-******************************************/
-std::ostream & operator<<(std::ostream & oFlux, CSommet * SOMsommet)
-{
-	oFlux << *SOMsommet;
 	return oFlux;
 }

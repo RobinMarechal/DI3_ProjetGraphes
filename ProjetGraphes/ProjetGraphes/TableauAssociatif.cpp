@@ -353,21 +353,6 @@ Lecture du nombre d'élements du tableau
 *********************************************************
 Entrée : rien
 Nécessite : rien
-Sortie : le nombre d'élements du tableau associatif
-Entraîne : rien
-*********************************************************/
-unsigned int CTableauAssociatif::TABgetNbElements() const 
-{
-	return uiTABnbElements;
-}
-
-
-
-/********************************************************
-Lecture du nombre d'élements du tableau
-*********************************************************
-Entrée : rien
-Nécessite : rien
 Sortie : La position de la clé.
 >= 0 : La clé est dans le tableau,
 == -1 : La clé n'est pas dans le tableau.
@@ -423,52 +408,6 @@ Valeur CTableauAssociatif::TABgetValeur(const char * pcCle) const
 {
 	unsigned int uiPos = TABgetIndiceCle(pcCle);
 	return pvTABvaleurs[uiPos];
-}
-
-
-
-/********************************************************
-Lecture de l'union Valeur à une position
-*********************************************************
-Entrée : la position
-Nécessite : 0 <= uiPos < Nombre d'éléments
-Sortie : un union Valeur
-Entraîne : rien
-*********************************************************/
-Valeur CTableauAssociatif::TABgetValeurPos(unsigned int uiPos) const
-{
-	return pvTABvaleurs[uiPos];
-}
-
-
-
-/********************************************************
-Lecture du type de la valeur à une position
-*********************************************************
-Entrée : la position
-Nécessite : 0 <= uiPos < Nombre d'éléments
-Sortie: Le type de la valeur (TYPE_CHAINE, TYPE_REEL, ou TYPE_ENTIER)
-Entraîne : rien
-*********************************************************/
-unsigned int CTableauAssociatif::TABgetValeurType(unsigned int uiPos) const
-{
-	return puiTypes[uiPos];
-}
-
-
-
-/********************************************************
-Lecture du type de la valeur associée à une clé
-*********************************************************
-Entrée : la clé
-Nécessite : pcCle est dans le tableau des clés
-Sortie : Le type de la valeur (TYPE_CHAINE, TYPE_REEL, ou TYPE_ENTIER)
-Entraîne : rien
-*********************************************************/
-unsigned int CTableauAssociatif::TABgetValeurType(const char * pcCle) const
-{
-	unsigned int uiPos = TABgetIndiceCle(pcCle);
-	return TABgetValeurType(uiPos);
 }
 
 

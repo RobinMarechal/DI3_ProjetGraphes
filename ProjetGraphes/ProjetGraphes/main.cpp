@@ -9,7 +9,6 @@ using namespace std;
 void gregoire()
 {
 	CGraphe g;
-	CGraphe * g2;
 
 	g.GRAcreerSommet(1);
 	g.GRAcreerSommet(2);
@@ -25,19 +24,47 @@ void gregoire()
 
 	COperationGraphe o;
 
-	g2 = o.OPGinverserGraphe(g);
+	CGraphe g2 = o.OPGinverserGraphe(g);
 
-	cout << *g2 << endl;
+	cout << g2 << endl;
 }
 
 void robin()
 {
+	/*
 	char * pcFichier = "C:\\Users\\Robin\\Desktop\\Divers\\Work\\Polytech\\S6\\C++\\DI3_ProjetGraphes\\JePasse\\fichier01.txt";
 
 	CGraphe g = CGraphe::GRAgenerer(pcFichier);
+	COperationGraphe o;
 
-	cout << g;
 
+
+	CGraphe g2;
+	
+	g2 = o.OPGinverserGraphe(g);
+
+	cout << g << endl;
+
+	cout << g2 << endl;
+	*/
+
+	CGraphe g;
+
+	g.GRAcreerSommet(0);
+	g.GRAcreerSommet(1);
+
+	g.GRAcreerArc(0, 1);
+	g.GRAcreerArc(1, 0); 
+
+	cout << g << endl;
+
+	g.GRAsupprimerArc(0, 1);
+
+	cout << g << endl;
+
+	g.GRAgetSommetNumero(1)->SOMsupprimerSuccesseur(g.GRAgetSommetNumero(0));
+
+	cout << g << endl;
 }
 
 int main(int argc, char * argv[])

@@ -12,7 +12,7 @@ public:
 	Constructeur à deux arguments.
 	******************************************
 	Entrée : un pointeur sur une instance du CSommet parent,
-			 un pointeur sur une instance du CSommet visé.
+	Entrée : un pointeur sur une instance du CSommet visé.
 	Nécessite : rien.
 	Sortie : rien.
 	Entraîne : la création d'un arc.
@@ -23,7 +23,7 @@ public:
 	/*****************************************
 	Constructeur de recopie.
 	******************************************
-	Entrée : une référence sur une instance de CArcPartant.
+	Entrée : une instance de CArcPartant.
 	Nécessite : rien.
 	Sortie : rien.
 	Entraîne : la recopie de l'arc passé en paramètre.
@@ -45,9 +45,9 @@ public:
 	/*****************************************
 	Surcharge de l'opérateur =.
 	******************************************
-	Entrée : une référence sur une instance de CArcPartant.
+	Entrée : une instance de CArcPartant.
 	Nécessite : rien.
-	Sortie : une référence sur une instance de CArcPartant.
+	Sortie : une instance de CArcPartant.
 	Entraîne : l'affectation de l'arc passé en paramètre.
 	******************************************/
 	CArcPartant & operator=(CArcPartant & ARRobjet);
@@ -56,7 +56,7 @@ public:
 	/*****************************************
 	Surcharge de l'opérateur ==.
 	******************************************
-	Entrée : une référence sur une instance de CArcPartant.
+	Entrée : une instance de CArcPartant.
 	Nécessite : rien.
 	Sortie : un booléen.
 	Entraîne : (true : les arcs sont identiques)
@@ -68,17 +68,13 @@ public:
 	/*****************************************
 	Surcharge de l'opérateur !=.
 	******************************************
-	Entrée : une référence sur une instance de CArcPartant.
+	Entrée : une instance de CArcPartant.
 	Nécessite : rien.
 	Sortie : un booléen.
 	Entraîne : (true : les arcs sont différents)
 				ou (false : les arcs sont identiques).
 	******************************************/
 	bool operator!=(CArcPartant & ARRobjet) const;
-
-
-	// A supprimer ?
-	void ARCdebug() const;
 };
 
 #endif // CARC_PARTANT_H

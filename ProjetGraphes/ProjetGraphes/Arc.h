@@ -18,7 +18,7 @@ protected:
 	/*****************************************
 	Recopie d'un arc.
 	******************************************
-	Entrée : une référence sur une instance de CArc.
+	Entrée : une instance de CArc.
 	Nécessite : rien.
 	Sortie : rien.
 	Entraîne : la recopie de l'arc passé en paramètre.
@@ -30,8 +30,8 @@ public:
 	/*****************************************
 	Constructeur à deux arguments.
 	******************************************
-	Entrée : un pointeur sur une instance de Csommet parent,
-			 un pointeur sur une instance de CSommet visé.
+	Entrée : un pointeur sur une instance de CSommet.
+	Entrée : un pointeur sur une instance de CSommet.
 	Nécessite : rien.
 	Sortie : rien.
 	Entraîne : la création d'un arc entre les deux sommets passés en paramètre.
@@ -42,7 +42,7 @@ public:
 	/*****************************************
 	Constructeur de recopie.
 	******************************************
-	Entrée : une référence sur une instance de CArc.
+	Entrée : une instance de CArc.
 	Nécessite : rien.
 	Sortie : rien.
 	Entraîne : la recopie de l'arc passé en paramètre.
@@ -69,7 +69,7 @@ public:
 	Sortie : un pointeur sur le CSommet visé.
 	Entraîne : rien.
 	******************************************/
-	CSommet * ARCgetSommetVise() const;
+	CSommet * ARCgetSommetVise() const { return pSOMARCsommetVise; }
 
 
 	/*****************************************
@@ -80,32 +80,7 @@ public:
 	Sortie : un pointeur sur le CSommet parent.
 	Entraîne : rien.
 	******************************************/
-	CSommet * ARCgetSommetParent() const;
-
-
-	/*****************************************
-	Affectation du sommet visé.
-	******************************************
-	Entrée : un pointeur sur une instance de CSommet.
-	Nécessite : rien.
-	Sortie : rien.
-	Entraîne : l'affectation du sommet visé.
-	******************************************/
-	void ARCsetSommetVise(CSommet * pSOMsommetVise);
-
-
-	/*****************************************
-	Affectation du sommet parent.
-	******************************************
-	Entrée : un pointeur sur une instance de CSommet.
-	Nécessite : rien.
-	Sortie : rien.
-	Entraîne : l'affectation du sommet parent.
-	******************************************/
-	void ARCsetSommetParent(CSommet * pSOMsommetParent);
-
-	// A supprimer ?
-	virtual void ARCdebug() const = 0;
+	CSommet * ARCgetSommetParent() const { return pSOMARCsommetParent; }
 };
 
 #endif // CARC_H

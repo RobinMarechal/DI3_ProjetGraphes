@@ -18,8 +18,8 @@ private:
 
 	// Relations
 	CGraphe * pGRASOMgraphe;
-	CArcPartant ** pPARSOMarcsPartants;
-	CArcArrivant ** pARRSOMarcsArrivants;
+	CArcPartant ** ppPARSOMarcsPartants;
+	CArcArrivant ** ppARRSOMarcsArrivants;
 
 	/*****************************************
 	Initialisation du sommet.
@@ -46,7 +46,7 @@ private:
 	/*****************************************
 	Recopie du sommet.
 	******************************************
-	Entrée : une référence sur une instance de CSommet.
+	Entrée : une instance de CSommet.
 	Nécessite : rien.
 	Sortie : rien.
 	Entraîne : la recopie du sommet passé en paramètre.
@@ -92,7 +92,7 @@ public:
 	/*****************************************
 	Constructeur de recopie.
 	******************************************
-	Entrée : une référence sur une instance de CSommet.
+	Entrée : une instance de CSommet.
 	Nécessite : rien.
 	Sortie : rien.
 	Entraîne : la recopie du sommet passé en paramètre.
@@ -114,29 +114,18 @@ public:
 	/*****************************************
 	Surcharge de l'opérateur =.
 	******************************************
-	Entrée : une référence sur une instance de CSommet.
+	Entrée : une instance de CSommet.
 	Nécessite : rien.
-	Sortie : une référence sur une instance de CSommet.
+	Sortie : une instance de CSommet.
 	Entraîne : l'affectation du sommet passé en paramètre.
 	******************************************/
 	CSommet & operator=(CSommet & SOMobjet);
 
 
 	/*****************************************
-	Surcharge de l'opérateur >>.
-	******************************************
-	Entrée : une référence sur une instance de CSommet.
-	Nécessite : rien.
-	Sortie : rien.
-	Entraîne : l'ajout d'un successeur au sommet.
-	******************************************/
-	void operator>>(CSommet * SOMsuccesseur);
-
-
-	/*****************************************
 	Surcharge de l'opérateur ==.
 	******************************************
-	Entrée : une référence sur une instance de CSommet.
+	Entrée : une instance de CSommet.
 	Nécessite : rien.
 	Sortie : un booléen.
 	Entraîne : (true : les sommets sont identiques)
@@ -148,7 +137,7 @@ public:
 	/*****************************************
 	Surcharge de l'opérateur !=.
 	******************************************
-	Entrée : une référence sur une instance de CSommet.
+	Entrée : une instance de CSommet.
 	Nécessite : rien.
 	Sortie : un booléen.
 	Entraîne : (true : les sommets sont différents)
@@ -191,28 +180,6 @@ public:
 
 
 	/*****************************************
-	Lecture d'un arc partant.
-	******************************************
-	Entrée : la position de l'arc (unsigned int).
-	Nécessite : la position > 0.
-	Sortie : un pointeur sur une instance de CArcPArtant.
-	Entraîne : rien.
-	******************************************/
-	CArcPartant * SOMgetArcPartant(unsigned int uiPos) const;
-
-
-	/*****************************************
-	Lecture d'un arc arrivant.
-	******************************************
-	Entrée : la position de l'arc arrivant (unsigned int).
-	Nécessite : la position > 0.
-	Sortie : un pointeur sur une instance de CArcArrivant.
-	Entraîne : rien.
-	******************************************/
-	CArcArrivant * SOMgetArcArrivant(unsigned int uiPos) const;
-
-
-	/*****************************************
 	Lecture du numéro du sommet.
 	******************************************
 	Entrée : rien.
@@ -220,7 +187,7 @@ public:
 	Sortie : le numéro du sommet (unsigned int).
 	Entraîne : rien.
 	******************************************/
-	unsigned int SOMgetNumero() const;
+	unsigned int SOMgetNumero() const { return uiSOMnumero; }
 
 
 	/*****************************************
@@ -231,7 +198,7 @@ public:
 	Sortie : le nombre de successeurs (unsigned int).
 	Entraîne : rien.
 	******************************************/
-	unsigned int SOMgetNbSuccesseurs() const;
+	unsigned int SOMgetNbSuccesseurs() const { return uiSOMnbSuccesseurs; }
 
 
 	/*****************************************
@@ -242,7 +209,7 @@ public:
 	Sortie : le nombre de prédecesseurs (unsigned int).
 	Entraîne : rien.
 	******************************************/
-	unsigned int SOMgetNbPredecesseurs() const;
+	unsigned int SOMgetNbPredecesseurs() const { return uiSOMnbPredecesseurs; }
 
 
 	/*****************************************
@@ -289,30 +256,16 @@ public:
 	Entraîne : Suppression d'un arc partant du sommet
 	******************************************/
 	void SOMsupprimerSuccesseur(CSommet * pSOMsuccesseur);
-
-	// A supprimer ?
-	void SOMdebug() const;
 };
 
 /*****************************************
 Affichage du sommet.
 ******************************************
-Entrée : un flux, une référence sur une instance de CSommet.
+Entrée : un flux, une instance de CSommet.
 Nécessite : rien.
 Sortie : un flux.
 Entraîne : l'affichage du sommet.
 ******************************************/
 std::ostream & operator<<(std::ostream & oFlux, CSommet & SOMsommet);
-
-
-/*****************************************
-Affichage du sommet.
-******************************************
-Entrée : un flux, un pointeur sur une instance de CSommet.
-Nécessite : rien.
-Sortie : un flux.
-Entraîne : l'affichage du sommet.
-******************************************/
-std::ostream & operator<<(std::ostream & oFlux, CSommet * SOMsommet);
 
 #endif
