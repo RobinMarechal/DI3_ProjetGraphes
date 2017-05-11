@@ -4,6 +4,11 @@
 #include "Sommet.h"
 #include "Arc.h"
 
+
+/********************************
+Classe représentant un arc
+arrivant à un sommet
+*********************************/
 class CArcArrivant : public CArc
 {
 public:

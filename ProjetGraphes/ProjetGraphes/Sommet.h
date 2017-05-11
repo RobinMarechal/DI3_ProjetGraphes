@@ -9,17 +9,20 @@ class CGraphe;
 class CArcPartant;
 class CArcArrivant;
 
+/********************************************
+Classe représentant un sommet dans un graphe
+*********************************************/
 class CSommet
 {
 private:
-	unsigned int uiSOMnumero;
-	unsigned int uiSOMnbSuccesseurs;
-	unsigned int uiSOMnbPredecesseurs;
+	unsigned int uiSOMnumero; // Numéro du sommets
+	unsigned int uiSOMnbSuccesseurs; // Nombre de sommets successeurs
+	unsigned int uiSOMnbPredecesseurs; // Nombre de sommets prédécesseurs
 
 	// Relations
-	CGraphe * pGRASOMgraphe;
-	CArcPartant ** ppPARSOMarcsPartants;
-	CArcArrivant ** ppARRSOMarcsArrivants;
+	CGraphe * pGRASOMgraphe; // Graphe auquel le sommet appartient
+	CArcPartant ** ppPARSOMarcsPartants; // La liste des arcs partants
+	CArcArrivant ** ppARRSOMarcsArrivants; // La liste des arcs arrivants
 
 	/*****************************************
 	Initialisation du sommet.
@@ -261,7 +264,8 @@ public:
 /*****************************************
 Affichage du sommet.
 ******************************************
-Entrée : un flux, une instance de CSommet.
+Entrée : un flux
+Entrée : une instance de CSommet.
 Nécessite : rien.
 Sortie : un flux.
 Entraîne : l'affichage du sommet.

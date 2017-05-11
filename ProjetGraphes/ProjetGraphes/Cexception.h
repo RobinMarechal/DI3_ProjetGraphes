@@ -32,15 +32,9 @@ et un message d'erreur particulier.
 class Cexception
 {
 private:
-	/**********************
-	Code d'erreur
-	***********************/
-	unsigned int uiEXCValeur;
 
-	/**********************
-	Message d'erreur
-	***********************/
-	char * pcEXCMessage;
+	unsigned int uiEXCValeur; // Code d'erreur
+	char * pcEXCMessage; // Message d'erreur
 
 public:
 

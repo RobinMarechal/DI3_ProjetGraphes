@@ -23,32 +23,17 @@ typedef union {
 Gestion de tableaux associatifs
 ***************************************************
 Classe permettant de créer et de manipuler des 
-tableaux associatifs Clé => Valeur 
+tableaux associatifs Clé (chaine) => Valeur 
 Les valeurs peuvent être de type Entier, Réél ou
 Chaine grâce à l'utilisation d'unions.
 ***************************************************/
 class CTableauAssociatif
 {
-	/********************************************************
-		Tableau contenant les clés
-	*********************************************************/
-	char ** ppcTABcles;
 
-	/********************************************************
-		Tableau des unions 'Valeur' associés au clés
-	*********************************************************/
-	Valeur * pvTABvaleurs;
-
-	/********************************************************
-		Le nombre d'élement du tableau
-	*********************************************************/
-	unsigned int uiTABnbElements;
-	
-	/********************************************************
-		Tableau contenant le type de chaque valeur 
-		pour faciliter l'utilisation de l'union 'Valeur'
-	*********************************************************/
-	unsigned int * puiTypes;
+	char ** ppcTABcles; // Tableau contenant les clés
+	Valeur * pvTABvaleurs; // Tableau des unions Valeur associés aux clés
+	unsigned int uiTABnbElements; // Le nombre d'élements du tableau
+	unsigned int * puiTypes; // Tableau contenant le type de chaque valeur pour utiliser l'union Valeur
 
 
 	/********************************************************

@@ -21,7 +21,7 @@ Retourne le type correspondant à la chaine en paramètre
 Entrée : la chaine à analyser
 Nécessite : rien
 Sortie : l'entier correspondant au type de la chaine
-=> (0 = entier) || (1 = réel) || (3 = chaine)
+=> TYPE_ENTIER, TYPE_REEL ou TYPE_CHAINE
 Entraîne : rien
 ******************************************/
 int analyserType(char * pcCle);
@@ -57,21 +57,61 @@ Suppression des espaces en début et fin de chaine.
 Entrée : une chaîne de caractères.
 Nécessite : rien.
 Sortie : Une copie de la chaine de caractère sans les espaces de début et de fin.
-Entraîne : rien.
+Entraîne : L'allocation sur le tas d'un char* (via new).
 ******************************************/
 char * supprimerEspaces(char pcStr[]);
 
 
+/*****************************************
+Affichage d'un message d'erreur dans la console
+******************************************
+Entrée : le message à afficher
+Entrée : true : arrêter le programme, false sinon
+Nécessite : rien
+Entraîne : L'affichage d'un message en rouge dans la console
+Entraîne : L'arrêt du programme si la valeur de bStop est true
+******************************************/
 void erreur(char * pcMsg, bool bStop = true);
 
 
+/*****************************************
+Tri d'un tableau (ou d'un sous tableau)
+******************************************
+Entrée : Le tableau a trier
+Entrée : La taille du tableau
+Nécessite : uiTaille <= taille de ptTab
+Nécessite : <T> est un type primitif ou une classe qui surchage l'operateur >
+Entraîne : Le changement de l'ordre des valeurs du tableau
+******************************************/
 template <class T>
 void trierTableau(T * ptTab, unsigned int uiTaille);
 
+
+/*****************************************
+Comparaison de deux tableaux (ou sous tableaux)
+******************************************
+Entrée : Le tableau a trier
+Entrée : La taille du tableau
+Nécessite : uiTaille <= taille de ptTab1
+Nécessite : uiTaille <= taille de ptTab2
+Nécessite : <T> est un type primitif ou une classe qui surchage les operateurs != et <
+Entraîne : Le tri des tableaux passés en paramètre
+******************************************/
 template <class T>
 bool tableauxSontEquivalents(T * ptTab1, T * ptTab2, unsigned int uiTaille);
 
 
+// Implémentation des fonctions templates 
+
+/*****************************************
+Tri d'un tableau (ou d'un sous tableau)
+******************************************
+Entrée : Le tableau a trier
+Entrée : La taille du tableau
+Nécessite : uiTaille <= taille de ptTab
+Nécessite : <T> est un type primitif ou une classe qui surchage l'operateur >
+Entraîne : Le changement de l'ordre des valeurs du tableau
+******************************************/
 template <class T>
 void trierTableau(T * ptTab, unsigned int uiTaille)
 {
@@ -98,7 +138,17 @@ void trierTableau(T * ptTab, unsigned int uiTaille)
 	}
 }
 
-// précondition : meme taille 
+
+/*****************************************
+Comparaison de deux tableaux (ou sous tableaux)
+******************************************
+Entrée : Le tableau a trier
+Entrée : La taille du tableau
+Nécessite : uiTaille <= taille de ptTab1
+Nécessite : uiTaille <= taille de ptTab2
+Nécessite : <T> est un type primitif ou une classe qui surchage les operateurs != et <
+Entraîne : Le tri des tableaux passés en paramètre
+******************************************/
 template <class T>
 bool tableauxSontEquivalents(T * ptTab1, T * ptTab2, unsigned int uiTaille)
 {

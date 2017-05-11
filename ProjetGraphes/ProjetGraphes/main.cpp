@@ -8,30 +8,40 @@ using namespace std;
 
 int main(int argc, char * argv[])
 {
-	CGraphe GRAgraphe;
-	CGraphe GRAgrapheInverse;
+	unsigned int uiBoucle;
 
-	COperationGraphe OPGoperation;
-
-	try
+	for (uiBoucle = 1; uiBoucle < argc; uiBoucle++)
 	{
-		// Génération du graphe.
+		CGraphe GRAgraphe, GRAgrapheInverse;
+		COperationGraphe OPGoperation;
 
-		GRAgraphe = CGraphe::GRAgenerer(argv[1]);
+		cout << "------------------------------------------------------------------------------------------------------------" << endl;
+		cout << "Graphe numero " << uiBoucle << endl;
+		cout << "Fichier : " << argv[uiBoucle] << endl;
+		cout << "------------------------------------------------------------------------------------------------------------" << endl << endl;
 
-		cout << GRAgraphe << endl;
+		try
+		{
+			// Génération du graphe.
 
+			GRAgraphe = CGraphe::GRAgenerer(argv[uiBoucle]);
 
-		// Génération du graphe inverse.
+			cout << GRAgraphe << endl;
 
-		GRAgrapheInverse = OPGoperation.OPGinverserGraphe(GRAgraphe);
+			// Inversion du graphe.
 
-		cout << GRAgrapheInverse << endl;
+			GRAgrapheInverse = OPGoperation.OPGinverserGraphe(GRAgraphe);
 
-	} catch(Cexception EXCe)
-	{
-		cout << EXCe.EXCgetMessage() << endl;
+			cout << "Graphe inverse : " << endl;
+			cout << GRAgrapheInverse << endl;
+
+		} 
+		catch(Cexception EXCe)
+		{
+			cout << EXCe.EXCgetMessage() << endl;
+		}
 	}
+	
 
 	return 0;
 }

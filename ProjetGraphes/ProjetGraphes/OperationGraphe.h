@@ -8,6 +8,11 @@
 #include "Cexception.h"
 #include "helpers.h"
 
+
+/********************************************
+Classe "boite à outils" permettant
+d'effectuer des opérations sur des graphes
+*********************************************/
 class COperationGraphe
 {
 public:

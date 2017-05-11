@@ -5,7 +5,10 @@
 
 class CSommet;
 
-// Relier 2 sommets pour former un arc
+/********************************
+Classe représentant un arc 
+orienté entre deux sommets
+*********************************/
 class CArc
 {
 private:
@@ -58,7 +61,7 @@ public:
 	Sortie : rien.
 	Entraîne : rien.
 	******************************************/
-	~CArc();
+	virtual ~CArc();
 
 
 	/*****************************************

@@ -811,7 +811,8 @@ CGraphe CGraphe::GRAgenerer(const char * pcFichier)
 /*****************************************
 Surchage de l'opérateur <<.
 ******************************************
-Entrée : un flux, une instance de CGraphe.
+Entrée : un flux
+Entrée : une instance de CGraphe.
 Nécessite : rien.
 Sortie : un flux.
 Entraîne : l'affichage du graphe passé en paramètre.
@@ -819,22 +820,55 @@ Entraîne : l'affichage du graphe passé en paramètre.
 std::ostream & operator<<(std::ostream & oFlux, const CGraphe & GRAgraphe)
 {
 	unsigned int uiBoucle;
-	unsigned int uiNbSommets = GRAgraphe.GRAgetNbSommets();;
+	unsigned int uiNbSommets = GRAgraphe.GRAgetNbSommets();
 
-	oFlux << "----------------------------------" << std::endl;
-	oFlux << "Graphe :" << std::endl;
-	oFlux << "Nombre de sommets : " << uiNbSommets << std::endl << std::endl;
+	oFlux << "Graphe :" << endl << "Sommets (" << uiNbSommets << ") : " << endl;
 
 	for (uiBoucle = 0; uiBoucle < uiNbSommets; uiBoucle++)
 	{
 		CSommet * pSOMsommet = GRAgraphe.GRAgetSommetPosition(uiBoucle);
 		if (pSOMsommet != nullptr)
 		{
-			oFlux << *pSOMsommet << std::endl << std::endl;
+			unsigned int uiBoucleArcs;
+			unsigned int uiNbSucc = pSOMsommet->SOMgetNbSuccesseurs();
+			unsigned int uiNbPred = pSOMsommet->SOMgetNbPredecesseurs();
+
+			oFlux << "   - " << *pSOMsommet << endl;
+
+			oFlux << "        Successeurs (" << uiNbSucc << ") : ";
+			
+			// Affichage des successeurs
+			for (uiBoucleArcs = 0; uiBoucleArcs < uiNbSucc; uiBoucleArcs++)
+			{
+				CSommet * pSOMsucc = pSOMsommet->SOMgetSuccesseur(uiBoucleArcs);
+				if (pSOMsucc != nullptr)
+				{
+					if (uiBoucleArcs > 0)
+						oFlux << ", ";
+
+					oFlux << *pSOMsucc;
+				}
+			}
+
+			oFlux << endl;
+			oFlux << "        Predecesseurs (" << uiNbPred << ") : ";
+
+			// Affichage des predecesseurs
+			for (uiBoucleArcs = 0; uiBoucleArcs < uiNbPred; uiBoucleArcs++)
+			{
+				CSommet * pSOMpred = pSOMsommet->SOMgetPredecesseur(uiBoucleArcs);
+				if (pSOMpred != nullptr)
+				{
+					if (uiBoucleArcs > 0)
+						oFlux << ", ";
+
+					oFlux << *pSOMpred;
+				}
+			}
+
+			oFlux << endl << endl;
 		}
 	}
-
-	oFlux << "----------------------------------" << std::endl;
 
 	return oFlux;
 }

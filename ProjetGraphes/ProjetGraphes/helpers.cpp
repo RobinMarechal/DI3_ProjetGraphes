@@ -13,7 +13,8 @@ Retourne le type correspondant à la chaine en paramètre
 Entrée : la chaine à analyser
 Nécessite : rien
 Sortie : l'entier correspondant au type de la chaine
-Entraîne : (0 = entier) || (1 = réel) || (3 = chaine)
+=> TYPE_ENTIER, TYPE_REEL ou TYPE_CHAINE
+Entraîne : rien
 ******************************************/
 int analyserType(char * pcVal)
 {
@@ -141,7 +142,7 @@ Suppression des espaces en début et fin de chaine.
 Entrée : une chaîne de caractères.
 Nécessite : rien.
 Sortie : Une copie de la chaine de caractère sans les espaces de début et de fin.
-Entraîne : rien.
+Entraîne : L'allocation sur le tas d'un char* (via new).
 ******************************************/
 char * supprimerEspaces(char pcStr[])
 {
@@ -165,6 +166,16 @@ char * supprimerEspaces(char pcStr[])
 
 
 
+
+/*****************************************
+Affichage d'un message d'erreur dans la console
+******************************************
+Entrée : le message à afficher
+Entrée : true : arrêter le programme, false sinon
+Nécessite : rien
+Entraîne : L'affichage d'un message en rouge dans la console
+Entraîne : L'arrêt du programme si la valeur de bStop est true
+******************************************/
 void erreur(char * pcMsg, bool bStop)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);

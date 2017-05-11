@@ -309,6 +309,7 @@ void CSommet::SOMajouterSuccesseur(CSommet * pSOMsuccesseur)
 		int iPos = SOMgetPositionSuccesseur(pSOMsuccesseur);
 		if (iPos >= 0)
 		{
+			// Si le sommet était déjà un successeur, on écrase l'arc
 			delete ppPARSOMarcsPartants[iPos];
 			ppPARSOMarcsPartants[iPos] = new CArcPartant(this, pSOMsuccesseur);
 		}
@@ -451,42 +452,20 @@ void CSommet::SOMsupprimerPredecesseur(CSommet * pSOMpredecesseur)
 	}
 }
 
-
 /*****************************************
 Affichage du sommet.
 ******************************************
-Entrée : un flux, une instance de CSommet.
+Entrée : un flux
+Entrée : une instance de CSommet.
 Nécessite : rien.
 Sortie : un flux.
 Entraîne : l'affichage du sommet.
 ******************************************/
 std::ostream & operator<<(std::ostream & oFlux, CSommet & SOMsommet)
 {
-	unsigned int uiBoucle;
+	//oFlux << " {numero = " << SOMsommet.SOMgetNumero() << "}";
 
-	oFlux << "{" << SOMsommet.SOMgetNumero() << "}" << std::endl;
-
-	// Affichage des successeurs.
-
-	oFlux << "   " << SOMsommet.SOMgetNbSuccesseurs() << " successeurs : { ";
-
-	for (uiBoucle = 0; uiBoucle < SOMsommet.SOMgetNbSuccesseurs(); uiBoucle++)
-	{
-		oFlux << SOMsommet.SOMgetSuccesseur(uiBoucle)->SOMgetNumero() << " ";
-	}
-
-	oFlux << "}" << std::endl;
-
-	// Affichage des prédecesseurs.
-
-	oFlux << "   " << SOMsommet.SOMgetNbPredecesseurs() << " prédecesseurs : { ";
-
-	for (uiBoucle = 0; uiBoucle < SOMsommet.SOMgetNbPredecesseurs(); uiBoucle++)
-	{
-		oFlux << SOMsommet.SOMgetPredecesseur(uiBoucle)->SOMgetNumero() << " ";
-	}
-
-	oFlux << "}";
+	oFlux << SOMsommet.SOMgetNumero();
 
 	return oFlux;
 }

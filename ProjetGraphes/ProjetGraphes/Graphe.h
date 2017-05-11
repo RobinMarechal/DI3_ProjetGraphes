@@ -7,6 +7,7 @@
 #include "helpers.h"
 
 #define GRA_AUCUN_SOMMET 0
+
 #define GRA_BALISE_NB_SOMMETS "NBSommets"
 #define GRA_BALISE_NB_ARCS "NBArcs"
 #define GRA_BALISE_SOMMETS "Sommets"
@@ -18,6 +19,10 @@
 class CSommet;
 class CTableauAssociatif;
 
+/**********************************
+Classe permettant de manipuler un 
+graphe non orienté (par défaut)
+**********************************/
 class CGraphe
 {
 private:
@@ -277,7 +282,8 @@ public:
 /*****************************************
 Surchage de l'opérateur <<.
 ******************************************
-Entrée : un flux, une instance de CGraphe.
+Entrée : un flux
+Entrée : une instance de CGraphe.
 Nécessite : rien.
 Sortie : un flux.
 Entraîne : l'affichage du graphe passé en paramètre.
