@@ -220,6 +220,11 @@ bool CGraphe::operator==(const CGraphe & GRAobjet) const
 		puiThisSuccNumeros = (unsigned int *) malloc(sizeof(unsigned int) * uiNbSucc);
 		puiObjSuccNumeros = (unsigned int *) malloc(sizeof(unsigned int) * uiNbSucc);
 
+		if (puiThisSuccNumeros == nullptr || puiObjSuccNumeros == nullptr)
+		{
+			erreur("Erreur lors d'une allocation dynamique. Le programme s'est arrete.");
+		}
+
 		for (uiBoucleArcs = 0; uiBoucleArcs < uiNbSucc; uiBoucleArcs++)
 		{
 			puiThisSuccNumeros[uiBoucleArcs] = pSOMthisSommet->SOMgetSuccesseur(uiBoucleArcs)->SOMgetNumero();
@@ -496,7 +501,7 @@ Entraîne : la suppression du sommet passé en paramètre du graphe.
 ******************************************/
 void CGraphe::GRAsupprimerSommet(CSommet * pSOMobjet)
 {
-	unsigned int uiBoucle, uiNumero, uiPos, uiNbArcs;
+	unsigned int uiBoucle, uiNumero, uiPos;
 
 	uiNumero = pSOMobjet->SOMgetNumero();
 	uiPos = GRAgetPosSommet(pSOMobjet);
@@ -532,6 +537,12 @@ void CGraphe::GRAsupprimerSommet(CSommet * pSOMobjet)
 
 	// On retire une case au tableau
 	ppSOMGRAsommets = (CSommet **) realloc(ppSOMGRAsommets, sizeof(CSommet *) * uiGRAnbSommets);
+
+	if (ppSOMGRAsommets == nullptr && uiGRAnbSommets != 0)
+	{
+		erreur("Echec lors d'un reallocation. Le programme s'est arrete.");
+	}
+
 	uiGRAnbSommets--;
 }
 

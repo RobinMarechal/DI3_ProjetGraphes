@@ -8,23 +8,23 @@ using namespace std;
 
 int main(int argc, char * argv[])
 {
-	unsigned int uiBoucle;
+	int iBoucle;
 
-	for (uiBoucle = 1; uiBoucle < argc; uiBoucle++)
+	for (iBoucle = 1; iBoucle < argc; iBoucle++)
 	{
 		CGraphe GRAgraphe, GRAgrapheInverse;
 		COperationGraphe OPGoperation;
 
 		cout << "------------------------------------------------------------------------------------------------------------" << endl;
-		cout << "Graphe numero " << uiBoucle << endl;
-		cout << "Fichier : " << argv[uiBoucle] << endl;
+		cout << "Graphe numero " << iBoucle << endl;
+		cout << "Fichier : " << argv[iBoucle] << endl;
 		cout << "------------------------------------------------------------------------------------------------------------" << endl << endl;
 
 		try
 		{
 			// Génération du graphe.
 
-			GRAgraphe = CGraphe::GRAgenerer(argv[uiBoucle]);
+			GRAgraphe = CGraphe::GRAgenerer(argv[iBoucle]);
 
 			cout << GRAgraphe << endl;
 
