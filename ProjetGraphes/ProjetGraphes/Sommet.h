@@ -164,8 +164,8 @@ public:
 	Lecture d'un successeur.
 	******************************************
 	Entrée : la position du successeur (unsigned int).
-	Nécessite : la position > 0.
-	Sortie : un pointeur sur une instance de CSommet.
+	Nécessite : rien.
+	Sortie : un pointeur sur une instance de CSommet ou nullptr si aucun successeur trouvé.
 	Entraîne : rien.
 	******************************************/
 	CSommet * SOMgetSuccesseur(unsigned int uiPos) const;
@@ -175,11 +175,34 @@ public:
 	Lecture d'un prédecesseur.
 	******************************************
 	Entrée : la position du prédecesseur (unsigned int).
-	Nécessite : la position > 0.
-	Sortie : un pointeur sur une instance de CSommet.
+	Nécessite : rien.
+	Sortie : un pointeur sur une instance de CSommet ou nullptr si aucun successeur trouvé.
 	Entraîne : rien.
 	******************************************/
 	CSommet * SOMgetPredecesseur(unsigned int uiPos) const;
+
+
+	/*****************************************
+	Lecture d'un arc arrivant.
+	******************************************
+	Entrée : la position de l'arc arrivant.
+	Nécessite : rien.
+	Sortie : un pointeur sur une instance de CArcArrivant ou nullptr si aucun arc trouvé.
+	Entraîne : rien.
+	******************************************/
+	CArcArrivant * SOMgetArcArrivant(unsigned int uiPos) const;
+
+
+
+	/*****************************************
+	Lecture d'un arc partant.
+	******************************************
+	Entrée : la position de l'arc partant.
+	Nécessite : rien.
+	Sortie : un pointeur sur une instance de CArcPartant ou nullptr si aucun arc trouvé.
+	Entraîne : rien.
+	******************************************/
+	CArcPartant * SOMgetArcPartant(unsigned int uiPos) const;
 
 
 	/*****************************************

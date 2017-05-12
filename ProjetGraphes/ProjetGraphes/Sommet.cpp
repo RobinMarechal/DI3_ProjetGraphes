@@ -263,13 +263,13 @@ CGraphe * CSommet::SOMgetGraphe() const
 Lecture d'un successeur.
 ******************************************
 Entrée : la position du successeur (unsigned int).
-Nécessite : la position > 0.
-Sortie : un pointeur sur une instance de CSommet.
+Nécessite : rien.
+Sortie : un pointeur sur une instance de CSommet ou nullptr si aucun successeur trouvé.
 Entraîne : rien.
 ******************************************/
 inline CSommet * CSommet::SOMgetSuccesseur(unsigned int uiPos) const
 {
-	if (uiPos < 0 || uiPos >= uiSOMnbSuccesseurs)
+	if (uiPos >= uiSOMnbSuccesseurs)
 		return nullptr;
 
 	return ppPARSOMarcsPartants[uiPos]->ARCgetSommetVise();
@@ -280,8 +280,8 @@ inline CSommet * CSommet::SOMgetSuccesseur(unsigned int uiPos) const
 Lecture d'un prédecesseur.
 ******************************************
 Entrée : la position du prédecesseur (unsigned int).
-Nécessite : la position > 0.
-Sortie : un pointeur sur une instance de CSommet.
+Nécessite : rien.
+Sortie : un pointeur sur une instance de CSommet ou nullptr si aucun successeur trouvé.
 Entraîne : rien.
 ******************************************/
 inline CSommet * CSommet::SOMgetPredecesseur(unsigned int uiPos) const
@@ -290,6 +290,40 @@ inline CSommet * CSommet::SOMgetPredecesseur(unsigned int uiPos) const
 		return nullptr;
 
 	return ppARRSOMarcsArrivants[uiPos]->ARCgetSommetVise();
+}
+
+
+/*****************************************
+Lecture d'un arc arrivant.
+******************************************
+Entrée : la position de l'arc arrivant.
+Nécessite : rien.
+Sortie : un pointeur sur une instance de CArcArrivant ou nullptr si aucun arc trouvé.
+Entraîne : rien.
+******************************************/
+CArcArrivant * CSommet::SOMgetArcArrivant(unsigned int uiPos) const
+{
+	if (uiPos < 0 || uiPos >= uiSOMnbPredecesseurs)
+		return nullptr;
+
+	return ppARRSOMarcsArrivants[uiPos];
+}
+
+
+/*****************************************
+Lecture d'un arc partant.
+******************************************
+Entrée : la position de l'arc partant.
+Nécessite : rien.
+Sortie : un pointeur sur une instance de CArcPartant ou nullptr si aucun arc trouvé.
+Entraîne : rien.
+******************************************/
+CArcPartant * CSommet::SOMgetArcPartant(unsigned int uiPos) const
+{
+	if (uiPos >= uiSOMnbSuccesseurs)
+		return nullptr;
+
+	return ppPARSOMarcsPartants[uiPos];
 }
 
 
